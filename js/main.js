@@ -1,17 +1,14 @@
-
 var router_obj = { 1: 21 };
 (function web_router() {
     //onhashchange
-    var hash = window.location.hash;
-    if (hash != "" && hash != "#") {
-        var queryarr = hash.split("/");
-        if (Object.keys(router_obj).indexOf(queryarr[0]) >= 0) {
-            var fn = queryarr.shift();
-            router_obj[fn](queryarr);
-        } else {
-            router_obj["index"](queryarr);
-        }
+    var hash = window.location.hash.replace(/(^\/|\/$)/, "");
+    if (hash == "" && hash == "#") { return; }
+    var queryarr = hash.split("/");
+    if (Object.keys(router_obj).indexOf(queryarr[0]) >= 0) {
+        var fn = queryarr.shift();
+        return router_obj[fn](queryarr);
     }
+    return router_obj["index"](queryarr);
 })()
 
 function ce() {
