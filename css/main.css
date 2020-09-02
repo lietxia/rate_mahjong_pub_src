@@ -1,0 +1,53 @@
+body,
+input,
+textarea,
+option,
+select {
+    font-family: -apple-system, BlinkMacSystemFont, "Microsoft JhengHei", "Meiryo", "Malgun Gothic", "tahoma", "Dotum", "MS PGothic", "PMingLiu", system, system-ui, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+
+.qqimg {
+    display: none;
+}
+
+.card-columns {
+    column-count: 2;
+}
+
+.card-columns .card {
+    display: inline-block;
+}
+
+code,
+pre,
+kbd {
+    font-family: Consolas, "Microsoft JhengHei"
+}
+
+@media (min-width: 575px) {
+    .card-columns {
+        column-count: 3;
+    }
+
+    .card-columns .card {
+        display: inline-block;
+    }
+}
+
+@media (min-width: 768px) {
+    .card-columns {
+        column-count: 4;
+    }
+}
+
+@media (min-width: 992px) {
+    .card-columns {
+        column-count: 5;
+    }
+}
+
+@media (min-width: 1200px) {
+    .card-columns {
+        column-count: 6;
+    }
+}
