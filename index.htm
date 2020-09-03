@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>大车轮</title>
+    <title>麻雀道场</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href='https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css' />
     <!-- <link rel="stylesheet" href="css/main.css" /> -->
@@ -63,41 +63,39 @@
 <body onhashchange="web_router()">
     <!--導航-->
     <nav class="navbar navbar-light bg-light navbar-expand-sm sticky-top">
-        <!--
-        <div class="btn-group mr-2" role="group" aria-label="Second group">
-            <a href="#/register/" class="btn btn-outline-primary" role="button" aria-pressed="true">注冊</a>
-            <a href="#/login/" class="btn btn-primary" role="button" aria-pressed="true">登入</a>
-        </div>
-        -->
-
+        <a class="navbar-brand" href="#">麻雀道场</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
             aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link" href="#">首頁</a></li>
                 <li class="nav-item"><a class="nav-link" href="#area/">区域</a></li>
-                <li class="nav-item"><a class="nav-link" href="#ranking/">排行</a></li>
+                <li class="nav-item"><a class="nav-link" href="#group/">群列表</a></li>
+
+                <li class="nav-item"><a class="nav-link" href="#ranking/">总排行</a></li>
             </ul>
+            <form class="form-inline">
+                <input class="form-control mr-sm-2" type="search" placeholder="QQ号或者群号" />
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
+            </form>
         </div>
 
     </nav>
 
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
-            <h1 id="jumbotron_title" class="display-4">大车轮</h1>
+            <h1 id="jumbotron_title" class="display-4">麻雀道场</h1>
             <p id="jumbotron_text" class="lead">
-                大车轮是一个线下计分展示系统<br />
-                方便成绩展示
+                一个线下成绩展示系统<br />
             </p>
         </div>
     </div>
 
     <!--內容-->
-    <div class="container-fluid" id="results"></div>
-
+    <div class="container-fluid" id="#content_div"></div>
 
     <!--彈窗-->
     <div class="modal fade" id="imgmodal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -126,7 +124,7 @@
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/dot@1.1.3/doT.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked@1.1.0/marked.min.js" crossorigin="anonymous"></script>
-
+    <script src="js/main.js"></script>
 </body>
 
 </html>
