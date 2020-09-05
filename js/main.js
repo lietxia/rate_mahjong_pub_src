@@ -1,11 +1,16 @@
 var router_obj = {};
-router_obj["#index"] = function () {
-    console.log("index");
-    $("#content_div").load("i.txt");
+router_obj["index"] = function () {
+    //$("#content_div").load("i.txt")
+    $("#content_div").text("index还没写好");
 };
-router_obj["#group"] = function () {
-    console.log("group");
-
+router_obj["area"] = function () {
+    $("#content_div").text("area还没写好");
+};
+router_obj["level"] = function () {
+    $("#content_div").text("level还没写好");
+};
+router_obj["ranking"] = function () {
+    $("#content_div").text("ranking还没写好");
 };
 
 function change_j(title, text) {
@@ -15,15 +20,20 @@ function change_j(title, text) {
 
 function web_router() {
     //onhashchange
-    var hash = window.location.hash.replace(/(^\/|\/$)/, "");
-    if (hash == "" && hash == "#") { return; }
+    var hash = window.location.hash.replace(/(^#\/?|\/$)/g, "");
+    if (hash == "") {
+        console.log("fn=index\nquery=");
+        return router_obj["index"]();
+    }
     var queryarr = hash.split("/");
-    //console.log(queryarr);
+
     if (Object.keys(router_obj).indexOf(queryarr[0]) >= 0) {
         var fn = queryarr.shift();
+        console.log("fn=" + fn + "\nquery=" + queryarr);
         return router_obj[fn](queryarr);
     }
-    return router_obj["#index"](queryarr);
+    console.log("fn=index\nquery=" + queryarr);
+    return router_obj["index"](queryarr);
 }
 web_router();
 function ce() {

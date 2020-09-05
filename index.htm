@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>麻雀道场</title>
+    <title>大数邻</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href='https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css' />
     <!-- <link rel="stylesheet" href="css/main.css" /> -->
@@ -63,7 +63,7 @@
 <body onhashchange="web_router()">
     <!--導航-->
     <nav class="navbar navbar-light bg-light navbar-expand-sm sticky-top">
-        <a class="navbar-brand" href="#">麻雀道场</a>
+        <a class="navbar-brand" href="#">大数邻</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
             aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -72,13 +72,13 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link" href="#area/">区域</a></li>
-                <li class="nav-item"><a class="nav-link" href="#group/">群列表</a></li>
+                <li class="nav-item"><a class="nav-link" href="#/area/">区域列表</a></li>
+                <li class="nav-item"><a class="nav-link" href="#/level/">段位等级</a></li>
 
-                <li class="nav-item"><a class="nav-link" href="#ranking/">总排行</a></li>
+                <li class="nav-item"><a class="nav-link" href="#/ranking/">总排行</a></li>
             </ul>
             <form class="form-inline">
-                <input class="form-control mr-sm-2" type="search" placeholder="QQ号或者群号" />
+                <input class="form-control mr-sm-2" type="search" name="search" placeholder="QQ号或者群号" />
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
             </form>
         </div>
@@ -87,15 +87,16 @@
 
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
-            <h1 id="jumbotron_title" class="display-4">麻雀道场</h1>
+            <h1 id="jumbotron_title" class="display-4">大数邻</h1>
             <p id="jumbotron_text" class="lead">
-                一个线下成绩展示系统<br />
+                日本麻将线下成绩展示系统<br />
+                如果你是区域管理员，<a href="./admin/">按此</a>进入管理页
             </p>
         </div>
     </div>
 
     <!--內容-->
-    <div class="container-fluid" id="#content_div"></div>
+    <div class="container-fluid" id="content_div"></div>
 
     <!--彈窗-->
     <div class="modal fade" id="imgmodal" tabindex="-1" role="dialog" aria-hidden="true">
