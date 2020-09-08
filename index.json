@@ -30,6 +30,7 @@
     },
     {
         "group": 1231231,
+        "group_name": "abc",
         "timestamp": 1599297253,
         "E": {
             "QQ": 12345678,

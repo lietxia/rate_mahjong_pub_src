@@ -19,7 +19,7 @@
         })()
     </script>
 
-    <!-- 圖標 -->
+    <!-- icons -->
     <link rel="apple-touch-icon" sizes="57x57"
         href="https://cdn.jsdelivr.net/gh/lietxia/mahjong_pub_src/icon/apple-touch-icon-57x57.png" />
     <link rel="apple-touch-icon" sizes="60x60"
@@ -57,11 +57,47 @@
     <meta name="theme-color" content="#ffffff" />
     <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/lietxia/mahjong_pub_src/favicon.ico" />
     <link rel="Bookmark" href="https://cdn.jsdelivr.net/gh/lietxia/mahjong_pub_src/favicon.ico" />
-    <!-- 圖標 -->
+
+    <!--template-->
+    <script id="tmp_idx" type="text/html">
+        <h3>最近记录</h3>
+    <table class="table table-striped table-bordered table-hover table-sm text-center">
+        <thead>
+          <tr>
+            <th scope="col">时间</th>
+            <th scope="col">区域</th>
+            <th scope="col">东家</th>
+            <th scope="col">南家</th>
+            <th scope="col">西家</th>
+            <th scope="col">北家</th>
+          </tr>
+        </thead>
+        <tbody>
+        {{~it :value:index}}
+          <tr>
+            {{ var d = new Date(value.timestamp * 1000);
+                var date_str = d.getFullYear() + "-"
+                + (d.getMonth() + 1) + "-"
+                + d.getDate() + " "
+                + d.getHours() + ":"
+                + d.getMinutes(); }}
+            <th scope="row">{{=date_str}}</th>
+            <td><a href="#/area/{{=value.group_id}}/">{{=value.group_name}}</a></td>
+            {{ var arr = "NWSE";for(var i=4;i--;) { }}
+            <td><a href="#/member/{{=value[arr[i]].QQ}}/">
+                {{=value[arr[i]].name+"("+value[arr[i]].score+")"}}
+            </a></td>
+            {{ } }}
+          </tr>
+          {{~}}
+        </tbody>
+      </table>
+    </script>
+    <!--template-->
 </head>
 
 <body onhashchange="webobj.router()">
-    <!--導航-->
+    <!--navbar-->
     <nav class="navbar navbar-light bg-light navbar-expand-sm sticky-top">
         <a class="navbar-brand" href="#">大数邻</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
@@ -89,16 +125,15 @@
         <div class="container">
             <h1 id="jumbotron_title" class="display-4">大数邻</h1>
             <p id="jumbotron_text" class="lead">
-                日本麻将线下成绩展示系统<br />
-                如果你是区域管理员，<a href="./admin/">按此进入</a>管理页
+                日本麻将线下成绩展示系统<br />如果你是区域管理员，<a href="./admin/">按此进入</a>管理页
             </p>
         </div>
     </div>
 
-    <!--內容-->
+    <!--content-->
     <div class="container-fluid" id="content_div"></div>
 
-    <!--彈窗-->
+    <!--alert_div-->
     <div class="modal fade" id="imgmodal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -119,7 +154,7 @@
         </div>
     </div>
 
-    <!--腳本-->
+    <!--javaScript-->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
@@ -129,5 +164,6 @@
     <script src="https://cdn.jsdelivr.net/npm/marked@1.1.0/marked.min.js" crossorigin="anonymous"></script>
     <script src="js/main.js"></script>
 </body>
+
 
 </html>

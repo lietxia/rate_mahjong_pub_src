@@ -10,7 +10,7 @@ var webobj = {
     },
     change_jumb: function (title, text) {
         if (title) { document.getElementById("jumbotron_title").innerText = title; }
-        if (text) { document.getElementById("jumbotron_text").innerText = text; }
+        if (text) { document.getElementById("jumbotron_text").innerHTML = text; }
     },
     router: function () {//onhashchange
         var hash = window.location.hash.replace(/(^#\/?|\/$)/g, "");
@@ -29,7 +29,70 @@ var webobj = {
     },
     router_fn: {
         main: function (queryarr) {
-
+            console.log("FN_MAIN");
+            webobj.change_jumb("大数邻", '日本麻将线下成绩展示系统<br />如果你是区域管理员，<a href="./admin/">按此进入</a>管理页');
+            var json = [
+                {
+                    "group_id": 1231231,
+                    "group_name": "abc",
+                    "timestamp": 1599297253,
+                    "E": {
+                        "QQ": 12345678,
+                        "name": "A",
+                        "score": 25000,
+                        "ranking": 1
+                    },
+                    "S": {
+                        "QQ": 12345678,
+                        "name": "B",
+                        "score": 25000,
+                        "ranking": 2
+                    },
+                    "W": {
+                        "QQ": 12345678,
+                        "name": "C",
+                        "score": 25000,
+                        "ranking": 3
+                    },
+                    "N": {
+                        "QQ": 12345678,
+                        "name": "D",
+                        "score": 25000,
+                        "ranking": 4
+                    }
+                },
+                {
+                    "group": 1231231,
+                    "group_name": "abc",
+                    "timestamp": 1599297253,
+                    "E": {
+                        "QQ": 12345678,
+                        "name": "A",
+                        "score": 25000,
+                        "ranking": 1
+                    },
+                    "S": {
+                        "QQ": 12345678,
+                        "name": "B",
+                        "score": 25000,
+                        "ranking": 2
+                    },
+                    "W": {
+                        "QQ": 12345678,
+                        "name": "C",
+                        "score": 25000,
+                        "ranking": 3
+                    },
+                    "N": {
+                        "QQ": 12345678,
+                        "name": "D",
+                        "score": 25000,
+                        "ranking": 4
+                    }
+                }
+            ];
+            document.getElementById("content_div").innerHTML =
+                doT.template(document.getElementById("tmp_idx").text)(json);
         },
         area: function (queryarr) {
 
