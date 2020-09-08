@@ -30,7 +30,10 @@ var webobj = {
     router_fn: {
         main: function (queryarr) {
             console.log("FN_MAIN");
-            webobj.change_jumb("大数邻", '日本麻将线下成绩展示系统<br />如果你是区域管理员，<a href="./admin/">按此进入</a>管理页');
+            webobj.change_jumb(
+                "大数邻",
+                '日本麻将线下成绩展示系统<br />如果你是区域管理员，<a href="./admin/">按此进入</a>管理页'
+            );
             var json = [
                 {
                     "group_id": 1231231,
@@ -95,13 +98,13 @@ var webobj = {
                 doT.template(document.getElementById("tmp_idx").text)(json);
         },
         area: function (queryarr) {
-
+            console.log("FN_AREA");
         },
         level: function (queryarr) {
-
+            console.log("FN_LEVEL");
         },
         ranking: function (queryarr) {
-
+            console.log("FN_RANKING");
         },
     }
 };
