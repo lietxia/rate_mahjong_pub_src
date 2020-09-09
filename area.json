@@ -1,0 +1,16 @@
+[
+    {
+        "group_id": 123456,
+        "group_name": "abc",
+        "count_members": 123,
+        "total_battle": 12,
+        "current_battle": 12
+    },
+    {
+        "group_id": 123456,
+        "group_name": "abc",
+        "count_members": 123,
+        "total_battle": 12,
+        "current_battle": 12
+    }
+]

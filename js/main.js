@@ -14,11 +14,85 @@ var webobj = {
     fn_setting: {
         main: {
             jumb: ["大数邻", '日本麻将线下成绩展示系统<br />如果你是区域管理员，<a href="#/admin/">按此进入</a>管理页'],
-            json: "index.json"
+            json: [
+                {
+                    "group_id": 1231231,
+                    "group_name": "abc",
+                    "timestamp": 1599297253,
+                    "E": {
+                        "QQ": 12345678,
+                        "name": "A",
+                        "score": 25000,
+                        "ranking": 1
+                    },
+                    "S": {
+                        "QQ": 12345678,
+                        "name": "B",
+                        "score": 25000,
+                        "ranking": 2
+                    },
+                    "W": {
+                        "QQ": 12345678,
+                        "name": "C",
+                        "score": 25000,
+                        "ranking": 3
+                    },
+                    "N": {
+                        "QQ": 12345678,
+                        "name": "D",
+                        "score": 25000,
+                        "ranking": 4
+                    }
+                },
+                {
+                    "group": 1231231,
+                    "group_name": "abc",
+                    "timestamp": 1599297253,
+                    "E": {
+                        "QQ": 12345678,
+                        "name": "A",
+                        "score": 25000,
+                        "ranking": 1
+                    },
+                    "S": {
+                        "QQ": 12345678,
+                        "name": "B",
+                        "score": 25000,
+                        "ranking": 2
+                    },
+                    "W": {
+                        "QQ": 12345678,
+                        "name": "C",
+                        "score": 25000,
+                        "ranking": 3
+                    },
+                    "N": {
+                        "QQ": 12345678,
+                        "name": "D",
+                        "score": 25000,
+                        "ranking": 4
+                    }
+                }
+            ]
         },
         area: {
             jumb: ["区域列表", '各个地区的信息列表'],
-            json: [],
+            json: [
+                {
+                    "group_id": 123456,
+                    "group_name": "abc",
+                    "count_members": 123,
+                    "total_battle": 12,
+                    "current_battle": 12
+                },
+                {
+                    "group_id": 123456,
+                    "group_name": "abc",
+                    "count_members": 123,
+                    "total_battle": 12,
+                    "current_battle": 12
+                }
+            ]
         },
     },
     change_jumb: function () {
@@ -37,6 +111,7 @@ var webobj = {
             webobj.before_fn[webobj.this_fn](queryarr);
         }
         webobj.load_page();
+        webobj.change_jumb();
         if (Object.keys(webobj.after_fn).indexOf(webobj.this_fn) >= 0) {
             webobj.after_fn[webobj.this_fn](queryarr);
         }

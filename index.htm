@@ -82,8 +82,8 @@
                 + d.getHours() + ":"
                 + d.getMinutes(); }}
             <th scope="row">{{=date_str}}</th>
-            <td><a href="#/area/{{=value.group_id}}/">{{=value.group_name}}</a></td>
-            {{ var arr = "NWSE";for(var i=4;i--;) { }}
+            <td><a href="#/area_info/{{=value.group_id}}/">{{=value.group_name}}</a></td>
+            {{ var arr=["N","W","S","E"];for(var i=4;i--;) { }}
             <td><a href="#/member/{{=value[arr[i]].QQ}}/">
                 {{=value[arr[i]].name+"("+value[arr[i]].score+")"}}
             </a></td>
@@ -108,22 +108,14 @@
             </thead>
             <tbody>
             {{~it :value:index}}
-              <tr>
-                {{ var d = new Date(value.timestamp * 1000);
-                    var date_str = d.getFullYear() + "-"
-                    + (d.getMonth() + 1) + "-"
-                    + d.getDate() + " "
-                    + d.getHours() + ":"
-                    + d.getMinutes(); }}
-                <th scope="row">{{=date_str}}</th>
-                <td><a href="#/area/{{=value.group_id}}/">{{=value.group_name}}</a></td>
-                {{ var arr = "NWSE";for(var i=4;i--;) { }}
-                <td><a href="#/member/{{=value[arr[i]].QQ}}/">
-                    {{=value[arr[i]].name+"("+value[arr[i]].score+")"}}
-                </a></td>
+                <tr>
+                <th scope="row">{{=index+1}}</th>
+                <td><a href="#/area_info/{{=value.group_id}}/">{{=value.group_name}}</a></td>
+                {{ var arr=["current_battle","total_battle","count_members","group_id"];for(var i=4;i--;) { }}
+                <td>{{=value[arr[i]]}}</td>
                 {{ } }}
-              </tr>
-              {{~}}
+                </tr>
+            {{~}}
             </tbody>
           </table>
     </script>
