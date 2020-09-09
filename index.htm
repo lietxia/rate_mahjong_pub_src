@@ -139,10 +139,11 @@
 
                 <li class="nav-item"><a class="nav-link" href="#/ranking/">总排行</a></li>
             </ul>
-            <form class="form-inline">
-                <input class="form-control mr-sm-2" type="search" name="search" placeholder="QQ号或者群号" />
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
-            </form>
+            <span class="form-inline">
+                <input class="form-control mr-sm-2" type="search" id="input_search" placeholder="QQ号或者群号" />
+                <input type="button" class="btn btn-outline-success" value="搜索"
+                    onclick="document.location.hash='#/search/'+document.getElementById('input_search').value;" />
+            </span>
         </div>
 
     </nav>
