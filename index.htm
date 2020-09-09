@@ -59,8 +59,8 @@
     <link rel="Bookmark" href="https://cdn.jsdelivr.net/gh/lietxia/mahjong_pub_src/favicon.ico" />
 
     <!--template-->
-    <script id="tmp_idx" type="text/html">
-        <h3>最近记录</h3>
+    <script id="templ_main" type="text/html">
+    <h3>最近记录</h3>
     <table class="table table-striped table-bordered table-hover table-sm text-center">
         <thead>
           <tr>
@@ -92,6 +92,40 @@
           {{~}}
         </tbody>
       </table>
+    </script>
+
+    <script id="templ_area" type="text/html">
+        <table class="table table-striped table-bordered table-hover table-sm text-center">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">区域名</th>
+                <th scope="col">QQ群</th>
+                <th scope="col">成员数</th>
+                <th scope="col">总对战数</th>
+                <th scope="col">本月对战数</th>
+              </tr>
+            </thead>
+            <tbody>
+            {{~it :value:index}}
+              <tr>
+                {{ var d = new Date(value.timestamp * 1000);
+                    var date_str = d.getFullYear() + "-"
+                    + (d.getMonth() + 1) + "-"
+                    + d.getDate() + " "
+                    + d.getHours() + ":"
+                    + d.getMinutes(); }}
+                <th scope="row">{{=date_str}}</th>
+                <td><a href="#/area/{{=value.group_id}}/">{{=value.group_name}}</a></td>
+                {{ var arr = "NWSE";for(var i=4;i--;) { }}
+                <td><a href="#/member/{{=value[arr[i]].QQ}}/">
+                    {{=value[arr[i]].name+"("+value[arr[i]].score+")"}}
+                </a></td>
+                {{ } }}
+              </tr>
+              {{~}}
+            </tbody>
+          </table>
     </script>
     <!--template-->
 </head>
