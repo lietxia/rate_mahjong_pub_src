@@ -13,8 +13,67 @@ var webobj = {
     fn_list: ["main", "area", "level", "ranking"],
     fn_setting: {
         main: {
-            jumb: ["大数邻", '日本麻将线下成绩展示系统<br />如果你是区域管理员，<a href="#/admin/">按此进入</a>管理页'],
-            json: "main.json"
+            jumb: ["大数邻", '立直麻将的线下段位系统+个人赛系统'],
+            json: [
+                {
+                    "group_id": 1231231,
+                    "group_name": "abc",
+                    "timestamp": 1599297253,
+                    "E": {
+                        "QQ": 12345678,
+                        "name": "A",
+                        "score": 25000,
+                        "ranking": 1
+                    },
+                    "S": {
+                        "QQ": 12345678,
+                        "name": "B",
+                        "score": 25000,
+                        "ranking": 2
+                    },
+                    "W": {
+                        "QQ": 12345678,
+                        "name": "C",
+                        "score": 25000,
+                        "ranking": 3
+                    },
+                    "N": {
+                        "QQ": 12345678,
+                        "name": "D",
+                        "score": 25000,
+                        "ranking": 4
+                    }
+                },
+                {
+                    "group": 1231231,
+                    "group_name": "abc",
+                    "timestamp": 1599297253,
+                    "E": {
+                        "QQ": 12345678,
+                        "name": "A",
+                        "score": 25000,
+                        "ranking": 1
+                    },
+                    "S": {
+                        "QQ": 12345678,
+                        "name": "B",
+                        "score": 25000,
+                        "ranking": 2
+                    },
+                    "W": {
+                        "QQ": 12345678,
+                        "name": "C",
+                        "score": 25000,
+                        "ranking": 3
+                    },
+                    "N": {
+                        "QQ": 12345678,
+                        "name": "D",
+                        "score": 25000,
+                        "ranking": 4
+                    }
+                }
+            ]
         },
         area: {
             jumb: ["区域列表", '各个地区的信息列表'],
@@ -32,7 +91,7 @@ var webobj = {
             document.getElementById("jumbotron_text").innerHTML = data[1];
         }
     },
-    router: function () {//onhashchange
+    onhashchange: function () {
         var hash = window.location.hash.replace(/(^#\/?|\/$)/g, "");
         var queryarr = hash.split("/");
         webobj.this_fn = "main";
@@ -48,7 +107,7 @@ var webobj = {
         if (Object.keys(webobj.after_fn).indexOf(webobj.this_fn) >= 0) {
             webobj.after_fn[webobj.this_fn](queryarr);
         }
-        return webobj.last_fn = webobj.this_fn;
+        webobj.last_fn = webobj.this_fn;
     },
     load_page: function () {
         var e = document.getElementById("content_div");
@@ -95,6 +154,6 @@ var webobj = {
     }
 };
 
-webobj.router();
+webobj.onhashchange();
 
-正则=(str="")=>/^.(.)\1$/.test(str);
+正则 = (str = "") => /^.(.)\1$/.test(str);

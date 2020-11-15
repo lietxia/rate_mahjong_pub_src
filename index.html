@@ -66,39 +66,27 @@
 </script>
 <!--template-->
 <script id="templ_main" type="text/html">
-        <h3>最近记录</h3>
-        <table class="table table-striped table-bordered table-hover table-sm text-center">
-            <thead>
-              <tr>
-                <th scope="col">时间</th>
-                <th scope="col">区域</th>
-                <th scope="col">东家</th>
-                <th scope="col">南家</th>
-                <th scope="col">西家</th>
-                <th scope="col">北家</th>
-              </tr>
-            </thead>
-            <tbody>
-            {{~it :value:index}}
-              <tr>
-                {{ var d = new Date(value.timestamp * 1000);
-                    var date_str = d.getFullYear() + "-"
-                    + (d.getMonth() + 1) + "-"
-                    + d.getDate() + " "
-                    + d.getHours() + ":"
-                    + d.getMinutes(); }}
-                <th scope="row">{{=date_str}}</th>
-                <td><a href="#/area_info/{{=value.group_id}}/">{{=value.group_name}}</a></td>
-                {{ var arr=["N","W","S","E"];for(var i=4;i--;) { }}
-                <td><a href="#/member/{{=value[arr[i]].QQ}}/">
-                    {{=value[arr[i]].name+"("+value[arr[i]].score+")"}}
-                </a></td>
-                {{ } }}
-              </tr>
-              {{~}}
-            </tbody>
-          </table>
-        </script>
+
+    <h3>快速导航</h3>
+    <div class="row justify-content-center row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+        <div class="col text-center">
+            <a href="#/a/1/">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title"><span class="badge badge-primary">A1</span> 铁机路月赛</h5>
+              <p class="card-text"><span class="badge badge-pill badge-success">区域</span> 湖北武汉</p>
+            </div>
+          </div></a>
+        </div>
+    </div>
+    <br />
+
+    <h3>更新记录</h3>
+<p>测试中<p>
+    <h3>友情链接</h3>
+    <p>测试中<p>
+</script>
+
 
 <script id="templ_area" type="text/html">
             <table class="table table-striped table-bordered table-hover table-sm text-center">
@@ -127,7 +115,7 @@
         </script>
 <!--template-->
 
-<body onhashchange="webobj.router()">
+<body onhashchange="webobj.onhashchange()">
     <!--navbar-->
     <nav class="navbar navbar-light bg-light navbar-expand-sm sticky-top">
         <a class="navbar-brand" href="#">大数邻</a>
@@ -139,16 +127,11 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link" href="#/area/">区域列表</a></li>
-                <li class="nav-item"><a class="nav-link" href="#/level/">段位等级</a></li>
-
-                <li class="nav-item"><a class="nav-link" href="#/ranking/">总排行</a></li>
+                <li class="nav-item"><a class="nav-link" href="#/area/">区域</a></li>
+                <li class="nav-item"><a class="nav-link" href="#/individual/">个人赛</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin/">管理</a></li>
+               
             </ul>
-            <span class="form-inline">
-                <input class="form-control mr-sm-2" type="search" id="input_search" placeholder="QQ号或者群号" />
-                <input type="button" class="btn btn-outline-success" value="搜索"
-                    onclick="document.location.hash='#/search/'+document.getElementById('input_search').value;" />
-            </span>
         </div>
 
     </nav>
