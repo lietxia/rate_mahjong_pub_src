@@ -1,9 +1,7 @@
-# Windows:
 Thumbs.db
 ehthumbs.db
 Desktop.ini
 *.log
-/tmp/
 .user.ini
 ._*
 .DS_Store
