@@ -11,3 +11,10 @@ pre,
 kbd {
     font-family: Consolas, "Microsoft JhengHei"
 }
+
+table,
+table td,
+table th {
+    vertical-align: middle!important;
+    white-space: normal!important;
+}

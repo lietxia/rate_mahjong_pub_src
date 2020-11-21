@@ -1,7 +1,6 @@
 var webobj = {
-    last_hash: "",
-    last_fn: "",
-    this_fn: "main",
+    this_query: ["main"],
+    last_query: [],
     ce: function () {//createElement
         if (arguments.length % 2 == 0 || arguments.length < 1) { return; }
         var e = document.createElement(arguments[0]);
@@ -10,99 +9,33 @@ var webobj = {
         }
         return e;
     },
-    fn_list: ["main", "a", "level", "ranking"],
-    fn_setting: {
-        main: {
-            jumb: ["大数邻", '立直麻将的线下段位系统+个人赛系统'],
-            json: [
-                {
-                    "name": "铁机路月赛",
-                    "type": 0,
-                    "id": 1,
-                    "status": 1,
-                    "percent": 0,
-                    "text2": "湖北武汉"
-                }, {
-                    "name": "浪速俱乐部",
-                    "type": 0,
-                    "id": 2,
-                    "status": 2,
-                    "percent": 30,
-                    "text2": "江苏南京"
-                }, {
-                    "name": "某某个人赛",
-                    "type": 1,
-                    "id": 1,
-                    "status": 2,
-                    "percent": 70,
-                    "text2": "2020-11-11"
-                }, {
-                    "name": "某某个人赛2",
-                    "type": 1,
-                    "id": 1,
-                    "status": 3,
-                    "percent": 100,
-                    "text2": "2020-11-11"
-                }
-            ]
-        },
-        a: {
-            jumb: ["区域列表", '各个地区的信息列表'],
-            json: [
-                {
-                    "group_id": 123456,
-                    "group_name": "abc",
-                    "count_members": 123,
-                    "total_battle": 12,
-                    "current_battle": 12
-                },
-                {
-                    "group_id": 123456,
-                    "group_name": "abc",
-                    "count_members": 123,
-                    "total_battle": 12,
-                    "current_battle": 12
-                }
-            ]
+    fn_list: ["main"],
+    change_jumb: function (title, text) {
+        if (title !== false) {
+            document.getElementById("jumbotron_title").innerText = title;
         }
-    },
-    change_jumb: function () {
-        var data = (arguments.length >= 1) ? arguments
-            : webobj.fn_setting[webobj.this_fn].jumb;
-        if (data.length === 1) { data[1] = false; }
-        if (data[0]) {
-            document.getElementById("jumbotron_title").innerText = data[0];
-        }
-        if (data[1]) {
-            document.getElementById("jumbotron_text").innerHTML = data[1];
+        if (text !== false) {
+            document.getElementById("jumbotron_text").innerHTML = text;
         }
     },
     onhashchange: function () {
         var hash = window.location.hash.replace(/(^#\/?|\/$)/g, "");
         var queryarr = hash.split("/");
-        webobj.this_fn = "main";
-        if (webobj.fn_list.indexOf(queryarr[0]) >= 0) {
-            webobj.this_fn = queryarr.shift();
-        }
-        webobj.change_jumb();
-        if (Object.keys(webobj.before_fn).indexOf(webobj.this_fn) >= 0) {
-            webobj.load_page.apply(null, webobj.before_fn[webobj.this_fn](queryarr));
+        if (webobj.fn_list.indexOf(queryarr[0]) >= 0) { }
+        else if (queryarr[0] > 0) {
+            queryarr.unshift("competition");
         } else {
-            webobj.load_page();
+            queryarr.unshift("main");
         }
-        if (Object.keys(webobj.after_fn).indexOf(webobj.this_fn) >= 0) {
-            webobj.after_fn[webobj.this_fn](queryarr);
+        webobj.this_query = queryarr;
+        if (Object.keys(webobj.web_fn).indexOf(queryarr[0]) >= 0) {
+            webobj.web_fn[queryarr[0]]();
         }
-        webobj.last_fn = webobj.this_fn;
+        webobj.last_query = queryarr;
     },
-    load_page: function () {
+    load_page: function (temp_id, obj_or_url) {
         var e = document.getElementById("content_div");
-        var obj_or_url = (arguments.length >= 1) ? arguments[0]
-            : webobj.fn_setting[webobj.this_fn].json;
-        var templ = doT.template(
-            (arguments.length >= 2) ? arguments[1]
-                : document.getElementById("templ_" + webobj.this_fn).text
-        );
+        var templ = doT.template(document.getElementById(temp_id).text);
         if (typeof obj_or_url === "object") {
             return e.innerHTML = templ(obj_or_url);
         }
@@ -112,30 +45,74 @@ var webobj = {
             });
         }
     },
-    before_fn: {
-        area: function (queryarr) {
-            console.log("before_FN_AREA", queryarr);
-            var returnarr = [];
-            if (typeof queryarr != "object" || isNaN(queryarr[0])) {
-                return;
-            }
-            webobj.change_jumb(false, "区域列表第" + queryarr[0] + "页");
-            returnarr[0] = "area.json?page=" + queryarr[0];
-            return returnarr;
+
+    web_fn: {
+        main: function () {
+            console.log("debug", webobj.this_query, webobj.last_query);
+            webobj.change_jumb("大数邻", '立直麻将的线下段位系统+个人赛系统');
+            webobj.load_page("templ_main",
+                //json start
+                [
+                    {
+                        "name": "铁机路月赛",
+                        "type": 0,
+                        "index": 1,
+                        "status": 1,
+                        "percent": 0,
+                        "text2": "湖北武汉"
+                    }, {
+                        "name": "浪速俱乐部",
+                        "type": 0,
+                        "index": 2,
+                        "status": 2,
+                        "percent": 30,
+                        "text2": "江苏南京"
+                    }, {
+                        "name": "某某个人赛",
+                        "type": 1,
+                        "index": 3,
+                        "status": 2,
+                        "percent": 70,
+                        "text2": "2020-11-11"
+                    }, {
+                        "name": "某某线下三麻",
+                        "type": 2,
+                        "index": 4,
+                        "status": 2,
+                        "percent": 80,
+                        "text2": "湖北武汉"
+                    }, {
+                        "name": "某某个人赛2",
+                        "type": 3,
+                        "index": 4,
+                        "status": 3,
+                        "percent": 100,
+                        "text2": "2020-11-11"
+                    }
+                ]
+                //json end
+            );
         },
-    },
-    after_fn: {
-        main: function (queryarr) {
-            console.log("after_FN_MAIN", queryarr);
-        },
-        area: function (queryarr) {
-            console.log("after_FN_AREA", queryarr);
-        },
-        level: function (queryarr) {
-            console.log("after_FN_LEVEL", queryarr);
-        },
-        ranking: function (queryarr) {
-            console.log("after_FN_RANKING", queryarr);
+        competition: function () {
+            console.log("debug", webobj.this_query, webobj.last_query);
+
+            webobj.load_page("templ_competition",
+                //json start
+                {
+                    "base": {
+                        "name": "铁机路月赛",
+                        "type": 0,
+                        "index": 1,
+                        "status": 1,
+                        "percent": 0,
+                        "text2": "湖北武汉"
+                    },
+                    "log": [
+                        ["2020-10-12", 1, "选手选手选手", "25000", -5, "选手选手选手", "25000", -5, "选手选手选手", "25000", -5, "选手选手选手", "25000", -5]
+                    ]
+                }
+                //json end
+            );
         },
     },
     index_filter: function (order) {
