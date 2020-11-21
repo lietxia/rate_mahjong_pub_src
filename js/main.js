@@ -10,75 +10,61 @@ var webobj = {
         }
         return e;
     },
-    fn_list: ["main", "area", "level", "ranking"],
+    fn_list: ["main", "a", "level", "ranking"],
     fn_setting: {
         main: {
             jumb: ["大数邻", '立直麻将的线下段位系统+个人赛系统'],
             json: [
                 {
-                    "group_id": 1231231,
-                    "group_name": "abc",
-                    "timestamp": 1599297253,
-                    "E": {
-                        "QQ": 12345678,
-                        "name": "A",
-                        "score": 25000,
-                        "ranking": 1
-                    },
-                    "S": {
-                        "QQ": 12345678,
-                        "name": "B",
-                        "score": 25000,
-                        "ranking": 2
-                    },
-                    "W": {
-                        "QQ": 12345678,
-                        "name": "C",
-                        "score": 25000,
-                        "ranking": 3
-                    },
-                    "N": {
-                        "QQ": 12345678,
-                        "name": "D",
-                        "score": 25000,
-                        "ranking": 4
-                    }
-                },
-                {
-                    "group": 1231231,
-                    "group_name": "abc",
-                    "timestamp": 1599297253,
-                    "E": {
-                        "QQ": 12345678,
-                        "name": "A",
-                        "score": 25000,
-                        "ranking": 1
-                    },
-                    "S": {
-                        "QQ": 12345678,
-                        "name": "B",
-                        "score": 25000,
-                        "ranking": 2
-                    },
-                    "W": {
-                        "QQ": 12345678,
-                        "name": "C",
-                        "score": 25000,
-                        "ranking": 3
-                    },
-                    "N": {
-                        "QQ": 12345678,
-                        "name": "D",
-                        "score": 25000,
-                        "ranking": 4
-                    }
+                    "name": "铁机路月赛",
+                    "type": 0,
+                    "id": 1,
+                    "status": 1,
+                    "percent": 0,
+                    "text2": "湖北武汉"
+                }, {
+                    "name": "浪速俱乐部",
+                    "type": 0,
+                    "id": 2,
+                    "status": 2,
+                    "percent": 30,
+                    "text2": "江苏南京"
+                }, {
+                    "name": "某某个人赛",
+                    "type": 1,
+                    "id": 1,
+                    "status": 2,
+                    "percent": 70,
+                    "text2": "2020-11-11"
+                }, {
+                    "name": "某某个人赛2",
+                    "type": 1,
+                    "id": 1,
+                    "status": 3,
+                    "percent": 100,
+                    "text2": "2020-11-11"
                 }
             ]
         },
-        area: {
+        a: {
             jumb: ["区域列表", '各个地区的信息列表'],
-            json: "area.json"
-        },
+            json: [
+                {
+                    "group_id": 123456,
+                    "group_name": "abc",
+                    "count_members": 123,
+                    "total_battle": 12,
+                    "current_battle": 12
+                },
+                {
+                    "group_id": 123456,
+                    "group_name": "abc",
+                    "count_members": 123,
+                    "total_battle": 12,
+                    "current_battle": 12
+                }
+            ]
+        }
     },
     change_jumb: function () {
         var data = (arguments.length >= 1) ? arguments
@@ -151,6 +137,31 @@ var webobj = {
         ranking: function (queryarr) {
             console.log("after_FN_RANKING", queryarr);
         },
+    },
+    index_filter: function (order) {
+        //status=["不可报名","报名中","进行中","已结束"]
+        //type2str=["区域","个人赛"]
+        switch (order) {
+            case 1://进行中
+                $(".card_item").show();
+                break;
+            case 2://进行中
+                $(".card_item").show();
+                $(".status_3").hide();
+                break;
+            case 3://区域
+                $(".card_item").show();
+                $(".type_1").hide();
+                break;
+            case 4://个人赛
+                $(".card_item").show();
+                $(".type_0").hide();
+                break;
+            case 5://结束
+                $(".card_item").hide();
+                $(".status_3").show();
+                break;
+        }
     }
 };
 

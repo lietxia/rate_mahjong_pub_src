@@ -6,45 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>大数邻</title>
-    <!-- icons -->
-    <link rel="apple-touch-icon" sizes="57x57"
-        href="https://cdn.jsdelivr.net/gh/lietxia/mahjong_pub_src/icon/apple-touch-icon-57x57.png" />
-    <link rel="apple-touch-icon" sizes="60x60"
-        href="https://cdn.jsdelivr.net/gh/lietxia/mahjong_pub_src/icon/apple-touch-icon-60x60.png" />
-    <link rel="apple-touch-icon" sizes="72x72"
-        href="https://cdn.jsdelivr.net/gh/lietxia/mahjong_pub_src/icon/apple-touch-icon-72x72.png" />
-    <link rel="apple-touch-icon" sizes="76x76"
-        href="https://cdn.jsdelivr.net/gh/lietxia/mahjong_pub_src/icon/apple-touch-icon-76x76.png" />
-    <link rel="apple-touch-icon" sizes="114x114"
-        href="https://cdn.jsdelivr.net/gh/lietxia/mahjong_pub_src/icon/apple-touch-icon-114x114.png" />
-    <link rel="apple-touch-icon" sizes="120x120"
-        href="https://cdn.jsdelivr.net/gh/lietxia/mahjong_pub_src/icon/apple-touch-icon-120x120.png" />
-    <link rel="apple-touch-icon" sizes="144x144"
-        href="https://cdn.jsdelivr.net/gh/lietxia/mahjong_pub_src/icon/apple-touch-icon-144x144.png" />
-    <link rel="apple-touch-icon" sizes="152x152"
-        href="https://cdn.jsdelivr.net/gh/lietxia/mahjong_pub_src/icon/apple-touch-icon-152x152.png" />
-    <link rel="apple-touch-icon" sizes="180x180"
-        href="https://cdn.jsdelivr.net/gh/lietxia/mahjong_pub_src/icon/apple-touch-icon-180x180.png" />
-    <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/lietxia/mahjong_pub_src/icon/favicon-32x32.png"
-        sizes="32x32" />
-    <link rel="icon" type="image/png"
-        href="https://cdn.jsdelivr.net/gh/lietxia/mahjong_pub_src/icon/favicon-194x194.png" sizes="194x194" />
-    <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/lietxia/mahjong_pub_src/icon/favicon-96x96.png"
-        sizes="96x96" />
-    <link rel="icon" type="image/png"
-        href="https://cdn.jsdelivr.net/gh/lietxia/mahjong_pub_src/icon/android-chrome-192x192.png" sizes="192x192" />
-    <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/lietxia/mahjong_pub_src/icon/favicon-16x16.png"
-        sizes="16x16" />
-    <link rel="manifest" href="icon/manifest.json" />
-    <link rel="mask-icon" href="https://cdn.jsdelivr.net/gh/lietxia/mahjong_pub_src/icon/safari-pinned-tab.svg"
-        color="#5bbad5" />
-    <meta name="msapplication-TileColor" content="#b91d47" />
-    <meta name="msapplication-TileImage"
-        content="https://cdn.jsdelivr.net/gh/lietxia/mahjong_pub_src/icon/mstile-144x144.png" />
-    <meta name="theme-color" content="#ffffff" />
-    <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/lietxia/mahjong_pub_src/favicon.ico" />
-    <link rel="Bookmark" href="https://cdn.jsdelivr.net/gh/lietxia/mahjong_pub_src/favicon.ico" />
-
 </head>
 <script>
     (function () {
@@ -58,163 +19,159 @@
         var css = document.createElement("link");
         css.setAttribute("rel", "stylesheet");
         css.setAttribute("href",
-            0 ?//((hours > 6 && hours < 20) ?
+            1 ?//((hours > 6 && hours < 20) ?
                 'https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css' :
                 "https://cdn.jsdelivr.net/npm/bootswatch@4.5.3/dist/darkly/bootstrap.min.css");
         document.head.appendChild(css);
+        var css2 = document.createElement("link");
+        css2.setAttribute("rel", "stylesheet");
+        css2.setAttribute("href", "css/main.css");
+        document.head.appendChild(css2);
     })()
 </script>
 <!--template-->
 <script id="templ_main" type="text/html">
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>测试中</strong><br />计划第一步：实现成绩展示
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <div class="btn-group btn-group-toggle mb-4 shadow-sm rounded btn-block" data-toggle="buttons">
+        <label class="btn btn-info active">
+            <input type="radio" onclick="webobj.index_filter(1)" checked> 全部
+          </label>
+        <label class="btn btn-info active">
+          <input type="radio" onclick="webobj.index_filter(2)" > 进行
+        </label>
+        <label class="btn btn-info">
+          <input type="radio" onclick="webobj.index_filter(3)"> 区域
+        </label>
+        <label class="btn btn-info">
+          <input type="radio" onclick="webobj.index_filter(4)"> 个人赛
+        </label>
+        <label class="btn btn-info">
+            <input type="radio" onclick="webobj.index_filter(5)"> 结束
+          </label>
+      </div>
 
-<h3>快速导航</h3>
-<div class="row justify-content-center row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-    <div class="col text-center mb-3">
-        <div class="card shadow-sm">
-            <a href="#/a/1/">
+    <div class="row justify-content-center row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+        {{~it :value:index}}
+        {{ var type2str=["区域","个人赛"],color1=["primary","danger"],color2=["success","secondary"],status=["不可报名","报名中","进行中","已结束"]; }}
+        <div class="col text-center mb-3 card_item type_{{=value.type}} status_{{=value.status}} ">
+            <div class="card shadow">
                 <div class="card-body">
-                    <h5 class="card-title"><span class="badge badge-primary">A1</span> 铁机路月赛</h5>
-                    一个简介
-                </div>
-            </a>
+                    <a href="#/{{='ai'[value.type]+'/'+value.id}}/">
+                    <h5 class="card-title">
+                        <span class="badge badge-{{=color1[value.type]}}">{{="Ai"[value.type]+value.id}}</span>
+                        {{=value.name}}</h5></a>{{=status[value.status]}}
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped bg-{{=color1[value.type]+((value.status==2)?' progress-bar-animated':'')}}" role="progressbar"  style="width: {{=value.percent}}%">{{=value.percent}}%</div>
+                          </div>
+                    </div>
                 <div class="card-footer">
-                    <p class="card-text"><span class="badge badge-pill badge-success">区域</span> 湖北武汉 </p>
+                    <p class="card-text">
+                        <span class="badge badge-pill badge-{{=color2[value.type]}}">{{=type2str[value.type]}}</span>
+                        {{=value.text2}}
+                    </p>
                 </div>
+            </div>
         </div>
+        {{~}}
+        {{ webobj.index_filter(1); }}
     </div>
-
-    <div class="col text-center mb-3">
-        
-            <div class="card shadow-sm">
-                <a href="#/a/2/">
-                <div class="card-body">
-                    <h5 class="card-title"><span class="badge badge-primary">A2</span> 浪速俱乐部</h5>
-                    一个简介
-                </div> </a>
-                <div class="card-footer">
-                    <p class="card-text"><span class="badge badge-pill badge-success">区域</span> 江苏南京 </p>
-                </div>
-            </div>
-       
-    </div>
-
-    <div class="col text-center mb-3">
-        
-            <div class="card shadow-sm">
-                <a href="#/i/1/">
-                <div class="card-body">
-                    <h5 class="card-title"><span class="badge badge-warning">i1</span> 第一届某某杯 </h5>
-                    一个简介
-                </div>
-            </a>
-                <div class="card-footer">
-                    <p class="card-text"><span class="badge badge-pill badge-secondary">个人赛</span> 2020-11-11</p>
-                </div>
-            </div>
-        
-    </div>
-</div>
-
-<h3>更新记录</h3>
-<p>测试中
-<p>
-<h3>友情链接</h3>
-<p>测试中
-<p>
 </script>
 
 
-    <script id="templ_area" type="text/html">
-            <table class="table table-striped table-bordered table-hover table-sm text-center">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">区域名</th>
-                    <th scope="col">QQ群</th>
-                    <th scope="col">成员数</th>
-                    <th scope="col">总对战数</th>
-                    <th scope="col">本月对战数</th>
-                  </tr>
-                </thead>
-                <tbody>
-                {{~it :value:index}}
-                    <tr>
-                    <th scope="row">{{=index+1}}</th>
-                    <td><a href="#/area_info/{{=value.group_id}}/">{{=value.group_name}}</a></td>
-                    {{ var arr=["current_battle","total_battle","count_members","group_id"];for(var i=4;i--;) { }}
-                    <td>{{=value[arr[i]]}}</td>
-                    {{ } }}
-                    </tr>
-                {{~}}
-                </tbody>
-              </table>
-        </script>
-    <!--template-->
+<script id="templ_a" type="text/html">
+    <table class="table table-striped table-bordered table-hover table-sm text-center">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">区域名</th>
+                <th scope="col">QQ群</th>
+                <th scope="col">成员数</th>
+                <th scope="col">总对战数</th>
+                <th scope="col">本月对战数</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{~it :value:index}}
+            <tr>
+                <th scope="row">{{=index+1}}</th>
+                <td><a href="#/area_info/{{=value.group_id}}/">{{=value.group_name}}</a></td>
+                {{ var arr=["current_battle","total_battle","count_members","group_id"];for(var i=4;i--;) { }}
+                <td>{{=value[arr[i]]}}</td>
+                {{ } }}
+            </tr>
+            {{~}}
+        </tbody>
+    </table>
+</script>
+<!--template-->
 
-    <body onhashchange="webobj.onhashchange()">
-        <!--navbar-->
-        <nav class="navbar navbar-light bg-light navbar-expand-sm sticky-top">
-            <a class="navbar-brand" href="#">大数邻</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
-                aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+<body onhashchange="webobj.onhashchange()">
+    <!--navbar-->
+    <nav class="navbar navbar-dark bg-primary navbar-expand-sm sticky-top shadow">
+        <a class="navbar-brand" href="#">🀄大数邻</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item"><a class="nav-link" href="#/area/">区域</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#/individual/">个人赛</a></li>
-                    <li class="nav-item"><a class="nav-link" href="./admin/">管理</a></li>
-
-                </ul>
-            </div>
-
-        </nav>
-
-        <div class="jumbotron jumbotron-fluid">
-            <div class="container">
-                <h1 id="jumbotron_title" class="display-4">大数邻</h1>
-                <p id="jumbotron_text" class="lead">
-                    日本麻将线下成绩展示系统<br />如果你是区域管理员，<a href="./admin/">按此进入</a>管理页
-                </p>
-            </div>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link" href="#">首页</a></li>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link" href="#/admin/">管理</a></li>
+            </ul>
         </div>
+    </nav>
 
-        <!--content-->
-        <div class="container-fluid" id="content_div"></div>
+    <div class="jumbotron jumbotron-fluid pt-4 pb-2">
+        <div class="container">
+            <h1 id="jumbotron_title" class="display-4">大数邻</h1>
+            <p id="jumbotron_text" class="lead">
+                日本麻将线下成绩展示系统<br />如果你是区域管理员，<a href="./admin/">按此进入</a>管理页
+            </p>
+        </div>
+    </div>
 
-        <!--alert_div-->
-        <div class="modal fade" id="imgmodal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">圖片預覽</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div id="imgmodal_body" class="modal-body">
-                        <img id='modalimg' class="img-fluid" alt="Responsive image"></img>
-                    </div>
-                    <div class="modal-footer">
-                        <input id='imgmodal_del' type="button" value="申請刪除圖片" class="btn btn-danger" />
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
-                    </div>
+    <!--content-->
+    <div class="container" id="content_div"></div>
+
+    <!--alert_div-->
+    <div class="modal fade" id="imgmodal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">圖片預覽</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="imgmodal_body" class="modal-body">
+                    <img id='modalimg' class="img-fluid" alt="Responsive image"></img>
+                </div>
+                <div class="modal-footer">
+                    <input id='imgmodal_del' type="button" value="申請刪除圖片" class="btn btn-danger" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!--javaScript-->
-        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-            crossorigin="anonymous"></script>
+    <!--javaScript-->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/dot@1.1.3/doT.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dot@1.1.3/doT.min.js" crossorigin="anonymous"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/marked@1.1.0/marked.min.js" crossorigin="anonymous"></script>
-        <script src="js/main.js"></script>
-    </body>
+    <script src="https://cdn.jsdelivr.net/npm/marked@1.1.0/marked.min.js" crossorigin="anonymous"></script>
+    <script src="js/main.js"></script>
+</body>
 
 
 </html>
