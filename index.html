@@ -32,39 +32,30 @@
 <!--template-->
 <script id="templ_main" type="text/html">
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>测试中</strong><br />计划第一步：实现成绩展示
+        {{=it[0].about}}
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       
-      <div class="btn-group btn-group-toggle shadow-sm rounded btn-block" data-toggle="buttons">
-        <label class="btn btn-info active">
-            <input type="radio" onclick="webobj.index_filter(1)" checked> 全部
-          </label>
-        <label class="btn btn-info active">
-          <input type="radio" onclick="webobj.index_filter(2)" > 进行
-        </label>
-        <label class="btn btn-info">
-          <input type="radio" onclick="webobj.index_filter(3)"> 区域
-        </label>
-        <label class="btn btn-info">
-          <input type="radio" onclick="webobj.index_filter(4)"> 个人赛
-        </label>
-        <label class="btn btn-info">
-            <input type="radio" onclick="webobj.index_filter(5)"> 结束
-          </label>
+      <div class="btn-group shadow-sm rounded btn-block">
+        <button type="button" class="filter1 btn btn-info" onclick="webobj.filter1(this,1)">全部</button>
+        <button type="button" class="filter1 btn btn-info" onclick="webobj.filter1(this,2)">进行</button>
+        <button type="button" class="filter1 btn btn-info" onclick="webobj.filter1(this,3)">区域</button>
+        <button type="button" class="filter1 btn btn-info" onclick="webobj.filter1(this,4)">个人赛</button>
+        <button type="button" class="filter1 btn btn-info" onclick="webobj.filter1(this,5)">结束</button>
       </div>
 
     <div class="row justify-content-center row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
-        {{~it :value:index}}
-        {{ var type2str=["区域","个人赛","三麻 区域","三麻 个人赛"],color=["primary","danger","info","success"],status=["不可报名","报名中","进行中","已结束"]; }}
+        {{ var type2str=["区域","个人赛","三麻 区域","三麻 个人赛"],color=["primary","danger","info","success"],status=["⛔不可报名", "📝报名中", "⏳进行中", "✅已结束"]; }}
+
+        {{ for(var i=1;i< it.length;i++){var value=it[i]; }}
         <div class="col text-center mt-3 card_item type_{{=value.type}} status_{{=value.status}} ">
             <div class="card shadow">
                 <div class="card-body">
                     <a href="#/{{=value.index}}/">
                     <h5 class="card-title">
-                        <span class="badge badge-secondary">#{{=value.index}}<span class="d-inline d-sm-none"> {{=status[value.status]}}</span></span>
+                        <span class="badge badge-secondary d-inline d-sm-none">{{=status[value.status]}}</span>
                         <span class="text-{{=color[value.type]}}">
                         {{=value.name}}</span>
                     </h5></a>
@@ -76,19 +67,26 @@
                 <div class="card-footer">
                     <p class="card-text">
                         <span class="badge badge-pill badge-{{=color[value.type]}}">{{=type2str[value.type]}}</span>
-                        {{=value.text2}}
+                        {{=value.about}}
                     </p>
                 </div>
             </div>
         </div>
-        {{~}}
-        {{ webobj.index_filter(1); }}
+        {{ } }}
     </div>
 </script>
 
+<script id="templ_about" type="text/html">
+{{=it[0]}}
+</script>
+<script id="templ_class" type="text/html">
+分组页面（未完成）
+</script>
+<script id="templ_ranking" type="text/html">
+统计页面（未完成）
+</script>
 
-<script id="templ_competition" type="text/html">
-   
+<script id="templ_log" type="text/html">
     <div class="row">
         <div class="col">
             <div class="input-group mb-3">
@@ -134,8 +132,7 @@
             </tr>
         </thead>
         <tbody>
-            {{ var type2str=["区域","个人赛","三麻 区域","三麻 个人赛"],color=["primary","danger","info","success"],status=["不可报名","报名中","进行中","已结束"];webobj.change_jumb(it.base.name,status[it.base.status]+" "+it.base.percent+"%<br />"+"("+type2str[it.base.type]+") "+it.base.text2); }}
-            {{~it.log :value:index}}
+            {{~it :value:index}}
             <tr>
                 <td class="text-wrap">{{=value[0]}}</td>
                 <td >{{=value[1]}}</td>
@@ -185,27 +182,6 @@
 
     <!--content-->
     <div class="container" id="content_div"></div>
-
-    <!--alert_div-->
-    <div class="modal fade" id="imgmodal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">圖片預覽</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div id="imgmodal_body" class="modal-body">
-                    <img id='modalimg' class="img-fluid" alt="Responsive image"></img>
-                </div>
-                <div class="modal-footer">
-                    <input id='imgmodal_del' type="button" value="申請刪除圖片" class="btn btn-danger" />
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!--javaScript-->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" crossorigin="anonymous"></script>
