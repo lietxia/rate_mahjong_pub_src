@@ -1,6 +1,7 @@
 var webobj = {
     this_query: ["main"],
     last_query: [],
+    apiurl: "",//"http://192.168.7.44:8080/rate_mahjong_pub_src/",
     competition_base: {},
     ce: function () {//createElement
         if (arguments.length % 2 == 0 || arguments.length < 1) { return; }
@@ -38,14 +39,22 @@ var webobj = {
         var e = document.getElementById("content_div");
         var templ = doT.template(document.getElementById(temp_id).text);
         if (typeof obj_or_url === "object") {
-            if (is_competition_base) { webobj.competition_base = obj_or_url }
+            if (Object.keys(obj_or_url).length === 0) {
+                return e.innerText = "暂无数据";
+            }
+            if (is_competition_base) { webobj.competition_base = obj_or_url; }
             return e.innerHTML = templ(obj_or_url);
         }
         if (typeof obj_or_url === "string") {
-            return $.getJSON(obj_or_url, function (json) {
-                if (is_competition_base) { webobj.competition_base = json }
-                e.innerHTML = templ(json);
-            });
+            return $.getJSON(webobj.apiurl + obj_or_url + "?"
+                + webobj.this_query.join("/"),
+                function (json) {
+                    if (Object.keys(json).length === 0) {
+                        return e.innerText = "暂无数据";
+                    }
+                    if (is_competition_base) { webobj.competition_base = json; }
+                    e.innerHTML = templ(json);
+                });
         }
     },
 
@@ -53,54 +62,7 @@ var webobj = {
         main: function () {
             console.log("debug", webobj.this_query, webobj.last_query);
             webobj.change_jumb("大数邻", '立直麻将的线下段位系统+个人赛系统');
-            webobj.load_page("templ_main",
-                //json start
-                [{
-                    "name": "非法访问",
-                    "type": 0,
-                    "index": 0,
-                    "status": 0,
-                    "percent": 0,
-                    "about": "<strong>测试中</strong><br />计划第1步：实现成绩展示"
-                },
-                {
-                    "name": "铁机路月赛",
-                    "type": 0,
-                    "index": 1,
-                    "status": 1,
-                    "percent": 0,
-                    "about": "湖北武汉"
-                }, {
-                    "name": "浪速俱乐部",
-                    "type": 0,
-                    "index": 2,
-                    "status": 2,
-                    "percent": 30,
-                    "about": "江苏南京"
-                }, {
-                    "name": "某某杯四麻个人赛",
-                    "type": 1,
-                    "index": 3,
-                    "status": 2,
-                    "percent": 70,
-                    "about": "2020-11-11"
-                }, {
-                    "name": "线下三麻",
-                    "type": 2,
-                    "index": 4,
-                    "status": 2,
-                    "percent": 80,
-                    "about": "湖北武汉"
-                }, {
-                    "name": "结束的三麻个人赛",
-                    "type": 3,
-                    "index": 4,
-                    "status": 3,
-                    "percent": 100,
-                    "about": "2020-11-11"
-                }]
-                //json end
-                , true
+            webobj.load_page("templ_main", "main.json", true
             );
         },
         competition: function () {
@@ -111,15 +73,9 @@ var webobj = {
                 var base = webobj.competition_base[this_idx];
                 webobj.subpage(base);
             } else {
-                var base = {
-                    "name": "铁机路月赛",
-                    "type": 0,
-                    "index": 1,
-                    "status": 2,
-                    "percent": 0,
-                    "about": "湖北武汉"
-                };
-                webobj.subpage(base);
+                $.getJSON(webobj.apiurl + "comp_base.json?" + webobj.this_query.join("/"), function (json) {
+                    webobj.subpage(json);
+                });
             }
         },
     },
@@ -133,8 +89,7 @@ var webobj = {
 
         jtext.appendChild(document.createTextNode(
             status[base.status] + " "
-            + base.percent
-            + "% " + "(" + type2str[base.type] + ") "
+            + base.current_turn + "/" + base.total_turn + " (" + type2str[base.type] + ") "
             + base.about)
         );
         jtext.appendChild(document.createElement("br"))
@@ -156,11 +111,9 @@ var webobj = {
         e.appendChild(webobj.ce('div', 'id', 'sub_content'))
         var geturl = {
             "about": ["abc"], "class": [], "ranking": [],
-            "log": [
-                ["2020-10-12", 1, "选手选手选手", "25000", -5, "选手选手选手", "25000", -5, "选手选手选手", "25000", -5, "选手选手选手", "25000", -5], ["2020-10-12", 1, "选手选手选手", "25000", -5, "选手选手选手", "25000", -5, "选手选手选手", "25000", -5, "选手选手选手", "25000", -5], ["2020-10-12", 1, "选手选手选手", "25000", -5, "选手选手选手", "25000", -5, "选手选手选手", "25000", -5, "选手选手选手", "25000", -5]
-            ]
+            "log": "log.json"
         };
-        webobj.load_page("templ_" + sub_fn,geturl[sub_fn]);//load_page end
+        webobj.load_page("templ_" + sub_fn, geturl[sub_fn]);//load_page end
     },
     filter1: function (that, order) {
         //status=["不可报名","报名中","进行中","已结束"]
@@ -192,5 +145,3 @@ var webobj = {
 };
 
 webobj.onhashchange();
-
-正则 = (str = "") => /^.(.)\1$/.test(str);

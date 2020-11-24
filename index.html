@@ -49,32 +49,32 @@
     <div class="row justify-content-center row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
         {{ var type2str=["区域","个人赛","三麻 区域","三麻 个人赛"],color=["primary","danger","info","success"],status=["⛔不可报名", "📝报名中", "⏳进行中", "✅已结束"]; }}
 
-        {{ for(var i=1;i< it.length;i++){var value=it[i]; }}
-        <div class="col text-center mt-3 card_item type_{{=value.type}} status_{{=value.status}} ">
+        {{ for(var i=1;i< it.length;i++){var base=it[i]; }}
+        <div class="col text-center mt-3 card_item type_{{=base.type}} status_{{=base.status}} ">
             <div class="card shadow">
                 <div class="card-body">
-                    <a href="#/{{=value.index}}/">
+                    <a href="#/{{=base.index}}/">
                     <h5 class="card-title">
-                        <span class="badge badge-secondary d-inline d-sm-none">{{=status[value.status]}}</span>
-                        <span class="text-{{=color[value.type]}}">
-                        {{=value.name}}</span>
+                        <span class="badge badge-secondary d-inline d-sm-none">{{=status[base.status]}}</span>
+                        <span class="text-{{=color[base.type]}}">
+                        {{=base.name}}</span>
                     </h5></a>
-                        <span class="d-none d-sm-inline">{{=status[value.status]}}</span>
+                        <span class="d-none d-sm-inline">{{=status[base.status]}}</span>
                         <div class="progress mt-2 md-0">
-                            <div class="progress-bar progress-bar-striped bg-{{=color[value.type]+((value.status==2)?' progress-bar-animated':'')}}" role="progressbar"  style="width: {{=value.percent}}%">{{=value.percent}}%</div>
+                            <div class="progress-bar progress-bar-striped bg-{{=color[base.type]+((base.status==2)?' progress-bar-animated':'')}}" role="progressbar"  style="width: {{=Math.ceil(base.current_turn/base.total_turn*100)}}%">{{=base.current_turn+"/"+base.total_turn}}</div>
                           </div>
                     </div>
                 <div class="card-footer">
                     <p class="card-text">
-                        <span class="badge badge-pill badge-{{=color[value.type]}}">{{=type2str[value.type]}}</span>
-                        {{=value.about}}
+                        <span class="badge badge-pill badge-{{=color[base.type]}}">{{=type2str[base.type]}}</span>
+                        {{=base.about}}
                     </p>
                 </div>
             </div>
         </div>
         {{ } }}
-    </div>
-</script>
+        </div>
+        </script>
 
 <script id="templ_about" type="text/html">
 {{=it[0]}}

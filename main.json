@@ -1,60 +1,56 @@
 [
     {
-        "group_id": 1231231,
-        "group_name": "abc",
-        "timestamp": 1599297253,
-        "E": {
-            "QQ": 12345678,
-            "name": "A",
-            "score": 25000,
-            "ranking": 1
-        },
-        "S": {
-            "QQ": 12345678,
-            "name": "B",
-            "score": 25000,
-            "ranking": 2
-        },
-        "W": {
-            "QQ": 12345678,
-            "name": "C",
-            "score": 25000,
-            "ranking": 3
-        },
-        "N": {
-            "QQ": 12345678,
-            "name": "D",
-            "score": 25000,
-            "ranking": 4
-        }
+        "name": "非法访问",
+        "type": 0,
+        "index": 0,
+        "status": 0,
+        "current_turn": 0,
+        "total_turn": 10,
+        "about": "<strong>测试中</strong><br />计划第1步：实现成绩展示"
     },
     {
-        "group": 1231231,
-        "group_name": "abc",
-        "timestamp": 1599297253,
-        "E": {
-            "QQ": 12345678,
-            "name": "A",
-            "score": 25000,
-            "ranking": 1
-        },
-        "S": {
-            "QQ": 12345678,
-            "name": "B",
-            "score": 25000,
-            "ranking": 2
-        },
-        "W": {
-            "QQ": 12345678,
-            "name": "C",
-            "score": 25000,
-            "ranking": 3
-        },
-        "N": {
-            "QQ": 12345678,
-            "name": "D",
-            "score": 25000,
-            "ranking": 4
-        }
+        "name": "铁机路月赛",
+        "type": 0,
+        "index": 1,
+        "status": 1,
+        "current_turn": 0,
+        "total_turn": 10,
+        "about": "湖北武汉"
+    },
+    {
+        "name": "浪速俱乐部",
+        "type": 0,
+        "index": 2,
+        "status": 2,
+        "current_turn": 3,
+        "total_turn": 10,
+        "about": "江苏南京"
+    },
+    {
+        "name": "某某杯四麻个人赛",
+        "type": 1,
+        "index": 3,
+        "status": 2,
+        "current_turn": 3,
+        "total_turn": 10,
+        "about": "2020-11-11"
+    },
+    {
+        "name": "线下三麻",
+        "type": 2,
+        "index": 4,
+        "status": 2,
+        "current_turn": 8,
+        "total_turn": 10,
+        "about": "湖北武汉"
+    },
+    {
+        "name": "结束的三麻个人赛",
+        "type": 3,
+        "index": 4,
+        "status": 3,
+        "current_turn": 10,
+        "total_turn": 10,
+        "about": "2020-11-11"
     }
 ]
