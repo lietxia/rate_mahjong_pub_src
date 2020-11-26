@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <textarea onchange="abc(this)" rows="5"></textarea>
+    <script>
+        function abc(that) {
+            var n2qq = {
+                "ng": "820812450",
+                "金": "530433534",
+                "群主": "531318260",
+                "C": "13793298", "C总": "13793298", "麻神": "306417774", "王教练": "104012115", "基本": "174675216", "热干面": "309353323", "祀夜": "980836104", "老K": "826843572", "K教练": "826843572", "小四": "390903363", "鹿铃": "840751709", "奇迹": "1515899639", "桌子": "820256596", "禾禾": "1017805547", "七露": "765453182", "文章": "609044881", "墨染": "2686719445", "Fin": "530433534", "fin": "530433534", "刹那": "174156468", "哀恋": "275406151", "加持": "71832091", "宿夜": "476464015", "风冰": "52687691", "小瓦": "390742292", "阿姆": "348737628", "Kya": "531318260", "猪总": "6262537", "黑熊": "472501479", "gxz": "825124219", "猫爹": "20416361", "Weed": "516087123", "星墟": "1476489663", "喉咙": "845213928"
+            };
+            /*
+            var out2 = "";
+            for (const key in n2qq) {
+                if (n2qq.hasOwnProperty(key)) {
+                    const qq = n2qq[key];
+                    out2 += key + "\t" + qq + "\n";
+                }
+            }
+            */
+            var val = that.value.split("\n");
+            var out = [];
+            var num = [0, 2, 5, 6, 7, 9, 10, 11, 13, 14, 15, 17, 18, 19];
+            for (var index = 0; index < val.length; index++) {
+                if (val[index].length > 1) {
+                    out[index] = val[index].split("\t");
+                    // out[index][1] = parseInt(Date.parse(out[index][1]) / 1000);
+                    for (var i = 0; i < num.length; i++) {
+                        out[index][num[i]] = parseInt(out[index][num[i]]) || 0;
+                    }
+                    if (n2qq.hasOwnProperty(out[index][4])) { out[index][4] = n2qq[out[index][4]]; }
+                    if (n2qq.hasOwnProperty(out[index][8])) { out[index][8] = n2qq[out[index][8]]; }
+                    if (n2qq.hasOwnProperty(out[index][12])) { out[index][12] = n2qq[out[index][12]]; }
+                    if (n2qq.hasOwnProperty(out[index][16])) { out[index][16] = n2qq[out[index][16]]; }
+                }
+            }
+            if (out[3][3] == "60字以内") {
+                out.shift();
+                out.shift();
+                out.shift();
+                out.shift();
+            }
+            //
+            var sql = "INSERT INTO rate_log (base_idx,turn,logtime,type,note,qq1,point1,score1,rate1,qq2,point2,score2,rate2,qq3,point3,score3,rate3,qq4,point4,score4,rate4) VALUES ";
+            for (var index = 0; index < out.length; index++) {
+                var e = out[index];
+                var str = JSON.stringify(e);
+                sql += "(1," + (str.substr(1, str.length - 2)) + "),";
+            }
+            console.log(out);
+            return (sql);
+        }
+    </script>
+</body>
+
+</html>

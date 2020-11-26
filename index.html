@@ -53,7 +53,7 @@
         <div class="col text-center mt-3 card_item type_{{=base.type}} status_{{=base.status}} ">
             <div class="card shadow">
                 <div class="card-body">
-                    <a href="#/{{=base.index}}/">
+                    <a href="#/{{=base.idx}}/">
                     <h5 class="card-title">
                         <span class="badge badge-secondary d-inline d-sm-none">{{=status[base.status]}}</span>
                         <span class="text-{{=color[base.type]}}">
@@ -90,11 +90,14 @@
     <div class="row">
         <div class="col">
             <div class="input-group mb-3">
-                <select class="custom-select" id="inputGroupSelect01">
-                  <option selected>第1阶段</option>
-                  <option value="1">第2阶段</option>
-                  <option value="2">第3阶段</option>
-                  <option value="3">第4阶段</option>
+                <select class="custom-select" onchange="webobj.filter2(this.options[this.options.selectedIndex].value)" >
+                    {{ var base=webobj.cache["main/"][webobj.this_query[1]],this_turn=(webobj.this_query.length>=4)?webobj.this_query[3]:base.current_turn; }}
+                <option value="{{=this_turn}}" selected>第{{=this_turn}}阶段</option>
+{{ for(var i=1;i<=base.total_turn;i++){ }}
+    {{? i!=this_turn}}
+                  <option value="{{=i}}">第{{=i}}阶段</option>
+    {{?}}   
+                  {{ } }}
                 </select>
               </div>
         </div>
@@ -137,7 +140,7 @@
                 <td class="text-wrap">{{=value[0]}}</td>
                 <td >{{=value[1]}}</td>
                 {{ for(var i=2;i< 14;i++) { }}
-                <td class="d-none d-md-table-cell">{{=value[i]}}</td>
+                <td class="d-none d-md-table-cell">{{!(i==2||i==5||i==8||i==11)?qq2name[value[i]]||'':value[i]}}</td>
                 {{ }; for(var i=2;i< 14;i+=3) { }}
                 <td class="d-sm-table-cell d-md-none">
                     {{=value[i+1]}}<br />

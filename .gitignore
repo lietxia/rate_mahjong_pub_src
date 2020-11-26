@@ -2,6 +2,9 @@ Thumbs.db
 ehthumbs.db
 Desktop.ini
 *.log
+*.php
+*.xls
+*.xlsx
 .user.ini
 ._*
 .DS_Store
