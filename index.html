@@ -6,6 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>大数邻</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.3/dist/darkly/bootstrap.min.css"
+        media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" href="css/main.css" />
 </head>
 <script>
     (function () {
@@ -14,6 +18,7 @@
         var arr = patt.exec(window.location.href);
         if (arr != null) { window.location.href = arr[1]; }
 
+        /*
         //If at night, load night CSS
         var hours = new Date().getHours();
         var css = document.createElement("link");
@@ -27,6 +32,7 @@
         css2.setAttribute("rel", "stylesheet");
         css2.setAttribute("href", "css/main.css");
         document.head.appendChild(css2);
+        */
     })()
 </script>
 <!--template-->
@@ -47,26 +53,25 @@
       </div>
 
     <div class="row justify-content-center row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
-        {{ var type2str=["区域","个人赛","三麻 区域","三麻 个人赛"],color=["primary","danger","info","success"],status=["⛔不可报名", "📝报名中", "⏳进行中", "✅已结束"]; }}
 
         {{ for(var i=1;i< it.length;i++){var base=it[i]; }}
         <div class="col text-center mt-3 card_item type_{{=base.type}} status_{{=base.status}} ">
             <div class="card shadow">
                 <div class="card-body">
-                    <a href="#/{{=base.idx}}/">
+                    <a href="#/{{=base.cid}}/">
                     <h5 class="card-title">
-                        <span class="badge badge-secondary d-inline d-sm-none">{{=status[base.status]}}</span>
-                        <span class="text-{{=color[base.type]}}">
+                        <span class="badge badge-secondary d-inline d-sm-none">{{=webobj.obj2text.status[base.status]}}</span>
+                        <span class="text-{{=webobj.obj2text.color[base.type]}}">
                         {{=base.name}}</span>
                     </h5></a>
-                        <span class="d-none d-sm-inline">{{=status[base.status]}}</span>
+                        <span class="d-none d-sm-inline">{{=webobj.obj2text.status[base.status]}}</span>
                         <div class="progress mt-2 md-0">
-                            <div class="progress-bar progress-bar-striped bg-{{=color[base.type]+((base.status==2)?' progress-bar-animated':'')}}" role="progressbar"  style="width: {{=Math.ceil(base.current_turn/base.total_turn*100)}}%">{{=base.current_turn+"/"+base.total_turn}}</div>
+                            <div class="progress-bar progress-bar-striped bg-{{=webobj.obj2text.color[base.type]+((base.status==2)?' progress-bar-animated':'')}}" role="progressbar"  style="width: {{=Math.ceil(base.current_turn/base.total_turn*100)}}%">{{=base.current_turn+"/"+base.total_turn}}</div>
                           </div>
                     </div>
                 <div class="card-footer">
                     <p class="card-text">
-                        <span class="badge badge-pill badge-{{=color[base.type]}}">{{=type2str[base.type]}}</span>
+                        <span class="badge badge-pill badge-{{=webobj.obj2text.color[base.type]}}">{{=webobj.obj2text.type2str[base.type]}}</span>
                         {{=base.about}}
                     </p>
                 </div>
@@ -91,13 +96,13 @@
         <div class="col">
             <div class="input-group mb-3">
                 <select class="custom-select" onchange="webobj.filter2(this.options[this.options.selectedIndex].value)" >
-                    {{ var base=webobj.cache["main/"][webobj.this_query[1]],this_turn=(webobj.this_query.length>=4)?webobj.this_query[3]:base.current_turn; }}
+                    {{ var base=webobj.cache.base[webobj.this_query[1]],this_turn=(webobj.this_query.length>=4)?webobj.this_query[3]:base.current_turn; }}
                 <option value="{{=this_turn}}" selected>第{{=this_turn}}阶段</option>
 {{ for(var i=1;i<=base.total_turn;i++){ }}
     {{? i!=this_turn}}
                   <option value="{{=i}}">第{{=i}}阶段</option>
     {{?}}   
-                  {{ } }}
+    {{ } }}
                 </select>
               </div>
         </div>
@@ -140,11 +145,11 @@
                 <td class="text-wrap">{{=value[0]}}</td>
                 <td >{{=value[1]}}</td>
                 {{ for(var i=2;i< 14;i++) { }}
-                <td class="d-none d-md-table-cell">{{!(i==2||i==5||i==8||i==11)?qq2name[value[i]]||'':value[i]}}</td>
+                <td class="d-none d-md-table-cell">{{!(i==2||i==5||i==8||i==11)?base.qq2name[value[i]]||value[i]:value[i]}}</td>
                 {{ }; for(var i=2;i< 14;i+=3) { }}
                 <td class="d-sm-table-cell d-md-none">
                     {{=value[i+1]}}<br />
-                    {{=value[i]}}<br />
+                    {{!base.qq2name[value[i]]||value[i]}}<br />
                     {{=value[i+2]}}
                 </td>
                 {{ } }}
@@ -169,17 +174,15 @@
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item"><a class="nav-link" href="#">首页</a></li>
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item"><a class="nav-link" href="#/admin/">管理</a></li>
+                    <li class="nav-item"><a class="nav-link" href="./admin/">管理</a></li>
                 </ul>
         </div>
     </nav>
 
     <div class="jumbotron jumbotron-fluid pt-4 pb-2">
         <div class="container">
-            <h1 id="jumbotron_title" class="display-4">大数邻</h1>
-            <p id="jumbotron_text" class="lead">
-                日本麻将线下成绩展示系统<br />如果你是区域管理员，<a href="./admin/">按此进入</a>管理页
-            </p>
+            <h1 id="jumbotron_title" class="display-4"></h1>
+            <p id="jumbotron_text" class="lead"></p>
         </div>
     </div>
 

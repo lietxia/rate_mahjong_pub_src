@@ -1,0 +1,340 @@
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>管理台</title>
+    <link rel="stylesheet" href='https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css' />
+    <style>
+        body,
+        input,
+        textarea {
+            font-family: "Microsoft JhengHei", "Meiryo", "Malgun Gothic", "Dotum", "MS PGothic", "PMingLiu", sans-serif;
+        }
+
+        body {
+            margin: 20px 0;
+            background-color: #888;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div id="login" class="card shadow mb-3">
+            <div class="card-header text-center">登入</div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="login_cid">賽事編號</label>
+                    <input type="number" class="form-control" id="login_cid" placeholder="數字">
+                </div>
+                <div class="form-group">
+                    <label for="login_passwd">賽事密碼</label>
+                    <input type="password" class="form-control" id="login_passwd" placeholder="密碼">
+                </div>
+            </div>
+            <div class="card-footer">
+                <input type="button" class="btn btn-primary btn-block" value="登錄" onclick="login()" />
+            </div>
+        </div>
+
+        <div id="logined" class="d-none"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script>
+
+        (function () {
+            var patt = new RegExp(/(.+)[\?\&]tdsourcetag\=\w+$/);
+            var arr = patt.exec(window.location.href);
+            if (arr != null) {
+                window.location.href = arr[1];
+            }
+            window.hosturl = (window.location.hostname.substr(-6) == "000.mk") ? "https://000.mk/" : "https://mahjong.pub/";
+            var querystr = [];
+            if (querystr = document.location.hash.match(/\?cid=(\d+)&c_pw=(.+)/)) {
+                document.location.hash = "";
+                $("#login_cid").val(querystr[1]);
+                $("#login_passwd").val(querystr[2]);
+                login();
+            }
+        }())
+
+        function logined(data) {
+
+            $("#login").hide();
+            $("#logined").attr('class', 'd-block');
+            var tmpltxt = doT.template(document.getElementById('page_main').innerHTML);
+            document.getElementById("logined").innerHTML = tmpltxt(data);//数据渲染
+            $("#mytable").hide();
+            $("form").on("submit", function (event) {
+                event.preventDefault();
+                if (confirm("提交？") == false) { return; }
+                var postarr = {
+                    "cid": window.mydata.cid,
+                    "c_pw": window.mydata.pw
+                };
+                var formarr = $(this).serializeArray();
+                for (var i = formarr.length; i--;) {
+                    postarr[formarr[i].name] = formarr[i].value;
+                }
+                console.log(postarr);
+                $.post(window.hosturl + "api/admin_post.php", postarr, function (data) {
+                    console.log(data);
+                    //login();
+                    alert(data.msg);
+
+                    window.location.hash = "#?cid=" + window.mydata.cid + "&c_pw=" + window.mydata.pw;
+                    window.location.reload();
+
+                }, "json");
+            });
+        }
+
+        function login() {
+            //if (!window.hasOwnProperty('mydata')) {
+            window.mydata = {};
+            window.mydata.cid = 3
+            window.mydata.pw = 3
+
+            $.post(window.hosturl + "api/admin_post.php", {
+                "posttype": "login",
+                "cid": window.mydata.cid,
+                "c_pw": window.mydata.pw
+            }, function (data) {
+                return (data.code == 1) ? logined(data) : alert("【錯誤】" + data.msg);
+            }, "json");
+        }
+    </script>
+
+    <script type="text/html" id="page_main">
+        <form class="card shadow mb-3">
+            <input name="posttype" type="hidden" value="edit_admin" />
+
+            <div class="card-header text-center">賽事設置</div>
+            <div class="card-body">
+                <h4>基本設置</h4>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">賽事名稱</span>
+                    </div>
+                    <input type="text" name="c_name" autocomplete="nope" class="form-control"
+                        value="{{!it.c_admin.c_name}}" />
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">賽事密碼</span>
+                    </div>
+                    <input type="text" name="newpw" autocomplete="nope" class="form-control"
+                        value="{{!it.c_admin.c_pw}}" />
+                </div>
+
+                <label class="form-text text-muted">報名時間 格式 2017-06-16 20:00:00</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">報名開始時間</span>
+                    </div>
+                    <input type="text" name="bm_st" class="form-control" value="{{!it.c_admin.bm_st}}" />
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">報名結束時間</span>
+                    </div>
+                    <input type="text" name="bm_ed" class="form-control" value="{{!it.c_admin.bm_ed}}" />
+                </div>
+                <label class="form-text text-muted">正選和替補隊伍數 (-1 = 不限)</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">正選</span>
+                    </div>
+                    <input type="number" name="t_max" class="form-control" value="{{!it.c_admin.t_max}}" />
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">替補</span>
+                    </div>
+                    <input type="number" name="c_sub_t" class="form-control" value="{{!it.c_admin.c_sub_t}}" />
+                </div>
+
+                <label>公告和規則 (支持markdown語法
+                    <a href="https://www.jianshu.com/p/f3147a804368" target="_blank">具體看這</a>)</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">公告</span>
+                    </div>
+                    <textarea class="form-control" name="c_gonggao" rows="5">{{=it.c_admin.c_gonggao}}</textarea>
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">規則</span>
+                    </div>
+                    <textarea class="form-control" name="c_pad" rows="5">{{=it.c_admin.c_pad}}</textarea>
+                </div>
+
+                <label class="form-text text-muted">當前回合(每過1輪，都要一次，數字加1)</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">當前回合</span>
+                    </div>
+                    <input type="number" name="c_round" class="form-control" value="{{=it.c_admin.c_round}}" />
+                </div>
+                <h4>規則設置</h4>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">起始點數</span>
+                    </div>
+                    <input type="number" name="c_s_po" class="form-control" value="{{=it.c_admin.c_s_po}}" />
+                </div>
+                <label class="form-text text-muted">出場形式(輸入位置的名字，每個位置打N次，這個位置就打N行)</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">出場形式</span>
+                    </div>
+                    <textarea class="form-control" name="t_type" rows="10">{{=it.c_admin.t_type}}</textarea>
+                </div>
+                <h4>限制設置</h4>
+                <div class="custom-control custom-checkbox">
+                    {{? it.c_admin.STOP_EDIT==1 }}
+                    <input type="checkbox" class="custom-control-input" id="STOP_EDIT" name="STOP_EDIT"
+                        checked="checked">
+                    {{??}}
+                    <input type="checkbox" class="custom-control-input" id="STOP_EDIT" name="STOP_EDIT">
+                    {{?}}
+                    <label class="custom-control-label" for="STOP_EDIT">禁止修改出場順序</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    {{? it.c_admin.ONLY_GET==1 }}
+                    <input type="checkbox" class="custom-control-input" id="ONLY_GET" name="ONLY_GET" checked="checked">
+                    {{??}}
+                    <input type="checkbox" class="custom-control-input" id="ONLY_GET" name="ONLY_GET">
+                    {{?}}
+                    <label class="custom-control-label" for="ONLY_GET">只能通過牌譜添加ID</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    {{? it.c_admin.JOIN_END==1 }}
+                    <input type="checkbox" class="custom-control-input" id="JOIN_END" name="JOIN_END" checked="checked">
+                    {{??}}
+                    <input type="checkbox" class="custom-control-input" id="JOIN_END" name="JOIN_END">
+                    {{?}}
+                    <label class="custom-control-label" for="JOIN_END">停用網頁報名</label>
+                </div>
+
+                <div class="custom-control custom-checkbox">
+                    {{? it.c_admin.BOT_END==1 }}
+                    <input type="checkbox" class="custom-control-input" id="BOT_END" name="BOT_END" checked="checked">
+                    {{??}}
+                    <input type="checkbox" class="custom-control-input" id="BOT_END" name="BOT_END">
+                    {{?}}
+                    <label class="custom-control-label" for="BOT_END">停用機器人報名</label>
+                </div>
+                
+                <div class="custom-control custom-checkbox">
+                    {{? it.c_admin.CS_END==1 }}
+                    <input type="checkbox" class="custom-control-input" id="CS_END" name="CS_END" checked="checked">
+                    {{??}}
+                    <input type="checkbox" class="custom-control-input" id="CS_END" name="CS_END">
+                    {{?}}
+                    <label class="custom-control-label" for="CS_END">比賽已結束</label>
+                </div>
+            </div>
+            <div class="card-footer">
+                <input class="btn btn-primary btn-block" type="submit" value="提交" />
+            </div>
+        </form>
+
+        <form class="card shadow mb-3">
+            <div class="card-header text-center">修改隊名</div>
+            <div class="card-body">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">隊伍編號</span>
+                    </div>
+                    <input type="text" name="tid" autocomplete="nope" class="form-control" placeholder="tid"/>
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">新的隊名</span>
+                    </div>
+                    <input type="text" name="new_tname" class="form-control" placeholder="隊伍名"/>
+                </div>
+                <input name="posttype" type="hidden" value="edit_tname" />
+            </div>
+            <div class="card-footer">
+                <input class="btn btn-primary btn-block" type="submit" />
+            </div>
+        </form>
+
+        <form class="card shadow mb-3" >
+            <div class="card-header text-center">新建隊伍</div>
+            <div class="card-body">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">隊名</span>
+                    </div>
+                    <input name="new_tname" type="text" id="new_tname" class="form-control" placeholder="隊伍名" />
+                </div>
+                <input name="posttype" type="hidden" value="add_newteam">
+            </div>
+            <div class="card-footer">
+                <input class="btn btn-primary btn-block" type="submit" />
+            </div>
+        </form>
+
+        <form class="card shadow mb-3" id="form_ready">
+            <div class="card-header text-center">重設準備狀態</div>
+            <div class="card-body">
+                <input type="submit" value="將所有組設爲［未準備］狀態" class="btn btn-danger btn-block">
+                <input name="posttype" type="hidden" value="ready_reset">
+            </div>
+        </form>
+
+        <div class="card shadow">
+            <div class="card-header text-center">其他管理</div>
+            <div class="card-body">
+                <div>
+                    {{ for(var i=1;i<=it.class_count;i++) { }}
+                    <a class="btn btn-secondary mb-1" target="_blank"
+                        href="{{=window.hosturl}}start-class.php?cid={{=window.mydata.cid+'&c_pw='+window.mydata.pw+'&round='+it.c_admin.c_round+'&t_class='+i}}">管理第{{=i}}組</a>
+                    {{ } }}
+                </div>
+                <a class="btn btn-secondary mb-1" target="_blank"
+                    href="{{=window.hosturl}}class-edit.php?cid={{=window.mydata.cid+'&c_pw='+window.mydata.pw}}">分組管理</a>
+                <a class="btn btn-secondary mb-1" target="_blank"
+                    href="../start.htm?cid={{=window.mydata.cid+'&rr='+it.c_admin.c_round+'&csl='+it.c_class.code+'&cls='+it.class_count}}">超後臺改二</a>
+                <a class="btn btn-secondary mb-1" target="_blank" href="../fenzu.html">隨機分組器</a>
+            </div>
+            <div class="card-footer">
+                <input type="button" class="btn btn-success btn-block" value="查看全部組別信息"
+                    onclick="$('#mytable').toggle();">
+            </div>
+        </div>
+        <table id="mytable" class="table table-striped mt-5 text-center table-light table-hover table-responsive shadow">
+            <tr>
+                <th>tid</th>
+                <th>隊名</th>
+                <th>正选</th>
+                <th>密碼</th>
+                <th>報名時間</th>
+                <th>QQ</th>
+                <th>狀態</th>
+            </tr>
+            {{ var team_type=["未準備","準備"];color=[" "," table-success"]; }}
+            {{~it.c_team :val:idx}}
+            <tr class="{{=color[val.t_type]||' table-danger'}}">
+                <td>{{=val.tid}}</td>
+                <td><a target="_blank" href="../team.htm?t_pw={{=val.t_pw}}">
+                        {{!val.t_name}}</a></td>
+                <td>{{!val.t_player}}</td>
+                <td>{{=val.t_pw}}</td>
+                <td>{{=val.t_join_time}}</td>
+                <td>{{=val.qq}}</td>
+                <td>{{=team_type[val.t_type]||'退賽'}}</td>
+            </tr>
+            {{~}}
+        </table>
+    </script>
+
+</body>
+
+</html>

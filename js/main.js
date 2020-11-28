@@ -1,20 +1,13 @@
-var n2qq = {
-    "ng": "820812450",
-    "金": "530433534",
-    "群主": "531318260",
-    "C": "13793298", "C总": "13793298", "麻神": "306417774", "王教练": "104012115", "基本": "174675216", "热干面": "309353323", "祀夜": "980836104", "老K": "826843572", "K教练": "826843572", "小四": "390903363", "鹿铃": "840751709", "奇迹": "1515899639", "桌子": "820256596", "禾禾": "1017805547", "七露": "765453182", "文章": "609044881", "墨染": "2686719445", "Fin": "530433534", "fin": "530433534", "刹那": "174156468", "哀恋": "275406151", "加持": "71832091", "宿夜": "476464015", "风冰": "52687691", "小瓦": "390742292", "阿姆": "348737628", "Kya": "531318260", "猪总": "6262537", "黑熊": "472501479", "gxz": "825124219", "猫爹": "20416361", "Weed": "516087123", "星墟": "1476489663", "喉咙": "845213928"
-};
-var qq2name={};
-for (var n in n2qq) {
-    if (n2qq.hasOwnProperty(n)) {
-        qq2name[n2qq[n]] = n;
-    }
-}
 var webobj = {
     this_query: ["main"],
     last_query: [],
     apiurl: "",
-    cache: {},
+    obj2text: {
+        type2str: ["区域", "个人赛", "三麻 区域", "三麻 个人赛"],
+        color: ["info", "success", "danger", "primary"],
+        status: ["⛔不可报名", "📝报名中", "⏳进行中", "✅已结束"]
+    },
+    cache: { base: {} },
     ce: function () {//createElement
         if (arguments.length % 2 == 0 || arguments.length < 1) { return; }
         var e = document.createElement(arguments[0]);
@@ -84,23 +77,20 @@ var webobj = {
         admin: function () { },
         competition: function () {
             console.log("debug", webobj.this_query, webobj.last_query);
-            var this_idx = webobj.this_query[1];
+            var this_cid = webobj.this_query[1];
             $("#content_div").empty();
-            if (!webobj.cache.hasOwnProperty("main/")) {
-                webobj.cache["main/"] = {};
-            }
-            if (webobj.cache["main/"].hasOwnProperty(this_idx)) {
-                var base = webobj.cache["main/"][this_idx];
-                webobj.subpage(base);
+            if (webobj.cache.base.hasOwnProperty(this_cid)) {
+                webobj.subpage(webobj.cache.base[this_cid], this_cid);
             } else {
-                $.getJSON(webobj.apiurl + "rate.php?q=base/" + this_idx, function (json) {
-                    webobj.cache["main/"][this_idx] = json;
-                    webobj.subpage(json);
+                $.getJSON(webobj.apiurl + "rate.php?q=base/" + this_cid, function (json) {
+                    webobj.cache.base[this_cid] = json;
+                    webobj.subpage(json, this_cid);
                 });
             }
         },
     },
-    subpage: function (base) {
+    subpage: function (base, this_cid) {
+        console.log(base);
         var e = document.getElementById("content_div");
         var type2str = ["区域", "个人赛", "三麻 区域", "三麻 个人赛"];
         var status = ["⛔不可报名", "📝报名中", "⏳进行中", "✅已结束"];
@@ -123,17 +113,20 @@ var webobj = {
             webobj.this_query[2] : "about";
 
         for (var i = 0; i < link.length; i++) {
+            var add = (i == 0) ? "" : "/";
+            if (i == 1) { add += base.current_turn + "/" }
             var newa = webobj.ce("a",
                 "class", "btn btn-info",
                 "role", "button",
-                "href", "#/" + webobj.this_query[1] + "/" + link[i]);
+                "href", "#/" + this_cid + "/" + link[i] + add
+            )
             newa.innerText = text[i]
             submenu.appendChild(newa);
         }
         jtext.appendChild(submenu);
         e.appendChild(webobj.ce('div', 'id', 'sub_content'));
         var geturl = {
-            "about": ["abc"],
+            "about": [base.rule],
             "class": [""],
             "ranking": [""],
             "log": "rate.php"
