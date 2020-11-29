@@ -2,6 +2,7 @@
 <html lang="zh">
 
 <head>
+    
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -12,6 +13,7 @@
     <link rel="stylesheet" href="css/main.css" />
 </head>
 <script>
+
     (function () {
         //Remove QQ/TIM URL suffix
         var patt = new RegExp(/(.+)[\?\&]tdsourcetag\=\w+$/);
@@ -54,24 +56,24 @@
 
     <div class="row justify-content-center row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
 
-        {{ for(var i=1;i< it.length;i++){var base=it[i]; }}
-        <div class="col text-center mt-3 card_item type_{{=base.type}} status_{{=base.status}} ">
+        {{ for(var i=1;i< it.length;i++){var base=it[i];if(base.status==0){continue;} }}
+        <div class="col text-center mt-3 card_item ctype_{{=base.ctype}} status_{{=base.status}} ">
             <div class="card shadow">
                 <div class="card-body">
                     <a href="#/{{=base.cid}}/">
                     <h5 class="card-title">
                         <span class="badge badge-secondary d-inline d-sm-none">{{=webobj.obj2text.status[base.status]}}</span>
-                        <span class="text-{{=webobj.obj2text.color[base.type]}}">
+                        <span class="text-{{=webobj.obj2text.color[base.ctype]}}">
                         {{=base.name}}</span>
                     </h5></a>
                         <span class="d-none d-sm-inline">{{=webobj.obj2text.status[base.status]}}</span>
                         <div class="progress mt-2 md-0">
-                            <div class="progress-bar progress-bar-striped bg-{{=webobj.obj2text.color[base.type]+((base.status==2)?' progress-bar-animated':'')}}" role="progressbar"  style="width: {{=Math.ceil(base.current_turn/base.total_turn*100)}}%">{{=base.current_turn+"/"+base.total_turn}}</div>
+                            <div class="progress-bar progress-bar-striped bg-{{=webobj.obj2text.color[base.ctype]+((base.status==2)?' progress-bar-animated':'')}}" role="progressbar"  style="width: {{=Math.ceil(base.current_turn/base.total_turn*100)}}%">{{=base.current_turn+"/"+base.total_turn}}</div>
                           </div>
                     </div>
                 <div class="card-footer">
                     <p class="card-text">
-                        <span class="badge badge-pill badge-{{=webobj.obj2text.color[base.type]}}">{{=webobj.obj2text.type2str[base.type]}}</span>
+                        <span class="badge badge-pill badge-{{=webobj.obj2text.color[base.ctype]}}">{{=webobj.obj2text.ctype2str[base.ctype]}}</span>
                         {{=base.about}}
                     </p>
                 </div>
@@ -97,10 +99,10 @@
             <div class="input-group mb-3">
                 <select class="custom-select" onchange="webobj.filter2(this.options[this.options.selectedIndex].value)" >
                     {{ var base=webobj.cache.base[webobj.this_query[1]],this_turn=(webobj.this_query.length>=4)?webobj.this_query[3]:base.current_turn; }}
-                <option value="{{=this_turn}}" selected>第{{=this_turn}}阶段</option>
+                <option value="{{=this_turn}}" selected>第{{=this_turn}}階段</option>
 {{ for(var i=1;i<=base.total_turn;i++){ }}
     {{? i!=this_turn}}
-                  <option value="{{=i}}">第{{=i}}阶段</option>
+                  <option value="{{=i}}">第{{=i}}階段</option>
     {{?}}   
     {{ } }}
                 </select>

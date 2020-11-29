@@ -4,8 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href='https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css' />
+    <title>admin</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.3/dist/darkly/bootstrap.min.css"
+        media="(prefers-color-scheme: dark)" />
     <style>
         body,
         input,
@@ -14,142 +16,324 @@
         }
 
         body {
-            margin: 20px 0;
             background-color: #888;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #222;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <form class="card shadow mb-3">
-            <input name="posttype" type="hidden" value="edit_admin" />
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <script>
+        var webobj = {
+            cid: 1,
+            pw: "",
+            json: {}
+        };
+        function now_time() {
+            var now = new Date();
+            return now.getFullYear() + "/"
+                + (now.getMonth() + 1) + "/"
+                + now.getDate() + " "
+                + now.getHours() + ":"
+                + now.getMinutes() + ":"
+                + now.getSeconds();
+        }
+        function display_post(json) {
+            var now = now_time();
+            if (json.hasOwnProperty("status") == false || json.hasOwnProperty("text") == false) {
+                json = { "status": 2, "text": "空返回值#315" }
+            }
+            if (typeof json.text === "object") {
+                json.text = JSON.stringify(json.text);
+            }
+            var div = document.createElement("div");
+            var color = ["success", "warning", "danger", "info"];
+            div.setAttribute("class", "alert alert-" + color[json.status] + " alert-dismissible fade show shadow-sm");
+            div.setAttribute("role", "alert");
+            div.appendChild(document.createTextNode(now + " " + json.text));
+            var btn = document.createElement("button");
+            btn.setAttribute("class", "close");
+            btn.setAttribute("data-dismiss", "alert");
+            btn.setAttribute("aria-label", "Close");
+            var span = document.createElement("span");
+            span.innerHTML = "&times;";
+            btn.appendChild(span);
+            div.appendChild(btn);
+            var tgt = document.getElementById("return_msg")
+            tgt.insertBefore(div, tgt.childNodes[0]);
+        }
 
+        (function () {
+            var patt = new RegExp(/(.+)[\?\&]tdsourcetag\=\w+$/);
+            var arr = patt.exec(window.location.href);
+            if (arr != null) {
+                window.location.href = arr[1];
+            }
+            window.apiurl = "https://s.mahjong.pub/api/";
+            var querystr = [];
+            if (querystr = document.location.hash.match(/\?cid=(\d+)&pw=(.+)/)) {
+                document.location.hash = "";
+                document.getElementById("login_cid").value = querystr[1];
+                document.getElementById("login_passwd").value = querystr[2];
+                login();
+            }
+        }())
+        function bin2arr(bin, len) {
+            //0b1101=>[1,0,1,1] 逆順序
+            var arr = [];
+            len = Math.abs(parseInt(len) || 0);
+            while (len--) {
+                arr.unshift((bin >> len) % 2);
+            }
+            return arr;
+        }
+
+        function show_config(json) {
+            display_post({ status: 0, text: "登陸成功" });
+            webobj.json = json;
+            $("#form1").addClass('d-none')
+            $("#form2").removeClass('d-none');
+            var input_txt = ["name", "pw",
+                "about", "current_turn", "qqgroup", "rule", "total_turn", "maximum", "alternate", "end_time", "start_time"];//id=i_XXXX
+            var input_select = ["ctype", "status"];//i_type
+            var input_checkbox = ["input_strict", "display_rate", "display_note", "display_rank", "display_head"];
+            var setting_arr = bin2arr(json.setting, input_checkbox.length);
+            for (var i = 0; i < input_txt.length; i++) {
+                var tgt_id = input_txt[i];
+                var e = document.getElementById("i_" + tgt_id);
+                e.value = json[tgt_id];
+            }
+            for (var i = 0; i < input_select.length; i++) {
+                var tgt_id = input_select[i];
+                var e = document.getElementById("i_" + tgt_id);
+                e.options[json[tgt_id]].selected = true;
+            }
+            for (var i = 0; i < input_checkbox.length; i++) {
+                var tgt_id = input_checkbox[i];
+                var e = document.getElementById(tgt_id);
+                e.checked = setting_arr[i] == 1;
+            }
+
+        }
+        function before_post() {
+            var newdata = $("form").serializeArray();
+            newdata.push({ "name": "pw", "value": webobj.pw });
+            newdata.push({ "name": "cid", "value": webobj.cid });
+            newdata.push({ "name": "q", "value": "update_base" });
+            var input_checkbox = ["input_strict", "display_rate", "display_note", "display_rank", "display_head"];
+            var settings = "";
+            for (var i = 0; i < input_checkbox.length; i++) {
+                var e = document.getElementById(input_checkbox[i]);
+                settings = (e.checked ? "1" : "0") + settings;
+            }
+            //console.log("s", settings);
+            newdata.push({ "name": "setting", "value": parseInt(settings, 2) });
+
+            //console.log(newdata);
+            return $.post(window.apiurl + "rate.php", newdata,
+                function (data) {
+                    if (!data.hasOwnProperty("status") || !data.hasOwnProperty("text")) {
+                        return display_post({ status: 1, text: "返回空" });
+                    }
+                    return display_post(data);
+                }, "json");
+        }
+
+        function login() {
+            var cid = webobj.cid = document.getElementById("login_cid").value;
+            var pw = webobj.pw = document.getElementById("login_passwd").value;
+            $.post(window.apiurl + "rate.php", {
+                "q": "login",
+                "cid": cid,
+                "pw": pw
+            }, function (data) {
+                if (!data.hasOwnProperty("status")) {
+                    return display_post({ status: 1, text: "返回空" });
+                }
+                return (data.status == 0) ?
+                    show_config(data.data) : display_post(data);
+            }, "json");
+        }
+    </script>
+
+    <div class="container my-4">
+        <div id="return_msg"></div>
+
+        <div id="form1" class="card shadow mb-3">
+            <div class="card-header text-center">登入</div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="login_cid">賽事編號</label>
+                    <input type="number" class="form-control" id="login_cid" placeholder="數字">
+                </div>
+                <div class="form-group">
+                    <label for="login_passwd">賽事密碼</label>
+                    <input type="password" class="form-control" id="login_passwd" placeholder="密碼">
+                </div>
+            </div>
+            <div class="card-footer">
+                <input type="button" class="btn btn-primary btn-block" value="登錄" onclick="login()" />
+            </div>
+        </div>
+
+        <form id="form2" class="card shadow d-none">
             <div class="card-header text-center">賽事設置</div>
             <div class="card-body">
                 <h4>基本設置</h4>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">賽事名稱</span>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="i_name">賽事名稱</label>
+                        <input type="text" id="i_name" name="name" class="form-control" value="">
                     </div>
-                    <input type="text" name="name" autocomplete="nope" class="form-control"
-                        value="{{!it.rate_base.name}}" />
+                    <div class="form-group col">
+                        <label for="i_pw">賽事密碼</label>
+                        <input type="text" class="form-control" name="new_pw" id="i_pw" value="">
+                    </div>
                 </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">賽事密碼</span>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="i_ctype">比賽類型</label>
+                        <select class="custom-select mr-sm-2" id="i_ctype" name="ctype">
+                            <option value="0">區域賽</option>
+                            <option value="1">個人賽</option>
+                            <option value="2">三麻區域賽</option>
+                            <option value="3">三麻個人賽</option>
+                        </select>
                     </div>
-                    <input type="text" name="newpw" autocomplete="nope" class="form-control"
-                        value="{{!it.rate_base.pw}}" />
+                    <div class="form-group col">
+                        <label for="i_status">比賽狀態</label>
+                        <select class="custom-select mr-sm-2" id="i_status" name="status">
+                            <option value="0">隱藏</option>
+                            <option value="1">不可報名</option>
+                            <option value="2">報名中</option>
+                            <option value="3">進行中</option>
+                            <option value="4">已結束</option>
+                        </select>
+                    </div>
                 </div>
-
-                <label class="form-text text-muted">報名時間 格式 2017-06-16 20:00:00</label>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">報名開始時間</span>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="i_maximum">正選人数</label>
+                        <input type="text" id="i_maximum" name="maximum" class="form-control" value=""><small
+                            class="text-muted">※不限就打 <kbd>-1</kbd></small>
                     </div>
-                    <input type="text" name="start_time" class="form-control" value="{{!it.rate_base.start_time}}" />
-                </div>
-
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">報名結束時間</span>
+                    <div class="form-group col">
+                        <label for="i_alternate">替補人数</label>
+                        <input type="text" class="form-control" id="i_alternate" name="alternate" value=""><small
+                            class="text-muted">※不限就打 <kbd>-1</kbd></small>
                     </div>
-                    <input type="text" name="end_time" class="form-control" value="{{!it.rate_base.end_time}}" />
-                </div>
-                <label class="form-text text-muted">正選和替補人数 (-1 = 不限)</label>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">正選人数</span>
-                    </div>
-                    <input type="text" name="max" class="form-control" value="{{!it.rate_base.max}}" />
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">替補人数</span>
-                    </div>
-                    <input type="text" name="alternate" class="form-control" value="{{!it.rate_base.alternate}}" />
-                </div>
-
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">当前阶段</span>
-                    </div>
-                    <input type="input" name="current_turn" class="form-control"
-                        value="{{!it.rate_base.current_turn}}" />
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">总阶段数</span>
-                    </div>
-                    <input type="input" name="total_turn" class="form-control" value="{{!it.rate_base.total_turn}}" />
                 </div>
 
-                <label>規則 (支持markdown語法
-                    <a href="https://www.jianshu.com/p/f3147a804368" target="_blank">具體看這</a>)</label>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="i_current_turn">当前階段</label>
+                        <input type="text" id="i_current_turn" name="current_turn" class="form-control"
+                            value="" /><small class="text-muted">需手動增加</small>
+                    </div>
+                    <div class="form-group col">
+                        <label for="i_total_turn">总階段数</label>
+                        <input type="text" id="i_total_turn" name="total_turn" class="form-control" value="" /><small
+                            class="text-muted">必須≥ <kbd>当前階段</kbd></small>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col">
+                        <label for="i_start_time">報名開始時間</label>
+                        <input type="text" id="i_start_time" name="start_time" class="form-control" value="" />
+                    </div>
+                    <div class="col">
+                        <label for="i_end_time">報名結束時間</label>
+                        <input type="text" class="form-control" id="i_end_time" name="end_time" value="" />
+                    </div>
+                </div>
+
+                <small class="text-muted">
+                    ※時間格式： <kbd>2017-06-16 20:00:00</kbd> 或 <kbd>2017/06/16 20:00:00</kbd>
+                </small>
+
+                <div class="form-row mt-2">
+                    <div class="col form-group">
+                        <label for="i_about">比賽簡介</label>
+                        <input type="text" name="about" id="i_about" class="form-control" placeholder="≤30字" />
+                    </div>
+                    <div class="col form-group">
+                        <label for="i_qqgroup">比賽QQ群</label>
+                        <input type="text" name="qqgroup" id="i_qqgroup" class="form-control" placeholder="數字" />
+                    </div>
+                </div>
+
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text">規則</span>
                     </div>
-                    <textarea class="form-control" name="rule" rows="5">{{=it.rate_base.rule}}</textarea>
+                    <textarea class="form-control" name="rule" id="i_rule" rows="5"></textarea>
+                </div>
+
+                <small class="text-muted">
+                    ※支持markdown語法
+                    <a href="https://www.jianshu.com/p/f3147a804368" target="_blank">具體看這</a>
+                </small>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="input_strict">
+                    <label class="custom-control-label" for="input_strict">記錄時,左到右依次為東南西北家</label>
+                </div>
+                <small class="text-muted">
+                    ※上方選項表示：記錄信息時，嚴格按照：最左=東1局東家，其次南家，再到西家、北家（暫時沒用，將來能自動算成績時有用）
+                </small>
+                <hr />
+                <h4>成績表格默認設置</h4>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="display_rate">
+                            <label class="custom-control-label" for="display_rate">顯示Rate</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="display_note">
+                            <label class="custom-control-label" for="display_note">顯示備註</label>
+                        </div>
+                    </div>
 
                 </div>
 
+                <div class="form-row">
+                    <div class="form-group col">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="display_rank">
+                            <label class="custom-control-label" for="display_rank">顯示順位</label>
+                        </div>
+                    </div>
 
-                <h4>限制設置</h4>
-                <div class="custom-control custom-checkbox">
-                    {{? it.rate_base.STOP_EDIT==1 }}
-                    <input type="checkbox" class="custom-control-input" id="STOP_EDIT" name="STOP_EDIT"
-                        checked="checked">
-                    {{??}}
-                    <input type="checkbox" class="custom-control-input" id="STOP_EDIT" name="STOP_EDIT">
-                    {{?}}
-                    <label class="custom-control-label" for="STOP_EDIT">禁止修改出場順序</label>
-                </div>
-                <div class="custom-control custom-checkbox">
-                    {{? it.rate_base.ONLY_GET==1 }}
-                    <input type="checkbox" class="custom-control-input" id="ONLY_GET" name="ONLY_GET" checked="checked">
-                    {{??}}
-                    <input type="checkbox" class="custom-control-input" id="ONLY_GET" name="ONLY_GET">
-                    {{?}}
-                    <label class="custom-control-label" for="ONLY_GET">只能通過牌譜添加ID</label>
-                </div>
-                <div class="custom-control custom-checkbox">
-                    {{? it.rate_base.JOIN_END==1 }}
-                    <input type="checkbox" class="custom-control-input" id="JOIN_END" name="JOIN_END" checked="checked">
-                    {{??}}
-                    <input type="checkbox" class="custom-control-input" id="JOIN_END" name="JOIN_END">
-                    {{?}}
-                    <label class="custom-control-label" for="JOIN_END">停用網頁報名</label>
+                    <div class="form-group col">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="display_head">
+                            <label class="custom-control-label" for="display_head">顯示頭像</label>
+                        </div>
+                    </div>
+
                 </div>
 
-                <div class="custom-control custom-checkbox">
-                    {{? it.rate_base.BOT_END==1 }}
-                    <input type="checkbox" class="custom-control-input" id="BOT_END" name="BOT_END" checked="checked">
-                    {{??}}
-                    <input type="checkbox" class="custom-control-input" id="BOT_END" name="BOT_END">
-                    {{?}}
-                    <label class="custom-control-label" for="BOT_END">停用機器人報名</label>
-                </div>
-
-                <div class="custom-control custom-checkbox">
-                    {{? it.rate_base.CS_END==1 }}
-                    <input type="checkbox" class="custom-control-input" id="CS_END" name="CS_END" checked="checked">
-                    {{??}}
-                    <input type="checkbox" class="custom-control-input" id="CS_END" name="CS_END">
-                    {{?}}
-                    <label class="custom-control-label" for="CS_END">比賽已結束</label>
-                </div>
+                <input class="btn btn-primary btn-block" type="button" onclick="before_post()" value="提交" />
             </div>
 
-            <div class="card-footer">
-                <input class="btn btn-primary btn-block" type="submit" value="提交" />
+            <div class="card-footer text-center">
+                <a class="btn btn-info m-2" target="_blank" href="addlog.html">記錄管理 成員管理</a>
             </div>
         </form>
 
-        <div class="card shadow">
-            <div class="card-header text-center">其他管理</div>
-            <div class="card-body text-center">
-                <a class="btn btn-secondary m-2" target="_blank" href="addlog.html">記錄管理 成員管理</a>
 
-            </div>
-        </div>
     </div>
 </body>
 

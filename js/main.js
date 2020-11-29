@@ -1,11 +1,20 @@
 var webobj = {
     this_query: ["main"],
     last_query: [],
-    apiurl: "",
+    apiurl: "https://s.mahjong.pub/api/",
+    bin2arr: function (bin, len) {
+        //0b1101=>[1,0,1,1] 逆順序
+        var arr = [];
+        len = Math.abs(parseInt(len) || 0);
+        while (len--) {
+            arr.unshift((bin >> len) % 2);
+        }
+        return arr;
+    },
     obj2text: {
-        type2str: ["区域", "个人赛", "三麻 区域", "三麻 个人赛"],
-        color: ["info", "success", "danger", "primary"],
-        status: ["⛔不可报名", "📝报名中", "⏳进行中", "✅已结束"]
+        ctype2str: ["區域賽", "個人賽", "三麻 區域", "三麻 個人賽"],
+        status: ["隱藏", "⛔不可報名", "📝報名中", "⏳進行中", "✅已結束"],
+        color: ["info", "success", "danger", "primary"]
     },
     cache: { base: {} },
     ce: function () {//createElement
@@ -71,7 +80,7 @@ var webobj = {
     web_fn: {
         main: function () {
             console.log("debug", webobj.this_query, webobj.last_query);
-            webobj.change_jumb("大数邻", '立直麻将的线下段位系统+个人赛系统');
+            webobj.change_jumb("大数邻", '立直麻将的线下段位系统+個人賽系统');
             webobj.load_page("templ_main", "rate.php");
         },
         admin: function () { },
@@ -92,15 +101,15 @@ var webobj = {
     subpage: function (base, this_cid) {
         console.log(base);
         var e = document.getElementById("content_div");
-        var type2str = ["区域", "个人赛", "三麻 区域", "三麻 个人赛"];
-        var status = ["⛔不可报名", "📝报名中", "⏳进行中", "✅已结束"];
+        var ctype2str = webobj.obj2text.ctype2str;
+        var status = webobj.obj2text.status;
         document.getElementById("jumbotron_title").innerText = base.name;
         var jtext = document.getElementById("jumbotron_text");
         jtext.innerHTML = "";
 
         jtext.appendChild(document.createTextNode(
             status[base.status] + " "
-            + base.current_turn + "/" + base.total_turn + " (" + type2str[base.type] + ") "
+            + base.current_turn + "/" + base.total_turn + " (" + ctype2str[base.ctype] + ") "
             + base.about)
         );
         jtext.appendChild(document.createElement("br"))
@@ -134,8 +143,6 @@ var webobj = {
         webobj.load_page("templ_" + sub_fn, geturl[sub_fn]);
     },
     filter1: function (that, order) {
-        //status=["不可报名","报名中","进行中","已结束"]
-        //type2str=["区域","个人赛"]
         $(".filter1").removeClass("active");
         $(that).addClass("active");
         switch (order) {
@@ -144,19 +151,21 @@ var webobj = {
                 break;
             case 2://进行中
                 $(".card_item").removeClass("d-none");
-                $(".status_3").addClass("d-none");
+                $(".status_4").addClass("d-none");
                 break;
             case 3://区域
                 $(".card_item").removeClass("d-none");
-                $(".type_1").addClass("d-none");
+                $(".ctype_1").addClass("d-none");
+                $(".ctype_3").addClass("d-none");
                 break;
             case 4://个人赛
                 $(".card_item").removeClass("d-none");
-                $(".type_0").addClass("d-none");
+                $(".ctype_0").addClass("d-none");
+                $(".ctype_2").addClass("d-none");
                 break;
             case 5://结束
                 $(".card_item").addClass("d-none");
-                $(".status_3").removeClass("d-none");
+                $(".status_4").removeClass("d-none");
                 break;
         }
     },

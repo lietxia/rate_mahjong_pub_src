@@ -4,8 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href='https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css' />
+  <title>Add log</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.3/dist/darkly/bootstrap.min.css"
+    media="(prefers-color-scheme: dark)" />
   <style>
     body,
     input,
@@ -14,14 +16,20 @@
     }
 
     body {
-      margin: 20px 0;
-      background-color: #888;
+      background-color: #999;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: #222;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
+  <div class="container my-4">
+
     <div id="return_msg"></div>
 
     <div class="card shadow mb-3">
@@ -101,7 +109,8 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">名字</span>
               </div>
-              <input type="text" name="name1" class="form-control" placeholder="必填" />
+              <input type="text" id="name1" class="form-control" placeholder="必填" />
+              <input type="hidden" name="qq1" value="" />
               <div class="input-group-prepend">
                 <span class="input-group-text">Rate</span>
               </div>
@@ -124,7 +133,8 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">名字</span>
               </div>
-              <input type="text" name="name2" class="form-control" placeholder="必填" />
+              <input type="text" id="name2" class="form-control" placeholder="必填" /><input type="hidden" name="qq2"
+                value="" />
               <div class="input-group-prepend">
                 <span class="input-group-text">Rate</span>
               </div>
@@ -147,7 +157,8 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">名字</span>
               </div>
-              <input type="text" name="name3" class="form-control" placeholder="必填" />
+              <input type="text" id="name3" class="form-control" placeholder="必填" /><input type="hidden" name="qq3"
+                value="" />
               <div class="input-group-prepend">
                 <span class="input-group-text">Rate</span>
               </div>
@@ -170,7 +181,8 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">名字</span>
               </div>
-              <input type="text" name="name4" class="form-control" placeholder="必填" />
+              <input type="text" id="name4" class="form-control" placeholder="必填" /><input type="hidden" name="qq4"
+                value="" />
               <div class="input-group-prepend">
                 <span class="input-group-text">Rate</span>
               </div>
@@ -192,7 +204,7 @@
               <input type="checkbox" name="logtype" class="custom-control-input" id="logtype">
               <label class="custom-control-label" for="logtype">並非對戰記錄，只是用來調整成績</label>
             </div>
-            <input class="btn btn-primary btn-block" type="button" value="添加記錄" onclick="post_data('add_log')" />
+            <input class="btn btn-primary btn-block" type="button" value="添加記錄" onclick="check_add_log()" />
 
           </form>
 
@@ -204,6 +216,7 @@
               <kbd>QQ號2</kbd> <kbd>空格</kbd> <kbd>小四</kbd><br />
               <kbd>-1</kbd> <kbd>空格</kbd> <kbd>王五</kbd><br />
               ※支持「一人多名字」，寫2行即可（示例第2～3行）<br />
+              ※多名字時，外面只顯示<kbd>最下方的名字</kbd>，系統會區分大小寫<br />
               ※名字不支持空格，名字≤15字<br />
               ※如果那個人沒有QQ，QQ用<kbd>負數</kbd>表示（示例第4行），負值是多少無所謂，同賽事內不撞車即可。
             </p>
@@ -212,16 +225,19 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">名單</span>
               </div>
-              <textarea class="form-control" name="input_members" id="input_members" onchange="abc(this)"
-                rows="5"></textarea>
+              <textarea class="form-control" name="input_members" id="input_members" rows="5"></textarea>
             </div>
             <input class="btn btn-primary btn-block" type="button" value="修改名單" onclick="post_data('edit_members')" />
           </form>
 
           <form class="tab-pane" id="del_log" role="tabpanel" aria-labelledby="del-tab">
-            <p class="mt-3">
-              尚未完成
-            </p>
+            <div class="input-group my-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">要刪除的階段</span>
+              </div>
+              <input type="text" name="del_turn" id="del_turn" class="form-control" placeholder="正整數" />
+            </div>
+            <input class="btn btn-danger btn-block" type="button" value="刪除此階段全部記錄" onclick="check_delete()" />
           </form>
 
         </div><!-- Tab end -->
@@ -234,17 +250,18 @@
       crossorigin="anonymous"></script>
     <script>
       window.n2qq = {};
+      window.apiurl = "https://s.mahjong.pub/api/"
       window.excel_data = {};
       function get_n2qq() {
         var cid = document.getElementById("input_cid").value;
         $.ajax({
-          url: "../rate.php",
+          url: window.apiurl + "rate.php",
           method: "POST",
           dataType: "json",
           data: { "q": "name2qq", "cid": cid }
         }).done(function (json) {
           window.n2qq[cid] = json;
-          display_post({ status: 0, text: "賽事CID" + cid + " 成員名單已加載" });
+          display_post({ status: 3, text: "賽事CID" + cid + " 成員名單已加載" });
           var txt = "";
           for (var name in json) {
             if (json.hasOwnProperty(name)) {
@@ -252,18 +269,28 @@
               txt += json[name] + " " + name + "\n"
             }
           }
-          document.getElementById("input_members").value = txt;
+          document.getElementById("input_members").value = txt.trim();
         }).fail(function (jqXHR, textStatus) { console.log(jqXHR, textStatus) });
       }
       function now_time() {
         var now = new Date();
-        return now.getFullYear() + "/" + (now.getMonth() + 1) + "/" + now.getDate() + " " + now.getHours() + ":" + now.getMinutes();
+        return now.getFullYear() + "/"
+          + (now.getMonth() + 1) + "/"
+          + now.getDate() + " "
+          + now.getHours() + ":"
+          + now.getMinutes() + ":"
+          + now.getSeconds();
       }
 
       (function () {
         document.getElementById("logtime").value = now_time()
         get_n2qq();
       })()
+      function check_add_log() {
+        alert("暫時不能用");
+        //post_data('add_log');
+      }
+
 
       /*
       han2u = (han = "漢字") => {
@@ -281,12 +308,22 @@
           parseInt(that.value) :
           Math.round(that.value * 1000) / 1000;
       }
-
+      function check_delete() {
+        var o = document.getElementById("del_turn").value;
+        o = parseInt(o);
+        if (!o > 0) { return }
+        var re = prompt("再輸入一次要刪除的階段");
+        re = parseInt(re);
+        if (re > 0 && re === o) {
+          post_data("del_log");
+        }
+      }
       function post_data(order) {
-        var type = ["import_excel", "add_log", "edit_members"];
+        var type = ["import_excel", "add_log", "edit_members", "del_log"];
         if (type.indexOf(order) < 0) {
           return display_post({ status: 2, text: "非法操作#287" });
         }
+
         if (order === "import_excel") {
           var postdata = {
             "q": "import_excel",
@@ -302,26 +339,27 @@
         }
 
         $.ajax({
-          url: "../rate.php",
+          url: window.apiurl + "rate.php",
           method: "POST",
           dataType: "json",
           data: postdata
         }).done(function (json) {
-          display_post(json)
+          display_post(json);
+          if (order === "edit_members" && json["status"] != 2) { get_n2qq(); }
         }).fail(function (jqXHR, textStatus) { console.log(jqXHR, textStatus) });
       }
       function display_post(json) {
         var now = now_time();
         if (json.hasOwnProperty("status") == false || json.hasOwnProperty("text") == false) {
-          json = { "status": 2, "text": "空返回值#315" }
+          json = { "status": 1, "text": "返回空" }
         }
         if (typeof json.text === "object") {
           json.text = JSON.stringify(json.text);
         }
         console.log(json);
         var div = document.createElement("div");
-        var color = ["success", "warning", "danger"];
-        div.setAttribute("class", "alert alert-" + color[json.status] + " alert-dismissible fade show");
+        var color = ["success", "warning", "danger", "info"];
+        div.setAttribute("class", "alert alert-" + color[json.status] + " alert-dismissible fade show shadow-sm");
         div.setAttribute("role", "alert");
         div.appendChild(document.createTextNode(now + " " + json.text));
         var btn = document.createElement("button");
@@ -332,7 +370,8 @@
         span.innerHTML = "&times;";
         btn.appendChild(span);
         div.appendChild(btn);
-        document.getElementById("return_msg").appendChild(div);
+        var tgt = document.getElementById("return_msg")
+        tgt.insertBefore(div, tgt.childNodes[0]);
       }
 
       function check_excel(that) {
