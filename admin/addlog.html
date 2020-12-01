@@ -110,7 +110,10 @@
                 <span class="input-group-text">名字</span>
               </div>
               <input type="text" id="name1" class="form-control" placeholder="必填" />
-              <input type="hidden" name="qq1" value="" />
+              <input type="hidden" name="qq1" id="qq1" value="" />
+              <input type="hidden" name="qq2" id="qq2" value="" />
+              <input type="hidden" name="qq3" id="qq3" value="" />
+              <input type="hidden" name="qq4" id="qq4" value="" />
               <div class="input-group-prepend">
                 <span class="input-group-text">Rate</span>
               </div>
@@ -133,8 +136,8 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">名字</span>
               </div>
-              <input type="text" id="name2" class="form-control" placeholder="必填" /><input type="hidden" name="qq2"
-                value="" />
+              <input type="text" id="name2" class="form-control" placeholder="必填" />
+
               <div class="input-group-prepend">
                 <span class="input-group-text">Rate</span>
               </div>
@@ -157,8 +160,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">名字</span>
               </div>
-              <input type="text" id="name3" class="form-control" placeholder="必填" /><input type="hidden" name="qq3"
-                value="" />
+              <input type="text" id="name3" class="form-control" placeholder="必填" />
               <div class="input-group-prepend">
                 <span class="input-group-text">Rate</span>
               </div>
@@ -181,8 +183,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">名字</span>
               </div>
-              <input type="text" id="name4" class="form-control" placeholder="必填" /><input type="hidden" name="qq4"
-                value="" />
+              <input type="text" id="name4" class="form-control" placeholder="必填" />
               <div class="input-group-prepend">
                 <span class="input-group-text">Rate</span>
               </div>
@@ -287,8 +288,23 @@
         get_n2qq();
       })()
       function check_add_log() {
-        alert("暫時不能用");
-        //post_data('add_log');
+        var qqarr = [], err = [];
+        for (var i = 1; i <= 4; i++) {
+          var e = document.getElementById("name" + i);
+          var n2qq = window.n2qq[document.getElementById("input_cid").value];
+          if (n2qq.hasOwnProperty(e.value)) {
+            qqarr.push(n2qq[e.value]);
+            document.getElementById("qq" + i).value = n2qq[e.value];
+          } else {
+            err.push(e.value);
+            document.getElementById("qq" + i).value = "";
+          }
+        }
+        if (qqarr.length == 4) {
+          return post_data('add_log');
+        } else {
+          return display_post({ status: 2, text: "这些ID无法识别: " + err.join(" ") });
+        }
       }
 
 
