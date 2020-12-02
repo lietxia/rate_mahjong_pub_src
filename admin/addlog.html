@@ -261,6 +261,8 @@
           dataType: "json",
           data: { "q": "name2qq", "cid": cid }
         }).done(function (json) {
+          var target = document.getElementById("input_members");
+          target.value = "";
           window.n2qq[cid] = json;
           display_post({ status: 3, text: "賽事CID" + cid + " 成員名單已加載" });
           var txt = "";
@@ -270,7 +272,7 @@
               txt += json[name] + " " + name + "\n"
             }
           }
-          document.getElementById("input_members").value = txt.trim();
+          target.value = txt.trim();
         }).fail(function (jqXHR, textStatus) { console.log(jqXHR, textStatus) });
       }
       function now_time() {
