@@ -117,28 +117,32 @@
             </div>
         </div>
     </div>
-
-    <table class="mytable table table-sm table-striped table-bordered table-hover text-center mt-3">
-        <thead>
+<div class="table-responsive">
+    <table class="mytable table table-sm table-striped table-bordered table-hover text-center mt-3 mw1100">
+        <thead class="thead-dark">
             <tr>
                 <th>时间</th>
                 <th>阶</th>
-                <th class="d-none d-md-table-cell">名字</th>
-                <th class="d-none d-md-table-cell">点数</th>
-                <th class="d-none d-md-table-cell">积分</th>
-                <th class="d-none d-md-table-cell">名字</th>
-                <th class="d-none d-md-table-cell">点数</th>
-                <th class="d-none d-md-table-cell">积分</th>
-                <th class="d-none d-md-table-cell">名字</th>
-                <th class="d-none d-md-table-cell">点数</th>
-                <th class="d-none d-md-table-cell">积分</th>
-                <th class="d-none d-md-table-cell">名字</th>
-                <th class="d-none d-md-table-cell">点数</th>
-                <th class="d-none d-md-table-cell">积分</th>
-                <th class="d-sm-table-cell d-md-none">选手</th>
-                <th class="d-sm-table-cell d-md-none">选手</th>
-                <th class="d-sm-table-cell d-md-none">选手</th>
-                <th class="d-sm-table-cell d-md-none">选手</th>
+                <th>名字</th>
+                <th>点数</th>
+                <th>积分</th>
+                <th>R</th>
+
+                <th>名字</th>
+                <th>点数</th>
+                <th>积分</th>
+                <th>R</th>
+
+                <th>名字</th>
+                <th>点数</th>
+                <th>积分</th>
+                <th>R</th>
+
+                <th>名字</th>
+                <th>点数</th>
+                <th>积分</th>
+                <th>R</th>
+                <th>备注</th>
             </tr>
         </thead>
         <tbody>
@@ -146,20 +150,15 @@
             <tr>
                 <td class="text-wrap">{{=value[0]}}</td>
                 <td >{{=value[1]}}</td>
-                {{ for(var i=2;i< 14;i++) { }}
-                <td class="d-none d-md-table-cell">{{!(i==2||i==5||i==8||i==11)?base.qq2name[value[i]]||value[i]:value[i]}}</td>
-                {{ }; for(var i=2;i< 14;i+=3) { }}
-                <td class="d-sm-table-cell d-md-none">
-                    {{=value[i+1]}}<br />
-                    {{!base.qq2name[value[i]]||value[i]}}<br />
-                    {{=value[i+2]}}
-                </td>
+                {{ for(var i=2;i< 19;i++) { }}
+                <td >{{!(i==2||i==6||i==10||i==14)?base.qq2name[value[i]]||value[i]:value[i]}}</td>
                 {{ } }}
 
             </tr>
             {{~}}
         </tbody>
     </table>
+</div>
 </script>
 <!--template-->
 

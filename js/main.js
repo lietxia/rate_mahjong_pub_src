@@ -1,7 +1,7 @@
 var webobj = {
     this_query: ["main"],
     last_query: [],
-    apiurl: "https://s.mahjong.pub/api/",
+    apiurl: "./",
     bin2arr: function (bin, len) {
         //0b1101=>[1,0,1,1] 逆順序
         var arr = [];
