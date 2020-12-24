@@ -1,7 +1,7 @@
 var webobj = {
     this_query: ["main"],
     last_query: [],
-    apiurl: "./",
+    apiurl: "https://s.000.mk/api/",
     bin2arr: function (bin, len) {
         //0b1101=>[1,0,1,1] 逆順序
         var arr = [];
@@ -137,7 +137,7 @@ var webobj = {
         var geturl = {
             "about": [base.rule],
             "class": [""],
-            "ranking": [""],
+            "ranking": "rate.php",
             "log": "rate.php"
         };
         webobj.load_page("templ_" + sub_fn, geturl[sub_fn]);

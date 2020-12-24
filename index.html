@@ -2,7 +2,7 @@
 <html lang="zh">
 
 <head>
-    
+
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -90,7 +90,34 @@
 分组页面（未完成）
 </script>
 <script id="templ_ranking" type="text/html">
-统计页面（未完成）
+平均順位 = (一位數×1 + 二位數×2 + 三位數×3 + 四位數×4) ÷ 對戰數<br />
+連對率 = (一位數 + 二位數) ÷ 對戰數<br />
+通算得點 = 積分(例如+12.0)之和<br />
+合計點數 = 結束點數(例如25000)之和<br />
+1位～4位 = 1位次數～4位次數<br />
+<div class="table-responsive">
+    <table class="mytable table table-sm table-striped table-bordered table-hover text-center mt-3">
+        <thead>
+            <tr>
+                <th>#</th>
+                {{ var base=webobj.cache.base[webobj.this_query[1]]; }}
+                {{ for(var i=0;i< it[0].length;i++){ }}
+                <th>{{=it[0][i]}}</th>
+                {{ }it.shift(); }}
+            </tr>
+        </thead>
+        <tbody>
+            {{~it :value:index}}
+            <tr>
+            <td>{{=index+1}}</td>
+            <td class="text-wrap">{{!base.qq2name[value[0]]||value[0]}}</td>
+            {{ for(var i=1;i< value.length;i++){ }}
+            <td>{{=value[i]}}</td>
+            {{ } }}
+            </tr>
+            {{~}}
+        </tbody>
+</div>
 </script>
 
 <script id="templ_log" type="text/html">
@@ -117,48 +144,42 @@
             </div>
         </div>
     </div>
-<div class="table-responsive">
-    <table class="mytable table table-sm table-striped table-bordered table-hover text-center mt-3 mw1100">
-        <thead class="thead-dark">
+
+    <table class="mytable table table-sm table-bordered table-hover text-center mt-3">
+        <thead>
             <tr>
-                <th>时间</th>
-                <th>阶</th>
+                <th>时间/阶段/备注</th>
                 <th>名字</th>
                 <th>点数</th>
                 <th>积分</th>
-                <th>R</th>
-
-                <th>名字</th>
-                <th>点数</th>
-                <th>积分</th>
-                <th>R</th>
-
-                <th>名字</th>
-                <th>点数</th>
-                <th>积分</th>
-                <th>R</th>
-
-                <th>名字</th>
-                <th>点数</th>
-                <th>积分</th>
-                <th>R</th>
-                <th>备注</th>
+                <th>Rate</th>
             </tr>
         </thead>
         <tbody>
             {{~it :value:index}}
             <tr>
-                <td class="text-wrap">{{=value[0]}}</td>
-                <td >{{=value[1]}}</td>
-                {{ for(var i=2;i< 19;i++) { }}
-                <td >{{!(i==2||i==6||i==10||i==14)?base.qq2name[value[i]]||value[i]:value[i]}}</td>
-                {{ } }}
-
+                <td class="text-wrap" rowspan="4">
+                    {{=value[0].replace(" ","<br />")}}<br />
+                    第{{=value[1]}}阶段<br />
+                    {{=value[18]}}
+                </td>
+                <td class="text-wrap">{{!base.qq2name[value[2]]||value[2]}}</td>
+                <td>{{=value[3]}}</td>
+                <td class="{{=(value[4]<0)?'text-danger':'text-success'}}">{{=value[4]}}</td>
+                <td class="{{=(value[5]<0)?'text-primary':'text-info'}}">{{=value[5]}}</td>
             </tr>
+            {{ for(var i=0;i< 12;i+=4){ }}
+            <tr>
+                <td class="text-wrap">{{!base.qq2name[value[6+i]]||value[6+i]}}</td>
+                <td>{{=value[7+i]}}</td>
+                <td class="{{=(value[8+i]<0)?'text-danger':'text-success'}}">{{=value[8+i]}}</td>
+                <td class="{{=(value[9+i]<0)?'text-primary':'text-info'}}">{{=value[9+i]}}</td>
+            </tr>
+            {{ } }}
             {{~}}
         </tbody>
     </table>
-</div>
+
 </script>
 <!--template-->
 
