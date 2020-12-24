@@ -103,11 +103,11 @@
                 {{ var base=webobj.cache.base[webobj.this_query[1]]; }}
                 {{ for(var i=0;i< it[0].length;i++){ }}
                 <th>{{=it[0][i]}}</th>
-                {{ }it.shift(); }}
+                {{ }var abc=Array.from(it);abc.shift(); }}
             </tr>
         </thead>
         <tbody>
-            {{~it :value:index}}
+            {{~abc :value:index}}
             <tr>
             <td>{{=index+1}}</td>
             <td class="text-wrap">{{!base.qq2name[value[0]]||value[0]}}</td>
