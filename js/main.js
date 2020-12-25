@@ -2,6 +2,34 @@ var webobj = {
     this_query: ["main"],
     last_query: [],
     apiurl: "https://s.000.mk/api/",
+    sort_table1: function (that) {
+        var table = document.getElementById('table1'),
+            tableHead = table.querySelector('thead'),
+            tableHeaders = tableHead.querySelectorAll('th'),
+            tableBody = table.querySelector('tbody'),
+            tableHeader = that,
+            //textContent = tableHeader.textContent,
+            tableHeaderIndex,
+            isAscending, order;
+        //if (textContent == 'add row') { return }
+        while (tableHeader.nodeName !== 'TH') {
+            tableHeader = tableHeader.parentNode;
+        }
+        tableHeaderIndex = Array.prototype.indexOf.call(tableHeaders, tableHeader);
+        isAscending = tableHeader.getAttribute('data-order') === 'asc';
+        order = isAscending ? 'desc' : 'asc';
+        tableHeader.setAttribute('data-order', order);
+        tinysort(
+            tableBody.querySelectorAll('tr'), {
+            selector: 'td:nth-child(' + (tableHeaderIndex + 1) + ')',
+            order: order
+        });
+
+        var trs = tableBody.querySelectorAll('tr');
+        for (var i = 0; i < trs.length; i++) {
+            trs[i].children[0].innerHTML = i + 1;
+        }
+    },
     bin2arr: function (bin, len) {
         //0b1101=>[1,0,1,1] 逆順序
         var arr = [];

@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="css/main.css" />
 </head>
 <script>
-
     (function () {
         //Remove QQ/TIM URL suffix
         var patt = new RegExp(/(.+)[\?\&]tdsourcetag\=\w+$/);
@@ -96,13 +95,13 @@
 合計點數 = 結束點數(例如25000)之和<br />
 1位～4位 = 1位次數～4位次數<br />
 <div class="table-responsive">
-    <table class="mytable table table-sm table-striped table-bordered table-hover text-center mt-3">
+    <table class="mytable table table-sm table-striped table-bordered table-hover text-center mt-3" id="table1">
         <thead>
             <tr>
                 <th>#</th>
                 {{ var base=webobj.cache.base[webobj.this_query[1]]; }}
                 {{ for(var i=0;i< it[0].length;i++){ }}
-                <th>{{=it[0][i]}}</th>
+                <th onclick="webobj.sort_table1(this)">{{=it[0][i]}}</th>
                 {{ }var abc=Array.from(it);abc.shift(); }}
             </tr>
         </thead>
@@ -217,7 +216,7 @@
         crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/dot@1.1.3/doT.min.js" crossorigin="anonymous"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/tinysort@3.2.7/dist/tinysort.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked@1.1.0/marked.min.js" crossorigin="anonymous"></script>
     <script src="js/main.js"></script>
 </body>
