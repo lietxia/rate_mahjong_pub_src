@@ -1,7 +1,7 @@
 var webobj = {
     this_query: ["main"],
     last_query: [],
-    apiurl: "https://s.000.mk/api/",
+    apiurl: "https://000.mk/r/",
     sort_table1: function (that) {
         var table = document.getElementById('table1'),
             tableHead = table.querySelector('thead'),
@@ -40,9 +40,9 @@ var webobj = {
         return arr;
     },
     obj2text: {
-        ctype2str: ["區域賽", "個人賽", "三麻 區域", "三麻 個人賽"],
-        status: ["隱藏", "⛔不可報名", "📝報名中", "⏳進行中", "✅已結束"],
-        color: ["info", "success", "danger", "primary"]
+        ctype2str: ["其他", "华北", "东北", "华东", "中南", "西部"],
+        status: ["隱藏", "⏱️通常在周末营业", "✅全天营业", "⏳暂时闭店", "⛔永久闭店"],
+        color: ["info", "success", "danger", "primary", "warning", "info"]
     },
     cache: { base: {} },
     ce: function () {//createElement
@@ -108,7 +108,7 @@ var webobj = {
     web_fn: {
         main: function () {
             console.log("debug", webobj.this_query, webobj.last_query);
-            webobj.change_jumb("大数邻", '立直麻将的线下段位系统+個人賽系统');
+            webobj.change_jumb("全国雀庄公式战", '线下各地雀庄，共通承认的线下段位。');
             webobj.load_page("templ_main", "rate.php");
         },
         admin: function () { },
@@ -137,21 +137,21 @@ var webobj = {
 
         jtext.appendChild(document.createTextNode(
             status[base.status] + " "
-            + base.current_turn + "/" + base.total_turn + " (" + ctype2str[base.ctype] + ") "
-            + base.about)
+            + base.numerator + "/" + base.denominator + " (" + ctype2str[base.ctype] + ") "
+            + base.area_name)
         );
         jtext.appendChild(document.createElement("br"))
 
         var submenu = webobj.ce("div", "class", "mt-2 btn-group btn-block");
-        var link = ["", "log", "class", "ranking"];
-        var text = ["介绍", "记录", "分组", "统计"];
+        var link = ["", "log", "level", "ranking"];
+        var text = ["介绍", "记录", "段位", "统计"];
         var sub_fn = (webobj.this_query.length >= 3
             && link.indexOf(webobj.this_query[2]) >= 0) ?
-            webobj.this_query[2] : "about";
+            webobj.this_query[2] : "area_name";
 
         for (var i = 0; i < link.length; i++) {
             var add = (i == 0) ? "" : "/";
-            if (i == 1) { add += base.current_turn + "/" }
+            if (i == 1) { add += base.numerator + "/" }
             var newa = webobj.ce("a",
                 "class", "btn btn-info",
                 "role", "button",
@@ -163,8 +163,8 @@ var webobj = {
         jtext.appendChild(submenu);
         e.appendChild(webobj.ce('div', 'id', 'sub_content'));
         var geturl = {
-            "about": [base.rule],
-            "class": [""],
+            "area_name": [base.rule],
+            "level": [""],
             "ranking": "rate.php",
             "log": "rate.php"
         };
@@ -177,23 +177,25 @@ var webobj = {
             case 1://全部
                 $(".card_item").removeClass("d-none");
                 break;
-            case 2://进行中
-                $(".card_item").removeClass("d-none");
-                $(".status_4").addClass("d-none");
-                break;
-            case 3://区域
-                $(".card_item").removeClass("d-none");
-                $(".ctype_1").addClass("d-none");
-                $(".ctype_3").addClass("d-none");
-                break;
-            case 4://个人赛
-                $(".card_item").removeClass("d-none");
-                $(".ctype_0").addClass("d-none");
-                $(".ctype_2").addClass("d-none");
-                break;
-            case 5://结束
+            case 2://华北
                 $(".card_item").addClass("d-none");
-                $(".status_4").removeClass("d-none");
+                $(".ctype_1").removeClass("d-none");
+                break;
+            case 3://
+                $(".card_item").addClass("d-none");
+                $(".ctype_2").removeClass("d-none");
+                break;
+            case 4://
+                $(".card_item").addClass("d-none");
+                $(".ctype_3").removeClass("d-none");
+                break;
+            case 5://
+                $(".card_item").addClass("d-none");
+                $(".ctype_4").removeClass("d-none");
+                break;
+            case 6://
+                $(".card_item").addClass("d-none");
+                $(".ctype_5").removeClass("d-none");
                 break;
         }
     },

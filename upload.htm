@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+</head>
+
+<body class="bg-secondary">
+    <div class="container my-3">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            用法<br>
+            (1)第一行输入4个人的 昵称/QQ号/手机号（用空格隔开）<br>
+            (2)第二行输入4个人的分数（用空格隔开）<br>
+            (3)如果同分，请手动给个位加上一些数字<br>
+            【调整前】25000 25000 25000 25000<br>
+            【调整后】2500<b>4</b> 2500<b>9</b> 2500<b>2</b> 25000<br>
+            【例】第一人用昵称，第二人用手机号 第三人用昵称 第四人用QQ（打了2半庄）<textarea class="form-control" id="exampleFormControlTextarea1" rows="3">张三 12300001234 李四 12345678
+32000 32100 32200 3700
+25003 25004 25002 25000</textarea>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="card shadow">
+            <div class="card-body">
+                <h4>多重记录导入</h4>
+                <textarea class="form-control mb-3" name="logtext" id="logtext" rows="4"></textarea>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" placeholder="管理密码" >
+                    <div class="input-group-append">
+                      <button class="btn btn-primary" type="button" id="button-addon2">多重记录导入</button>
+                    </div>
+                  </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+
+
+
+</body>
+
+</html>

@@ -38,11 +38,11 @@
       <div class="card-body">
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text">賽事CID</span>
+            <span class="input-group-text">雀庄编号</span>
           </div>
-          <input type="number" id="input_cid" class="form-control" value="1" onchange="get_n2qq()" />
+          <input type="number" id="input_cid" class="form-control" value="1" onchange="get_n2phone()" />
           <div class="input-group-prepend">
-            <span class="input-group-text">賽事密碼</span>
+            <span class="input-group-text">雀庄密碼</span>
           </div>
           <input type="password" id="input_password" class="form-control" value="" />
         </div>
@@ -92,7 +92,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">階段</span>
               </div>
-              <input type="number" name="turn" class="form-control" value="1" />
+              <input type="number" name="acid" class="form-control" value="1" />
               <div class="input-group-prepend">
                 <span class="input-group-text">時間</span>
               </div>
@@ -110,15 +110,11 @@
                 <span class="input-group-text">名字</span>
               </div>
               <input type="text" id="name1" class="form-control" placeholder="必填" />
-              <input type="hidden" name="qq1" id="qq1" value="" />
-              <input type="hidden" name="qq2" id="qq2" value="" />
-              <input type="hidden" name="qq3" id="qq3" value="" />
-              <input type="hidden" name="qq4" id="qq4" value="" />
-              <div class="input-group-prepend">
-                <span class="input-group-text">Rate</span>
-              </div>
-              <input type="text" onchange="fmt(this,false)" name="rate1" class="form-control"
-                placeholder="支持3位小數,可不填" />
+              <input type="hidden" name="phone1" id="phone1" value="" />
+              <input type="hidden" name="phone2" id="phone2" value="" />
+              <input type="hidden" name="phone3" id="phone3" value="" />
+              <input type="hidden" name="phone4" id="phone4" value="" />
+
             </div>
 
             <div class="input-group mt-3">
@@ -138,11 +134,7 @@
               </div>
               <input type="text" id="name2" class="form-control" placeholder="必填" />
 
-              <div class="input-group-prepend">
-                <span class="input-group-text">Rate</span>
-              </div>
-              <input type="text" onchange="fmt(this,false)" name="rate2" class="form-control"
-                placeholder="支持3位小數,可不填" />
+
             </div>
 
             <div class="input-group mt-3">
@@ -161,11 +153,7 @@
                 <span class="input-group-text">名字</span>
               </div>
               <input type="text" id="name3" class="form-control" placeholder="必填" />
-              <div class="input-group-prepend">
-                <span class="input-group-text">Rate</span>
-              </div>
-              <input type="text" onchange="fmt(this,false)" name="rate3" class="form-control"
-                placeholder="支持3位小數,可不填" />
+
             </div>
 
             <div class="input-group mt-3">
@@ -184,11 +172,7 @@
                 <span class="input-group-text">名字</span>
               </div>
               <input type="text" id="name4" class="form-control" placeholder="必填" />
-              <div class="input-group-prepend">
-                <span class="input-group-text">Rate</span>
-              </div>
-              <input type="text" onchange="fmt(this,false)" name="rate4" class="form-control"
-                placeholder="支持3位小數,可不填" />
+
             </div>
 
             <div class="input-group mt-3">
@@ -236,7 +220,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">要刪除的階段</span>
               </div>
-              <input type="text" name="del_turn" id="del_turn" class="form-control" placeholder="正整數" />
+              <input type="text" name="del_acid" id="del_acid" class="form-control" placeholder="正整數" />
             </div>
             <input class="btn btn-danger btn-block" type="button" value="刪除此階段全部記錄" onclick="check_delete()" />
           </form>
@@ -250,20 +234,20 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
       crossorigin="anonymous"></script>
     <script>
-      window.n2qq = {};
+      window.n2phone = {};
       window.apiurl = "https://s.000.mk/api/"
       window.excel_data = {};
-      function get_n2qq() {
+      function get_n2phone() {
         var cid = document.getElementById("input_cid").value;
         $.ajax({
           url: window.apiurl + "rate.php",
           method: "POST",
           dataType: "json",
-          data: { "q": "name2qq", "cid": cid }
+          data: { "q": "name2phone", "cid": cid }
         }).done(function (json) {
           var target = document.getElementById("input_members");
           target.value = "";
-          window.n2qq[cid] = json;
+          window.n2phone[cid] = json;
           display_post({ status: 3, text: "賽事CID" + cid + " 成員名單已加載" });
           var txt = "";
           for (var name in json) {
@@ -287,16 +271,16 @@
 
       (function () {
         document.getElementById("logtime").value = now_time()
-        get_n2qq();
+        get_n2phone();
       })()
       function check_add_log() {
         var qqarr = [], err = [];
         for (var i = 1; i <= 4; i++) {
           var e = document.getElementById("name" + i);
-          var n2qq = window.n2qq[document.getElementById("input_cid").value];
-          if (n2qq.hasOwnProperty(e.value)) {
-            qqarr.push(n2qq[e.value]);
-            document.getElementById("qq" + i).value = n2qq[e.value];
+          var n2phone = window.n2phone[document.getElementById("input_cid").value];
+          if (n2phone.hasOwnProperty(e.value)) {
+            qqarr.push(n2phone[e.value]);
+            document.getElementById("qq" + i).value = n2phone[e.value];
           } else {
             err.push(e.value);
             document.getElementById("qq" + i).value = "";
@@ -327,7 +311,7 @@
           Math.round(that.value * 1000) / 1000;
       }
       function check_delete() {
-        var o = document.getElementById("del_turn").value;
+        var o = document.getElementById("del_acid").value;
         o = parseInt(o);
         if (!o > 0) { return }
         var re = prompt("再輸入一次要刪除的階段");
@@ -363,7 +347,7 @@
           data: postdata
         }).done(function (json) {
           display_post(json);
-          if (order === "edit_members" && json["status"] != 2) { get_n2qq(); }
+          if (order === "edit_members" && json["status"] != 2) { get_n2phone(); }
         }).fail(function (jqXHR, textStatus) { console.log(jqXHR, textStatus) });
       }
       function display_post(json) {
@@ -393,7 +377,7 @@
       }
 
       function check_excel(that) {
-        var n2qq = window.n2qq[document.getElementById("input_cid").value];
+        var n2phone = window.n2phone[document.getElementById("input_cid").value];
         var err = [];
 
         var val = that.value.split("\n");
@@ -414,8 +398,8 @@
                 thisrow[i] = Math.round(thisrow[i] * 1000) / 1000 || 0;
               }
               if (player_name.indexOf(i) >= 0) {
-                if (n2qq.hasOwnProperty(thisrow[i])) {
-                  thisrow[i] = n2qq[thisrow[i]];
+                if (n2phone.hasOwnProperty(thisrow[i])) {
+                  thisrow[i] = n2phone[thisrow[i]];
                 }
                 else { err.push(thisrow[i]); }
               }
