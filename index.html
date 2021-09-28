@@ -110,7 +110,7 @@
             {{~abc :value:index}}
             <tr>
             <td>{{=index+1}}</td>
-            <td class="text-wrap">{{!base.phone2name[value[0]]||value[0]}}</td>
+            <td class="text-wrap">{{!value[0]}}</td>
             {{ for(var i=1;i< value.length;i++){ }}
             <td>{{=value[i]}}</td>
             {{ } }}
@@ -161,14 +161,14 @@
                     {{=value[0].replace(" ","<br />")}}<br />
                     区域{{=value[1]}} #{{=value[14]}}
                 </td>
-                <td class="text-wrap">{{!base.phone2name[value[2]]||value[2]}}</td>
+                <td class="text-wrap">{{!value[2]}}</td>
                 <td>{{=value[3]*100}}</td>
                 <td class="{{=(value[4]<0)?'text-danger':'text-success'}}">{{=(value[4]>0)?"+"+(value[4])/10:value[4]/10}}</td>
 
             </tr>
             {{ for(var i=0;i< 9;i+=3){ }}
             <tr>
-                <td class="text-wrap">{{!base.phone2name[value[5+i]]||value[5+i]}}</td>
+                <td class="text-wrap">{{!value[5+i]}}</td>
                 <td>{{=value[6+i]*100}}</td>
                 <td class="{{=(value[7+i]<0)?'text-danger':'text-success'}}">{{=(value[7+i]>0)?"+"+(value[7+i])/10:value[7+i]/10}}</td>
             </tr>
