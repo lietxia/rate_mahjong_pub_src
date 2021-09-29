@@ -87,7 +87,37 @@
 {{=marked(it[0])}}
 </script>
 <script id="templ_level" type="text/html">
-段位排行（未完成）
+    段位排行<br />
+    平均順位 = (一位數×1 + 二位數×2 + 三位數×3 + 四位數×4) ÷ 對戰數<br />
+    总成绩 = 成績(例如+12.0)之和<br />
+    总点数 = 結束點數(例如25000)之和<br />
+    有效局 = 升段前的对战数，不计入升段所需的对战数。此项为：与升段相关的对局数
+    有效均順 = 升段前的平均顺位，不计入升段所需的平均顺位。此项为：与升段相关的平均顺位
+    1位～4位 = 1位次數～4位次數<br />
+    <div class="table-responsive">
+        <table class="mytable table table-sm table-striped table-bordered table-hover text-center mt-3" id="table1">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    {{ var base=webobj.cache.base[webobj.this_query[1]]; }}
+                    {{ for(var i=0;i< it[0].length;i++){ }}
+                    <th onclick="webobj.sort_table1(this)">{{=it[0][i]}}</th>
+                    {{ }var abc=Array.from(it);abc.shift(); }}
+                </tr>
+            </thead>
+            <tbody>
+                {{~abc :value:index}}
+                <tr>
+                <td>{{=index+1}}</td>
+                <td class="text-wrap">{{!value[0]}}</td>
+                <td>{{=webobj.lv_data[value[1]]||value[1]}}</td>
+                {{ for(var i=2;i< value.length;i++){ }}
+                <td>{{=value[i]}}</td>
+                {{ } }}
+                </tr>
+                {{~}}
+            </tbody>
+    </div>
 </script>
 <script id="templ_ranking" type="text/html">
 平均順位 = (一位數×1 + 二位數×2 + 三位數×3 + 四位數×4) ÷ 對戰數<br />
