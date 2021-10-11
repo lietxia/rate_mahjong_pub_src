@@ -1,7 +1,7 @@
 var webobj = {
     this_query: ["main"],
     last_query: [],
-    lv_data: ["5级", "4级", "3级", "2级", "1级", "初段", "二段", "三段", "四段", "五段", "六段", "七段", "八段", "九段"],
+    lv_data: ["新人", "5级", "4级", "3级", "2级", "1级", "初段", "二段", "三段", "四段", "五段", "六段", "七段", "八段", "九段"],
     apiurl: "https://000.mk/r/",
     sort_table1: function (that) {
         var table = document.getElementById('table1'),
