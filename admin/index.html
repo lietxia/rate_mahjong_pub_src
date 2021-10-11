@@ -216,14 +216,14 @@
                     return display_post(data);
                 }, "json");
         }
-        function del_log() {
+        function del_log_or_member() {
             var t = document.getElementById("del_type").value;
             console.log(t);
-            if (t != 1) { return; }
+            if (t != 1 && t != 2) { return; }
             var postdata = {
                 "cid": webobj.cid,
                 "pw": webobj.pw,
-                "q": "del_log",
+                "q": t == 2 ? "del_member" : "del_log",
                 "order": $("#deltext").val()
             };
             return $.post(window.apiurl + "del_log.php", postdata,
@@ -512,10 +512,10 @@
                     <select class="custom-select" id="del_type">
                         <option value="0" selected>不刪除</option>
                         <option value="1">刪除記錄</option>
-                        <option value="2">刪除成員(有BUG，暫不開放)</option>
+                        <option value="2">刪除成員</option>
                     </select>
                     <div class="input-group-append">
-                        <button class="btn btn-primary" type="button" onclick="del_log()">刪除</button>
+                        <button class="btn btn-primary" type="button" onclick="del_log_or_member()">刪除</button>
                     </div>
                 </div>
             </div>
