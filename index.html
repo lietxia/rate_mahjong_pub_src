@@ -187,7 +187,7 @@
             </tr>
         </thead>
         <tbody>
-            {{ for(var index=it.length-1;index--;){var value=it[index]; }}
+            {{~it :value:index}}
             <tr>
                 <td class="text-wrap" rowspan="4">
                     {{=value[0].replace(" ","<br />")}}<br />
@@ -204,7 +204,8 @@
                 <td>{{=value[6+i]*100}}</td>
                 <td class="{{=(value[7+i]<0)?'text-danger':'text-success'}}">{{=(value[7+i]>0)?"+"+(value[7+i])/10:value[7+i]/10}}</td>
             </tr>
-            {{ }} }}
+            {{ } }}
+            {{~}}
         </tbody>
     </table>
 
