@@ -120,7 +120,9 @@
     </div>
 </script>
 <script id="templ_ranking" type="text/html">
+{{? window.webobj.this_query[2]==='1' }}
 <h3>只统计此雀庄记录(总榜在<a href="#/1/ranking/">这里</a>)</h3>
+{{?}}
 平均順位 = (一位數×1 + 二位數×2 + 三位數×3 + 四位數×4) ÷ 對戰數<br />
 連對率 = (一位數 + 二位數) ÷ 對戰數<br />
 合計成績 = 成績(例如+12.0)之和<br />
@@ -152,7 +154,9 @@
 </script>
 
 <script id="templ_log" type="text/html">
+    {{? window.webobj.this_query[2]==='1' }}
 	<h3>只统计此雀庄记录(总榜在<a href="#/1/log/">这里</a>)</h3>
+    {{?}}
     <div class="row">
         <div class="col">
             <div class="input-group mb-3">
