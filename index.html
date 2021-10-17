@@ -164,16 +164,7 @@
         </tbody>
 </div>
 </script>
-
-<script id="templ_log" type="text/html">
-	<h3>对战记录
-        <a class="btn btn-primary mr-2" href="javascript:window.webobj.excel1();">下载数据</a>
-        {{? window.webobj.this_query[1]!=='1' }}
-        <a class="btn btn-info" href="#/1/log/">查看总榜</a>
-        {{?}}
-    </h3>
-    
-    {{ var base=webobj.cache.base[webobj.this_query[1]],this_acid=(webobj.this_query.length>=4)?webobj.this_query[3]:base.numerator; }}
+<!--
     <table class="mytable table table-sm table-bordered table-hover text-center mt-3">
         <thead>
             <tr>
@@ -205,6 +196,51 @@
             {{ } }}
         </tbody>
     </table>
+-->
+<script id="templ_log" type="text/html">
+	<h3>对战记录
+        <a class="btn btn-primary mr-2" href="javascript:window.webobj.excel1();">下载数据</a>
+        {{? window.webobj.this_query[1]!=='1' }}
+        <a class="btn btn-info" href="#/1/log/">查看总榜</a>
+        {{?}}
+    </h3>
+    
+    {{ var base=webobj.cache.base[webobj.this_query[1]],this_acid=(webobj.this_query.length>=4)?webobj.this_query[3]:base.numerator; }}
+    <div class="table-responsive">
+        <table class="mytable table table-sm table-striped table-bordered table-hover text-center mt-3">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>时间</th>
+                    <th>地域</th>
+                    <th>一位</th>
+                    <th>点数</th>
+                    <th>成绩</th>
+                    <th>二位</th>
+                    <th>点数</th>
+                    <th>成绩</th>
+                    <th>三位</th>
+                    <th>点数</th>
+                    <th>成绩</th>
+                    <th>四位</th>
+                    <th>点数</th>
+                    <th>成绩</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ for(var index=it.length;index--;){var value=it[index];  }}
+                <tr>
+                <td>{{=value[14]}}</td>
+                <td class="small">{{!value[0]}}</td>
+                <td>{{=base.cid2name[value[1]]}}</td>
+                {{ for(var i=2;i< 14;i++){var v=value[i],c=""; }}
+                {{ if(i%3===1){v/=10;c=v< 0?'text-danger':'text-success'} }}
+                <td class="{{=c}}">{{=v}}</td>
+                {{ } }}
+                </tr>
+            {{ } }}
+            </tbody>
+    </div>
 
 </script>
 <!--template-->
