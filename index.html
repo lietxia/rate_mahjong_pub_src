@@ -89,7 +89,7 @@
 </script>
 <script id="templ_level" type="text/html">
     <h3>雀庄段位榜
-        {{? window.webobj.this_query[1]==='1' }}
+        {{? window.webobj.this_query[1]!=='1' }}
         (总榜在<a href="#/1/level/">这里</a>)
         {{?}}
     </h3>
@@ -130,7 +130,7 @@
 </script>
 <script id="templ_ranking" type="text/html">
 <h3>雀庄统计表
-    {{? window.webobj.this_query[1]==='1' }}
+    {{? window.webobj.this_query[1]!=='1' }}
     (总榜在<a href="#/1/ranking/">这里</a>)
     {{?}}
 </h3>
@@ -167,7 +167,7 @@
 
 <script id="templ_log" type="text/html">
 	<h3>对战记录
-        {{? window.webobj.this_query[1]==='1' }}
+        {{? window.webobj.this_query[1]!=='1' }}
         (总记录在<a href="#/1/log/">这里</a>)
         {{?}}
     </h3>
