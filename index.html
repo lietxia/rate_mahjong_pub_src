@@ -35,6 +35,17 @@
 		document.head.appendChild(css2);
 		*/
 	})()
+    function marked_fmt() {
+        var target=document.getElementById("content_div");
+        var img=target.getElementsByTagName("img");
+        for (var i =0; i < img.length; i++) {
+            img[i].className='img-fluid';
+        }
+        var tables=target.getElementsByTagName("table");
+        for (var i =0; i < tables.length; i++) {
+            tables[i].className='table table-sm table-striped table-bordered table-hover text-center';
+        }
+    }
 </script>
 <!--template-->
 <script id="templ_main" type="text/html">
@@ -85,6 +96,7 @@
 
 <script id="templ_area_name" type="text/html">
 {{=marked(it[0])}}
+{{ marked_fmt(); }}
 </script>
 <script id="templ_level" type="text/html">
     <h3>段位排行(暂时只有总榜)</h3>
