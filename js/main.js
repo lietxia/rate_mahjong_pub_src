@@ -181,7 +181,7 @@ var webobj = {
             "log": "rate.php"
         };
         webobj.load_page("templ_" + sub_fn, geturl[sub_fn]);
-        if (sub_fn = "area_name") { marked_fmt(); }
+        if (sub_fn == "area_name") { webobj.marked_fmt(); }
     },
     filter1: function (that, order) {
         $(".filter1").removeClass("active");
