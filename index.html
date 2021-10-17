@@ -3,38 +3,38 @@
 
 <head>
 
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<title>雀庄公式战</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.6.0/dist/darkly/bootstrap.min.css"
-		media="(prefers-color-scheme: dark)" />
-	<link rel="stylesheet" href="css/main.css" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>雀庄公式战</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.6.0/dist/darkly/bootstrap.min.css"
+        media="(prefers-color-scheme: dark)" />
+    <link rel="stylesheet" href="css/main.css" />
 </head>
 <script>
-	(function () {
-		//Remove QQ/TIM URL suffix
-		var patt = new RegExp(/(.+)[\?\&]tdsourcetag\=\w+$/);
-		var arr = patt.exec(window.location.href);
-		if (arr != null) { window.location.href = arr[1]; }
+    (function () {
+        //Remove QQ/TIM URL suffix
+        var patt = new RegExp(/(.+)[\?\&]tdsourcetag\=\w+$/);
+        var arr = patt.exec(window.location.href);
+        if (arr != null) { window.location.href = arr[1]; }
 
-		/*
-		//If at night, load night CSS
-		var hours = new Date().getHours();
-		var css = document.createElement("link");
-		css.setAttribute("rel", "stylesheet");
-		css.setAttribute("href",
-			(hours > 6 && hours < 20) ?
-				'https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css' :
-				"https://cdn.jsdelivr.net/npm/bootswatch@4.6.0/dist/darkly/bootstrap.min.css");
-		document.head.appendChild(css);
-		var css2 = document.createElement("link");
-		css2.setAttribute("rel", "stylesheet");
-		css2.setAttribute("href", "css/main.css");
-		document.head.appendChild(css2);
-		*/
-	})()
+        /*
+        //If at night, load night CSS
+        var hours = new Date().getHours();
+        var css = document.createElement("link");
+        css.setAttribute("rel", "stylesheet");
+        css.setAttribute("href",
+            (hours > 6 && hours < 20) ?
+                'https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css' :
+                "https://cdn.jsdelivr.net/npm/bootswatch@4.6.0/dist/darkly/bootstrap.min.css");
+        document.head.appendChild(css);
+        var css2 = document.createElement("link");
+        css2.setAttribute("rel", "stylesheet");
+        css2.setAttribute("href", "css/main.css");
+        document.head.appendChild(css2);
+        */
+    })()
 
 </script>
 <!--template-->
@@ -88,7 +88,11 @@
 {{=marked(it[0])}}
 </script>
 <script id="templ_level" type="text/html">
-    <h3>段位排行(暂时只有总榜)</h3>
+    <h3>雀庄段位榜
+        {{? window.webobj.this_query[1]==='1' }}
+        (总榜在<a href="#/1/level/">这里</a>)
+        {{?}}
+    </h3>
     平均順位 = (一位數×1 + 二位數×2 + 三位數×3 + 四位數×4) ÷ 對戰數<br />
     总成绩 = 成績(例如+12.0)之和<br />
     总点数 = 結束點數(例如25000)之和<br />
@@ -103,28 +107,32 @@
                     {{ var base=webobj.cache.base[webobj.this_query[1]]; }}
                     {{ for(var i=0;i< it[0].length;i++){ }}
                     <th onclick="webobj.sort_table1(this)">{{=it[0][i]}}</th>
-                    {{ }var abc=Array.from(it);abc.shift(); }}
+                    {{ }var abc=Array.from(it),idx=1,cid1=base.cid==='1';abc.shift(); }}
                 </tr>
             </thead>
             <tbody>
                 {{~abc :value:index}}
+
+                {{ if(!cid1&&value[1]!=base.cid){continue;} }}
                 <tr>
-                <td>{{=index+1}}</td>
+                <td>{{=idx}}</td>
                 <td class="text-wrap">{{!value[0]}}</td>
                 <td>{{=base.cid2name[value[1]]||value[1]}}</td>
                 <td>{{=webobj.lv_data[value[2]]||value[2]}}</td>
                 {{ for(var i=3;i< value.length;i++){ }}
                 <td>{{=value[i]}}</td>
-                {{ } }}
+                {{ }idx++; }}
                 </tr>
                 {{~}}
             </tbody>
     </div>
 </script>
 <script id="templ_ranking" type="text/html">
-{{? window.webobj.this_query[2]==='1' }}
-<h3>只统计此雀庄记录(总榜在<a href="#/1/ranking/">这里</a>)</h3>
-{{?}}
+<h3>雀庄统计表
+    {{? window.webobj.this_query[1]==='1' }}
+    (总榜在<a href="#/1/ranking/">这里</a>)
+    {{?}}
+</h3>
 平均順位 = (一位數×1 + 二位數×2 + 三位數×3 + 四位數×4) ÷ 對戰數<br />
 連對率 = (一位數 + 二位數) ÷ 對戰數<br />
 合計成績 = 成績(例如+12.0)之和<br />
@@ -156,9 +164,11 @@
 </script>
 
 <script id="templ_log" type="text/html">
-    {{? window.webobj.this_query[2]==='1' }}
-	<h3>只统计此雀庄记录(总榜在<a href="#/1/log/">这里</a>)</h3>
-    {{?}}
+	<h3>对战记录
+        {{? window.webobj.this_query[1]==='1' }}
+        (总记录在<a href="#/1/log/">这里</a>)
+        {{?}}
+    </h3>
     <div class="row">
         <div class="col">
             <div class="input-group mb-3">
@@ -219,42 +229,42 @@
 <!--template-->
 
 <body onhashchange="webobj.onhashchange()">
-	<!--navbar-->
-	<nav class="navbar navbar-dark bg-primary navbar-expand-sm sticky-top shadow">
-		<a class="navbar-brand" href="#">雀庄公式战</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
-			aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+    <!--navbar-->
+    <nav class="navbar navbar-dark bg-primary navbar-expand-sm sticky-top shadow">
+        <a class="navbar-brand" href="#">雀庄公式战</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-		<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item"><a class="nav-link" href="#">首页</a></li>
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item"><a class="nav-link" href="./admin/">管理</a></li>
-				</ul>
-		</div>
-	</nav>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link" href="#">首页</a></li>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" href="./admin/">管理</a></li>
+                </ul>
+        </div>
+    </nav>
 
-	<div class="jumbotron jumbotron-fluid pt-4 pb-2">
-		<div class="container">
-			<h1 id="jumbotron_title" class="display-4"></h1>
-			<p id="jumbotron_text" class="lead"></p>
-		</div>
-	</div>
+    <div class="jumbotron jumbotron-fluid pt-4 pb-2">
+        <div class="container">
+            <h1 id="jumbotron_title" class="display-4"></h1>
+            <p id="jumbotron_text" class="lead"></p>
+        </div>
+    </div>
 
-	<!--content-->
-	<div class="container" id="content_div"></div>
+    <!--content-->
+    <div class="container" id="content_div"></div>
 
-	<!--javaScript-->
-	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
-		crossorigin="anonymous"></script>
+    <!--javaScript-->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
 
-	<script src="https://cdn.jsdelivr.net/npm/dot@1.1.3/doT.min.js" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/tinysort@3.2.7/dist/tinysort.min.js" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/marked@1.1.0/marked.min.js" crossorigin="anonymous"></script>
-	<script src="js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dot@1.1.3/doT.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tinysort@3.2.7/dist/tinysort.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@1.1.0/marked.min.js" crossorigin="anonymous"></script>
+    <script src="js/main.js"></script>
 </body>
 
 
