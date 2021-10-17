@@ -3,6 +3,17 @@ var webobj = {
     last_query: [],
     lv_data: ["新人", "5级", "4级", "3级", "2级", "1级", "初段", "二段", "三段", "四段", "五段", "六段", "七段", "八段", "九段"],
     apiurl: "https://000.mk/r/",
+    marked_fmt: function () {
+        var target = document.getElementById("content_div");
+        var img = target.getElementsByTagName("img");
+        for (var i = 0; i < img.length; i++) {
+            img[i].className = 'img-fluid';
+        }
+        var tables = target.getElementsByTagName("table");
+        for (var i = 0; i < tables.length; i++) {
+            tables[i].className = 'table table-sm table-striped table-bordered table-hover text-center';
+        }
+    },
     sort_table1: function (that) {
         var table = document.getElementById('table1'),
             tableHead = table.querySelector('thead'),
@@ -170,6 +181,7 @@ var webobj = {
             "log": "rate.php"
         };
         webobj.load_page("templ_" + sub_fn, geturl[sub_fn]);
+        if (sub_fn = "area_name") { marked_fmt(); }
     },
     filter1: function (that, order) {
         $(".filter1").removeClass("active");
