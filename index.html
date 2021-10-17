@@ -99,6 +99,7 @@
     有效局 = 升段前的对战数，不计入升段所需的对战数。此项为：与升段相关的对局数
     有效均順 = 升段前的平均顺位，不计入升段所需的平均顺位。此项为：与升段相关的平均顺位
     1位～4位 = 1位次數～4位次數<br />
+    <a class="btn btn-primary" href="javascript:window.webobj.excel1();">下载数据(.xls格式)</a>
     <div class="table-responsive">
         <table class="mytable table table-sm table-striped table-bordered table-hover text-center mt-3" id="table1">
             <thead>
@@ -138,6 +139,7 @@
 合計成績 = 成績(例如+12.0)之和<br />
 合計點數 = 結束點數(例如25000)之和<br />
 1位～4位 = 1位次數～4位次數<br />
+<a class="btn btn-primary" href="javascript:window.webobj.excel1();">下载数据(.xls格式)</a>
 <div class="table-responsive">
     <table class="mytable table table-sm table-striped table-bordered table-hover text-center mt-3" id="table1">
         <thead>
@@ -169,29 +171,7 @@
         (总记录在<a href="#/1/log/">这里</a>)
         {{?}}
     </h3>
-    <div class="row">
-        <div class="col">
-            <div class="input-group mb-3">
-                <select class="custom-select" onchange="webobj.filter2(this.options[this.options.selectedIndex].value)" >
-                    {{ var base=webobj.cache.base[webobj.this_query[1]],this_acid=(webobj.this_query.length>=4)?webobj.this_query[3]:base.numerator; }}
-                <option value="{{=this_acid}}" selected>{{=base.cid2name[this_acid]}}</option>
-{{ for(var i=1;i<=base.denominator;i++){ }}
-    {{? i!=this_acid}}
-                  <option value="{{=i}}">{{=base.cid2name[this_acid]}}</option>
-    {{?}}   
-    {{ } }}
-                </select>
-              </div>
-        </div>
-        <div class="col">
-            <div class="input-group" role="toolbar">
-                <input type="text" class="form-control" placeholder="名字">
-                <div class="input-group-append">
-                    <button class="btn btn-secondary" type="button" id="button-addon2">查询</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <a class="btn btn-primary" href="javascript:window.webobj.excel1();">下载数据(.xls格式)</a>
 
     <table class="mytable table table-sm table-bordered table-hover text-center mt-3">
         <thead>

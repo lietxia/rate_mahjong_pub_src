@@ -3,6 +3,33 @@ var webobj = {
     last_query: [],
     lv_data: ["新人", "5级", "4级", "3级", "2级", "1级", "初段", "二段", "三段", "四段", "五段", "六段", "七段", "八段", "九段"],
     apiurl: "https://000.mk/r/",
+    excel1: function () {
+        if (document.getElementById('xls_script')) {
+            window.webobj.excel2();
+            return
+        }
+        if (!!window.ActiveXObject || "ActiveXObject" in window) {
+            //如果是IE
+            var js = document.createElement('script');
+            js.setAttribute('src', 'https://cdn.jsdelivr.net/npm/xlsx@0.16.1/dist/shim.min.js');
+            document.body.appendChild(js);
+        }
+        var js2 = document.createElement('script');
+        js2.setAttribute('src', 'https://cdn.jsdelivr.net/npm/xlsx@0.16.1/dist/xlsx.full.min.js');
+        js2.setAttribute('id', 'xls_script');
+        js2.setAttribute('onload', 'window.webobj.excel2()');
+        document.body.appendChild(js2);
+    },
+    excel2: function () {
+        var filename = window.location.href.replace(/[^\w]/g, "");
+        var workbook = XLSX.utils.book_new();
+        var tables = document.getElementsByTagName('table');
+        for (var i = 0; i < tables.length; i++) {
+            var ws = XLSX.utils.table_to_sheet(tables[i]);
+            XLSX.utils.book_append_sheet(workbook, ws, tables[i].children[0].innerText);
+        }
+        XLSX.writeFile(workbook, filename + ".xlsx");
+    },
     marked_fmt: function () {
         var target = document.getElementById("content_div");
         var img = target.getElementsByTagName("img");
