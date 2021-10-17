@@ -88,9 +88,10 @@
 {{=marked(it[0])}}
 </script>
 <script id="templ_level" type="text/html">
-    <h3>雀庄段位榜
+    <h3>段位榜
+        <a class="btn btn-primary" href="javascript:window.webobj.excel1();">下载数据</a>
         {{? window.webobj.this_query[1]!=='1' }}
-        (总榜在<a href="#/1/level/">这里</a>)
+        <a class="btn btn-primary" href="#/1/level/">总榜</a>
         {{?}}
     </h3>
     平均順位 = (一位數×1 + 二位數×2 + 三位數×3 + 四位數×4) ÷ 對戰數<br />
@@ -129,9 +130,10 @@
     </div>
 </script>
 <script id="templ_ranking" type="text/html">
-<h3>雀庄统计表
+<h3>成绩统计
+    <a class="btn btn-primary" href="javascript:window.webobj.excel1();">下载数据</a>
     {{? window.webobj.this_query[1]!=='1' }}
-    (总榜在<a href="#/1/ranking/">这里</a>)
+    <a class="btn btn-primary" href="#/1/ranking/">总榜</a>
     {{?}}
 </h3>
 平均順位 = (一位數×1 + 二位數×2 + 三位數×3 + 四位數×4) ÷ 對戰數<br />
@@ -167,11 +169,12 @@
 
 <script id="templ_log" type="text/html">
 	<h3>对战记录
+        <a class="btn btn-primary" href="javascript:window.webobj.excel1();">下载数据</a>
         {{? window.webobj.this_query[1]!=='1' }}
-        (总记录在<a href="#/1/log/">这里</a>)
+        <a class="btn btn-primary" href="#/1/log/">总榜</a>
         {{?}}
     </h3>
-    <a class="btn btn-primary" href="javascript:window.webobj.excel1();">下载数据(.xls格式)</a>
+    
     {{ var base=webobj.cache.base[webobj.this_query[1]],this_acid=(webobj.this_query.length>=4)?webobj.this_query[3]:base.numerator; }}
     <table class="mytable table table-sm table-bordered table-hover text-center mt-3">
         <thead>
