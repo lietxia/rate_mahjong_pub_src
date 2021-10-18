@@ -22,6 +22,7 @@ var webobj = {
     },
     excel2: function () {
         var filename = window.location.href.replace(/[^\w]/g, "");
+        filename = filename.substr(-10, 10);
         var workbook = XLSX.utils.book_new();
         var tables = document.getElementsByTagName('table');
         for (var i = 0; i < tables.length; i++) {
