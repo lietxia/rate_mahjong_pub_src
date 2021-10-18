@@ -21,15 +21,13 @@ var webobj = {
         document.body.appendChild(js2);
     },
     excel2: function () {
-        var filename = window.location.href.replace(/[^\w]/g, "");
-        filename = filename.substr(-10, 10);
         var workbook = XLSX.utils.book_new();
         var tables = document.getElementsByTagName('table');
         for (var i = 0; i < tables.length; i++) {
             var ws = XLSX.utils.table_to_sheet(tables[i]);
-            XLSX.utils.book_append_sheet(workbook, ws, tables[i].children[0].innerText);
+            XLSX.utils.book_append_sheet(workbook, ws, tables[i].children[0].innerText.substr(-10));
         }
-        XLSX.writeFile(workbook, filename + ".xlsx");
+        XLSX.writeFile(workbook, window.location.href.replace(/[^\w]/g, "").substr(-10) + ".xlsx");
     },
     marked_fmt: function () {
         var target = document.getElementById("content_div");
