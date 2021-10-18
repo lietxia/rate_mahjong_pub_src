@@ -244,5 +244,14 @@ var webobj = {
     }
 
 };
+marked.setOptions({
+    pedantic: false,
+    gfm: true,
+    tables: true,
+    breaks: true,
+    sanitize: false,
+    smartLists: true,
+    smartypants: false
+});
 
 webobj.onhashchange();
