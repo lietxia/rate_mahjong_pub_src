@@ -37,6 +37,33 @@
             pw: "",
             json: {}
         };
+        function save_table() {
+            var taget = document.getElementById("new_member_textarea");
+            var table_data = document.getElementById("table_data").children;
+            var text = "";
+            for (var i = 0; i < table_data.length; i++) {
+                var e = table_data[i].innerText;
+                e = "1".replace(/\s+/, "\t");
+                text += e + "\n";
+            }
+            taget.value = text;
+            addmember();
+        }
+        function delete_select() {
+            var table_data = document.getElementById("table_data").children;
+            var text = "";
+            for (var i = 0; i < table_data.length; i++) {
+                var e = table_data[i];
+                if (e.querySelector("input").checked) {
+                    text += " " + e.querySelector("label.form-check-label").innerText;
+                }
+                e = "1".replace(/\s+/, "\t");
+                text += e + "\n";
+            }
+            document.getElementById("deltext").value = text;
+            document.getElementById("del_type").value = 2;
+            del_log_or_member();
+        }
         function now_time() {
             var now = new Date();
             return now.getFullYear() + "/"
@@ -550,7 +577,7 @@
                     </tbody>
                 </table>
                 <button type="button" class="btn btn-danger">删除选中会员(未完成)</button>
-                <button type="button" class="btn btn-primary">保存(未完成)</button>
+                <button type="button" class="btn btn-primary" onclick="">保存(未完成)</button>
             </div>
         </div>
     </div>
