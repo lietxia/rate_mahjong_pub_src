@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="zh">
+
+<head>
+	<!-- 平均完场点数-火力
+	top率-战斗力
+	四位回避率-守备力
+	连对率-稳定性
+	最近xx战平顺-运 -->
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		crossorigin="anonymous">
+
+	<title>Hello, world!</title>
+</head>
+
+<body class="mt-3 bg-secondary">
+	<div class="container">
+		<div class="card shadow-lg">
+			<div class="row">
+				<div class="col-3 text-end">
+					<img src="http://q1.qlogo.cn/g?b=qq&s=640&nk=445296397" class="img-thumbnail rounded-circle m-3 shadow-sm"
+						alt="头像">
+				</div>
+				<div class="col-4 ps-5">
+					<h5 class="card-title mt-4 mb-0">射惠</h5>
+					<span class="badge bg-secondary">3级</span>
+					<span class="badge bg-success mb-1">R1674</span>
+					<br>
+					<span>全国排行：123位<br>
+						江苏南京：21位<br>
+						总对局数：24次<br>
+						合计素点：+350.8
+				</div>
+				<div class="col-5 ps-4">
+					<h5 class="card-title mt-4">
+						<span class="badge bg-secondary">#2 浪速俱乐部</span>
+					</h5>
+					一至四位：12 / 4 / 3 / 5<br>
+					平均得点：30450<br>
+					平均顺位：2.04<br>
+					一二位率：50%
+				</div>
+			</div>
+
+			<div id="chart_rader" style="height: 200px;"></div>
+			<div id="chart_line" style="height: 120px;"></div>
+		</div>
+	</div>
+
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
+	<script>
+
+		var myChart = echarts.init(document.getElementById("chart_rader"));
+		var myChart2 = echarts.init(document.getElementById("chart_line"));
+		var app = {};
+		var option = {
+			legend: { show: false },
+			tooltip: { show: true, },
+			radar: {
+				// shape: 'circle',
+				indicator: [
+					{ name: '技巧', max: 4500 },
+					{ name: '运气', max: 16000 },
+					{ name: '爆发', max: 30000 },
+					{ name: '防守', max: 38000 },
+					{ name: '进攻', max: 52000 },
+				],
+				center: ['25%', '55%'],
+				axisName: {
+					color: '#fff',
+					backgroundColor: '#777',
+					borderRadius: 20,
+					padding: [3, 5],
+				},
+			},
+			series: [
+				{
+					name: '数据',
+					type: 'radar',
+					data: [
+						{
+							value: [4200, 3000, 20000, 35000, 50000],
+							areaStyle: {
+								color: 'rgba(30, 200, 255, 0.6)'
+							}
+						}
+					]
+				},
+				{
+					center: ['75%', '50%'],
+					name: '成绩表',
+					type: 'pie',
+					radius: ['35%', '60%'],
+					itemStyle: {
+						borderRadius: 5,
+						borderColor: '#fff',
+						borderWidth: 2
+					},
+					label: {
+						show: true,
+						formatter: '{b}\n{c}回\n{d}%',
+						fontWeight: 'bold',
+					},
+					data: [
+						{ value: 12, name: '一位' },
+						{ value: 4, name: '二位' },
+						{ value: 3, name: '三位' },
+						{ value: 5, name: '四位' }
+					]
+				},
+
+			]
+		};
+		var option2 = {
+			legend: {
+				show: false
+			},
+			grid: {
+				left: '7%',
+				right: '7%',
+				top: '5%',
+				bottom: 0,
+				containLabel: true
+			},
+			xAxis: {
+				type: 'category',
+				show: false,
+				boundaryGap: false,
+			},
+			yAxis: {
+				type: 'value'
+			},
+			series: [
+				{
+					data: [27400, 23000, -12000, 50000, 23700, 28300,],
+					type: 'line',
+					smooth: true,
+					areaStyle: {
+						opacity: 0.8,
+						color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+							{
+								offset: 0,
+								color: 'rgb(128, 255, 165)'
+							},
+							{
+								offset: 1,
+								color: 'rgb(1, 191, 236)'
+							}
+						])
+					},
+				}
+			]
+		};
+
+
+		if (option && typeof option === 'object') {
+			myChart.setOption(option);
+			myChart2.setOption(option2);
+		}
+
+	</script>
+
+</body>
+
+</html>
