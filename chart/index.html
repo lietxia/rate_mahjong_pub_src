@@ -2,11 +2,7 @@
 <html lang="zh">
 
 <head>
-	<!-- 平均完场点数-火力
-	top率-战斗力
-	四位回避率-守备力
-	连对率-稳定性
-	最近xx战平顺-运 -->
+
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,24 +22,31 @@
 					<img src="http://q1.qlogo.cn/g?b=qq&s=640&nk=445296397" class="img-thumbnail rounded-circle m-3 shadow-sm"
 						alt="头像">
 				</div>
-				<div class="col-4 ps-5">
-					<h5 class="card-title mt-4 mb-0">射惠</h5>
-					<span class="badge bg-secondary">3级</span>
-					<span class="badge bg-success mb-1">R1674</span>
-					<br>
-					<span>全国排行：123位<br>
+				<div class="col-md-4 ps-4 d-flex align-items-center">
+					<div>
+						<h5 class="card-title">射惠</h5>
+						<span class="badge bg-secondary">3级</span>
+						<span class="badge bg-secondary">R1674</span>
+						<span class="badge bg-warning text-dark">雀庄老板</span>
+						<span class="badge bg-primary">浪速俱乐部</span>
+						<br>
+						全国排行：123位<br>
 						江苏南京：21位<br>
-						总对局数：24次<br>
-						合计素点：+350.8
+						总对局数：24战
+					</div>
 				</div>
-				<div class="col-5 ps-4">
-					<h5 class="card-title mt-4">
-						<span class="badge bg-secondary">#2 浪速俱乐部</span>
-					</h5>
-					一至四位：12 / 4 / 3 / 5<br>
-					平均得点：30450<br>
-					平均顺位：2.04<br>
-					一二位率：50%
+				<div class="col-md-5 ps-4 d-flex align-items-center">
+					<div>
+						<h5 class="card-title">
+							<span class="badge bg-primary">升段需求</span>
+							<span class="badge bg-secondary">近10战 均顺≤2.7</span>
+						</h5>
+						升段均顺：0<br>
+						升段对局：0<br>
+						通算得点：+350.8<br>
+						平均得点：30450<br>
+						一二位率：50%
+					</div>
 				</div>
 			</div>
 
@@ -67,27 +70,27 @@
 			radar: {
 				// shape: 'circle',
 				indicator: [
-					{ name: '技巧', max: 4500 },
-					{ name: '运气', max: 16000 },
-					{ name: '爆发', max: 30000 },
-					{ name: '防守', max: 38000 },
-					{ name: '进攻', max: 52000 },
+					{ name: '火力 (一位时平均点数)', max: 35000 },
+					{ name: '防守 (被飞率)', max: 0.95 },
+					{ name: '稳定 (连对率)', max: 0.95 },
+					{ name: '运势 (近十战平均顺位)', max: 0.95 },
+					{ name: '技术 (Rate)', max: 1800, min: 1300 },
+					{ name: '进攻 (一位率)', max: 0.95 }
 				],
-				center: ['25%', '55%'],
+				center: ['25%', '50%'],
+				radius: "65%",
 				axisName: {
-					color: '#fff',
-					backgroundColor: '#777',
-					borderRadius: 20,
-					padding: [3, 5],
+					color: '#333',
+					fontWeight: 'bold',
 				},
 			},
 			series: [
 				{
-					name: '数据',
 					type: 'radar',
+					symbolSize: 6,
 					data: [
 						{
-							value: [4200, 3000, 20000, 35000, 50000],
+							value: [37000, 0.7, 0.6667, 0.5, 1674, 0.5],
 							areaStyle: {
 								color: 'rgba(30, 200, 255, 0.6)'
 							}
@@ -96,9 +99,8 @@
 				},
 				{
 					center: ['75%', '50%'],
-					name: '成绩表',
 					type: 'pie',
-					radius: ['35%', '60%'],
+					radius: ['40%', '70%'],
 					itemStyle: {
 						borderRadius: 5,
 						borderColor: '#fff',
@@ -108,6 +110,10 @@
 						show: true,
 						formatter: '{b}\n{c}回\n{d}%',
 						fontWeight: 'bold',
+					},
+					labelLine: {
+						length: 10,
+						length2: 15,
 					},
 					data: [
 						{ value: 12, name: '一位' },
@@ -123,6 +129,7 @@
 			legend: {
 				show: false
 			},
+			tooltip: { show: true, },
 			grid: {
 				left: '7%',
 				right: '7%',
@@ -142,9 +149,11 @@
 				{
 					data: [27400, 23000, -12000, 50000, 23700, 28300,],
 					type: 'line',
+					symbol: 'circle',
+					symbolSize: 5,
 					smooth: true,
 					areaStyle: {
-						opacity: 0.8,
+						opacity: 0.7,
 						color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
 							{
 								offset: 0,
