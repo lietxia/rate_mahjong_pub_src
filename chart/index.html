@@ -2,7 +2,6 @@
 <html lang="zh">
 
 <head>
-
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,7 +27,8 @@
 		<div class="card shadow-lg">
 			<div class="row">
 				<div class="col-3 text-end">
-					<img class="img-thumbnail rounded-circle m-3 shadow-sm" id="qqHead" alt="头像" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAKAAQMAAAA2A1tgAAAAA1BMVEWYmJgTNs/2AAAASElEQVR42u3BAQEAAACCoP6vbojAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABiDsqAAAHRK0/GAAAAAElFTkSuQmCC" />
+					<img class="img-thumbnail rounded-circle m-3 shadow-sm" id="qqHead" alt="头像"
+						src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAKAAQMAAAA2A1tgAAAAA1BMVEWYmJgTNs/2AAAASElEQVR42u3BAQEAAACCoP6vbojAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABiDsqAAAHRK0/GAAAAAElFTkSuQmCC" />
 				</div>
 				<div class="col-md-4 d-flex align-items-center">
 					<div class="ps-4">
@@ -67,27 +67,43 @@
 		crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
 	<script>
-		fetch('json.json').then((response) => {
-			response.json().then((json) => generateCharts(json));
-		});
+		fetch('json.json?' + window.location.search)
+			.catch(error => alert("fetch失败"))
+			.then((response) => response.json())
+			.then((json) => {
+				if (json.code == 1) {//成功
+					return generateCharts(json)
+				}
+				if (json.code == 2) {//多重
+					var number = prompt(json.msg, 1);
+					if (number > 0) {
+						return window.location.search += "&area=" + number;
+					} else {
+						return alert('错误的输入')
+					}
+				}
+				return alert("找不到此选手");
+			});
+
 		function generateCharts(jsonData) {
-			var levelConfig = [
-				['新人', '近10战 均顺≤2.9'],
-				['5级', '近10战 均顺≤2.8'],
-				['4级', '近10战 均顺≤2.7'],
-				['3级', '近10战 均顺≤2.7'],
-				['2级', '近10战 均顺≤2.6'],
-				['1级', '近10战 均顺≤2.6'],
-				['初段', '近10战 均顺≤2.5'],
-				['二段', '近10战 均顺≤2.5'],
-				['三段', '近10战 均顺≤2.4'],
-				['四段', '近10战 均顺≤2.3'],
-				['五段', '近10战 均顺≤2.3'],
-				['六段', '近10战 均顺≤2.2'],
-				['七段', '近10战 均顺≤2.2'],
-				['八段', '近10战 均顺≤2.1'],
-				['九段', '已登顶'],
-			];
+			if (jsonData.lv)
+				var levelConfig = [
+					['新人', '近10战 均顺≤2.9'],
+					['5级', '近10战 均顺≤2.8'],
+					['4级', '近10战 均顺≤2.7'],
+					['3级', '近10战 均顺≤2.7'],
+					['2级', '近10战 均顺≤2.6'],
+					['1级', '近10战 均顺≤2.6'],
+					['初段', '近10战 均顺≤2.5'],
+					['二段', '近10战 均顺≤2.5'],
+					['三段', '近10战 均顺≤2.4'],
+					['四段', '近10战 均顺≤2.3'],
+					['五段', '近10战 均顺≤2.3'],
+					['六段', '近10战 均顺≤2.2'],
+					['七段', '近10战 均顺≤2.2'],
+					['八段', '近10战 均顺≤2.1'],
+					['九段', '已登顶'],
+				];
 			document.getElementById('qqHead').setAttribute('src',
 				"//q1.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
 			document.getElementById('level').innerText = levelConfig[jsonData.level][0];
