@@ -58,27 +58,27 @@
 		crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
 	<script>
-		var levelConfig = [
-			['新人', '近10战 均顺≤2.9'],
-			['5级', '近10战 均顺≤2.8'],
-			['4级', '近10战 均顺≤2.7'],
-			['3级', '近10战 均顺≤2.7'],
-			['2级', '近10战 均顺≤2.6'],
-			['1级', '近10战 均顺≤2.6'],
-			['初段', '近10战 均顺≤2.5'],
-			['二段', '近10战 均顺≤2.5'],
-			['三段', '近10战 均顺≤2.4'],
-			['四段', '近10战 均顺≤2.3'],
-			['五段', '近10战 均顺≤2.3'],
-			['六段', '近10战 均顺≤2.2'],
-			['七段', '近10战 均顺≤2.2'],
-			['八段', '近10战 均顺≤2.1'],
-			['九段', '已登顶'],
-		];
 		fetch('json.json').then((response) => {
 			response.json().then((json) => generateCharts(json));
 		});
 		function generateCharts(jsonData) {
+			var levelConfig = [
+				['新人', '近10战 均顺≤2.9'],
+				['5级', '近10战 均顺≤2.8'],
+				['4级', '近10战 均顺≤2.7'],
+				['3级', '近10战 均顺≤2.7'],
+				['2级', '近10战 均顺≤2.6'],
+				['1级', '近10战 均顺≤2.6'],
+				['初段', '近10战 均顺≤2.5'],
+				['二段', '近10战 均顺≤2.5'],
+				['三段', '近10战 均顺≤2.4'],
+				['四段', '近10战 均顺≤2.3'],
+				['五段', '近10战 均顺≤2.3'],
+				['六段', '近10战 均顺≤2.2'],
+				['七段', '近10战 均顺≤2.2'],
+				['八段', '近10战 均顺≤2.1'],
+				['九段', '已登顶'],
+			];
 			document.getElementById('qqHead').setAttribute('src',
 				"//q1.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
 			document.getElementById('level').innerText = levelConfig[jsonData.level][0];
