@@ -68,7 +68,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
 	<script>
 		var apiurl = "https://000.mk/r/chart.php";
-		fetch(apiurl + '?' + window.location.search)
+		fetch(apiurl + window.location.search)
 			.catch(error => alert("fetch失败"))
 			.then((response) => response.json())
 			.then((json) => {
