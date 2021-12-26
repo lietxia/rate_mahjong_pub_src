@@ -67,8 +67,8 @@
 		crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
 	<script>
-		window.err = 0;
-		fetch('json.json?' + window.location.search)
+		var apiurl = "https://000.mk/r/chart.php";
+		fetch(apiurl + '?' + window.location.search)
 			.catch(error => alert("fetch失败"))
 			.then((response) => response.json())
 			.then((json) => {
@@ -76,7 +76,6 @@
 					return generateCharts(json)
 				}
 				if (json.code == 2) {//多重
-					window.err = 2;
 					var number = prompt(json.msg, 1);
 					if (number > 0) {
 						return window.location.search += "&area=" + number;
