@@ -19,33 +19,31 @@
 		<div class="card shadow-lg">
 			<div class="row">
 				<div class="col-3 text-end">
-					<img src="http://q1.qlogo.cn/g?b=qq&s=640&nk=445296397" class="img-thumbnail rounded-circle m-3 shadow-sm"
-						alt="头像">
+					<img class="img-thumbnail rounded-circle m-3 shadow-sm" id="qqHead" alt="头像">
 				</div>
 				<div class="col-md-4 d-flex align-items-center">
 					<div class="ps-4">
-						<h5 class="card-title">射惠</h5>
-						<span class="badge bg-secondary">3级</span>
-						<span class="badge bg-secondary">R1674</span>
-						<span class="badge bg-warning text-dark">雀庄老板</span>
-						<span class="badge bg-primary">浪速俱乐部</span>
+						<h5 class="json_text card-title mb-0" id="userName"></h5>
+						<span class="badge bg-secondary" id="level"></span>
+						<span class="badge bg-secondary">R<span class="json_text" id="rate"></span></span>
+						<span class="json_text badge bg-secondary" id="areaName"></span>
+						<span id="title"></span>
 						<br>
-						全国排行：123位<br>
-						江苏南京：21位<br>
-						总对局数：24战
+						全国排行：No.<span class="json_text" id="rank"></span><br>
+						江苏南京：No.<span class="json_text" id="areaRank"></span><br>
+						总对局数：<span class="json_text" id="totalCount"></span><br>
+						飞人吃一：<span class="json_text" id="killCount"></span>
 					</div>
 				</div>
 				<div class="col-md-5 d-flex align-items-center">
 					<div class="ps-4">
-						<h5 class="card-title">
-							<span class="badge bg-primary">升段需求</span>
-							<span class="badge bg-secondary">近10战 均顺≤2.7</span>
-						</h5>
-						升段均顺：0<br>
-						升段对局：0<br>
-						通算得点：+350.8<br>
-						平均得点：30450<br>
-						一二位率：50%
+						<h5 class="card-title mb-0">升段需求:</h5>
+						<span class="badge bg-secondary mb-1" id="levelUp"></span><br>
+						升段均顺：<span class="json_text" id="currentAvg"></span><br>
+						升段对局：<span class="json_text" id="currentCount"></span><br>
+						最高得点：<span class="json_text" id="maxPoint"></span><br>
+						通算得点：<span class="json_text" id="totalScore"></span><br>
+						平均得点：<span class="json_text" id="pointAvg"></span>
 					</div>
 				</div>
 			</div>
@@ -60,119 +58,142 @@
 		crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
 	<script>
-
-		var myChart = echarts.init(document.getElementById("chart_rader"));
-		var myChart2 = echarts.init(document.getElementById("chart_line"));
-		var app = {};
-		var option = {
-			legend: { show: false },
-			tooltip: { show: true, },
-			radar: {
-				// shape: 'circle',
-				indicator: [
-					{ name: '火力 (一位时平均点数)', max: 35000 },
-					{ name: '防守 (被飞率)', max: 0.95 },
-					{ name: '稳定 (连对率)', max: 0.95 },
-					{ name: '运势 (近十战平均顺位)', max: 0.95 },
-					{ name: '技术 (Rate)', max: 1800, min: 1300 },
-					{ name: '进攻 (一位率)', max: 0.95 }
-				],
-				center: ['25%', '50%'],
-				radius: "65%",
-				axisName: {
-					color: '#333',
-					fontWeight: 'bold',
-				},
-			},
-			series: [
-				{
-					type: 'radar',
-					symbolSize: 6,
-					data: [
-						{
-							value: [37000, 0.7, 0.6667, 0.5, 1674, 0.5],
-							areaStyle: {
-								color: 'rgba(30, 200, 255, 0.6)'
-							}
-						}
-					]
-				},
-				{
-					center: ['75%', '50%'],
-					type: 'pie',
-					radius: ['40%', '70%'],
-					itemStyle: {
-						borderRadius: 5,
-						borderColor: '#fff',
-						borderWidth: 2
-					},
-					label: {
-						show: true,
-						formatter: '{b}\n{c}回\n{d}%',
+		var levelConfig = [
+			['新人', '近10战 均顺≤2.9'],
+			['5级', '近10战 均顺≤2.8'],
+			['4级', '近10战 均顺≤2.7'],
+			['3级', '近10战 均顺≤2.7'],
+			['2级', '近10战 均顺≤2.6'],
+			['1级', '近10战 均顺≤2.6'],
+			['初段', '近10战 均顺≤2.5'],
+			['二段', '近10战 均顺≤2.5'],
+			['三段', '近10战 均顺≤2.4'],
+			['四段', '近10战 均顺≤2.3'],
+			['五段', '近10战 均顺≤2.3'],
+			['六段', '近10战 均顺≤2.2'],
+			['七段', '近10战 均顺≤2.2'],
+			['八段', '近10战 均顺≤2.1'],
+			['九段', '已登顶'],
+		];
+		fetch('json.json').then((response) => {
+			response.json().then((json) => generateCharts(json));
+		});
+		function generateCharts(jsonData) {
+			document.getElementById('qqHead').setAttribute('src',
+				"http://q1.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
+			document.getElementById('level').innerText = levelConfig[jsonData.level][0];
+			document.getElementById('levelUp').innerText = levelConfig[jsonData.level][1];
+			var myClass = document.getElementsByClassName("json_text");
+			for (let i = 0; i < myClass.length; i++) {
+				const element = myClass[i];
+				element.innerText = jsonData[element.id];
+			}
+			var myChart = echarts.init(document.getElementById("chart_rader"));
+			var myChart2 = echarts.init(document.getElementById("chart_line"));
+			var app = {};
+			var option = {
+				legend: { show: false },
+				tooltip: { show: true, },
+				radar: {
+					// shape: 'circle',
+					indicator: [
+						{ name: '火力 (一位时平均点数)', max: 47000, min: 30000 },
+						{ name: '防守 (不飞率)', max: 0.95 },
+						{ name: '稳定 (连对率)', max: 0.6 },
+						{ name: '运势 (近十战平均顺位)', max: 0.95 },
+						{ name: '技术 (Rate)', max: 1800, min: 1300 },
+						{ name: '进攻 (一位率)', max: 0.4 }
+					],
+					center: ['25%', '50%'],
+					radius: "65%",
+					axisName: {
+						color: '#333',
 						fontWeight: 'bold',
 					},
-					labelLine: {
-						length: 10,
-						length2: 15,
-					},
-					data: [
-						{ value: 12, name: '一位' },
-						{ value: 4, name: '二位' },
-						{ value: 3, name: '三位' },
-						{ value: 5, name: '四位' }
-					]
 				},
-
-			]
-		};
-		var option2 = {
-			legend: {
-				show: false
-			},
-			tooltip: { show: true, },
-			grid: {
-				left: '7%',
-				right: '7%',
-				top: '5%',
-				bottom: 0,
-				containLabel: true
-			},
-			xAxis: {
-				type: 'category',
-				show: false,
-				boundaryGap: false,
-			},
-			yAxis: {
-				type: 'value'
-			},
-			series: [
-				{
-					data: [27400, 23000, -12000, 50000, 23700, 28300,],
-					type: 'line',
-					symbol: 'circle',
-					symbolSize: 5,
-					smooth: true,
-					areaStyle: {
-						opacity: 0.7,
-						color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+				series: [
+					{
+						type: 'radar',
+						symbolSize: 6,
+						data: [
 							{
-								offset: 0,
-								color: 'rgb(128, 255, 165)'
-							},
-							{
-								offset: 1,
-								color: 'rgb(1, 191, 236)'
+								value: jsonData.radar,
+								areaStyle: {
+									color: 'rgba(30, 200, 255, 0.6)'
+								}
 							}
-						])
+						]
 					},
-				}
-			]
-		};
+					{
+						center: ['70%', '50%'],
+						type: 'pie',
+						radius: ['40%', '75%'],
+						itemStyle: {
+							borderRadius: 5,
+							borderColor: '#fff',
+							borderWidth: 2
+						},
+						label: {
+							show: true,
+							formatter: '{d}%\n{c}回 {b}'
+						},
+						labelLine: {
+							length: 10,
+							length2: 15,
+						},
+						data: jsonData.pie
+					},
 
+				]
+			};
+			var option2 = {
+				legend: {
+					show: false
+				},
+				tooltip: { show: true, },
+				grid: {
+					left: '7%',
+					right: '7%',
+					top: '5%',
+					bottom: 0,
+					containLabel: true
+				},
+				xAxis: {
+					type: 'category',
+					show: false,
+					boundaryGap: false,
+				},
+				yAxis: {
+					type: 'value'
+				},
+				series: [
+					{
+						data: jsonData.recent,
+						type: 'line',
+						symbol: 'circle',
+						symbolSize: 5,
+						smooth: true,
+						areaStyle: {
+							opacity: 0.7,
+							color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+								{
+									offset: 0,
+									color: 'rgb(128, 255, 165)'
+								},
+								{
+									offset: 1,
+									color: 'rgb(1, 191, 236)'
+								}
+							])
+						},
+					}
+				]
+			};
 
-		if (option && typeof option === 'object') {
-			myChart.setOption(option);
-			myChart2.setOption(option2);
+			if (option && typeof option === 'object') {
+				myChart.setOption(option);
+				myChart2.setOption(option2);
+			}
 		}
 
 	</script>

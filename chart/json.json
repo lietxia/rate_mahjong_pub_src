@@ -1,0 +1,51 @@
+{
+    "qq": 445296397,
+    "username": "射惠",
+    "level": 3,
+    "rate": "1674",
+    "club": "浪速俱乐部",
+    "rank": 123,
+    "areaRank": 21,
+    "areaname": "江苏南京",
+    "totalCount": 24,
+    "killCount": 2,
+    "currentAvg": 0,
+    "currentCount": 0,
+    "maxPoint": 82500,
+    "totalScore": 350.8,
+    "pointAvg": 30450,
+    "radar": [
+        43358,
+        0.7,
+        0.6667,
+        0.5,
+        1674,
+        0.5
+    ],
+    "pie": [
+        {
+            "value": 12,
+            "name": "一位\n平均得点\n43358"
+        },
+        {
+            "value": 4,
+            "name": "二位\n平均得点\n28808"
+        },
+        {
+            "value": 3,
+            "name": "三位\n平均得点\n21900"
+        },
+        {
+            "value": 5,
+            "name": "四位\n平均得点\n5933"
+        }
+    ],
+    "recent": [
+        27400,
+        23000,
+        -12000,
+        50000,
+        23700,
+        28300
+    ]
+}
