@@ -113,7 +113,7 @@
 				['九段', '已登顶'],
 			];
 			document.getElementById('qqHead').setAttribute('src',
-				"//q1.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
+				"https://q1.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
 			document.getElementById('level').innerText = levelConfig[jsonData.level][0];
 			document.getElementById('levelUp').innerText = levelConfig[jsonData.level][1];
 			var myClass = document.getElementsByClassName("json_text");
@@ -135,7 +135,7 @@
 						{ name: '稳定 (连对率)', max: 0.6 },
 						{ name: '运势 (近十战平均顺位)', max: 2.8 },
 						{ name: '技术 (Rate)', max: 1800, min: 1300 },
-						{ name: '进攻 (一位率)', max: 0.4 }
+						{ name: '进攻 (一位率)', max: 0.35 }
 					],
 					center: ['25%', '50%'],
 					radius: "65%",
