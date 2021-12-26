@@ -80,7 +80,7 @@
 		});
 		function generateCharts(jsonData) {
 			document.getElementById('qqHead').setAttribute('src',
-				"http://q1.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
+				"//q1.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
 			document.getElementById('level').innerText = levelConfig[jsonData.level][0];
 			document.getElementById('levelUp').innerText = levelConfig[jsonData.level][1];
 			var myClass = document.getElementsByClassName("json_text");
