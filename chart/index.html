@@ -118,9 +118,10 @@
 			// <img class="img-thumbnail rounded-circle m-3 shadow-sm" id="qqHead" alt="头像"
 			// 			src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAKAAQMAAAA2A1tgAAAAA1BMVEWYmJgTNs/2AAAASElEQVR42u3BAQEAAACCoP6vbojAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABiDsqAAAHRK0/GAAAAAElFTkSuQmCC" />
 			var img = document.createElement('img');
-			img.setAttribute('src', "https://q1.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
 			img.id = 'qqHead';
-			img.setAttribute('onload', 'image_loaded');
+			img.setAttribute('src', "https://q1.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
+			img.setAttribute('class', "img-thumbnail rounded-circle m-3 shadow-sm");
+			img.setAttribute('onload', 'image_loaded()');
 			document.getElementById('head_input').appendChild(img);
 
 			document.getElementById('level').innerText = levelConfig[jsonData.level][0];
