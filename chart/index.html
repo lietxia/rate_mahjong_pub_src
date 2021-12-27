@@ -30,9 +30,7 @@
 	<div class="container">
 		<div class="card shadow-lg">
 			<div class="row">
-				<div class="col-3 text-end">
-					<img class="img-thumbnail rounded-circle m-3 shadow-sm" id="qqHead" alt="头像"
-						src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAKAAQMAAAA2A1tgAAAAA1BMVEWYmJgTNs/2AAAASElEQVR42u3BAQEAAACCoP6vbojAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABiDsqAAAHRK0/GAAAAAElFTkSuQmCC" />
+				<div class="col-3 text-end" id="head_input">
 				</div>
 				<div class="col-md-4 d-flex align-items-center">
 					<div class="ps-4">
@@ -72,6 +70,11 @@
 	<script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
 	<script>
 		var apiurl = "https://000.mk/r/chart.php";
+		function image_loaded() {
+			var span = document.createElement('span');
+			span.id = 'image_loaded';
+			document.body.append(span);
+		}
 		fetch(apiurl + window.location.search)
 			.catch(error => alert("fetch失败"))
 			.then((response) => response.json())
@@ -112,8 +115,14 @@
 				['八段', '近50战 均顺≤2.1'],
 				['九段', '已登顶'],
 			];
-			document.getElementById('qqHead').setAttribute('src',
-				"https://q1.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
+			// <img class="img-thumbnail rounded-circle m-3 shadow-sm" id="qqHead" alt="头像"
+			// 			src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAKAAQMAAAA2A1tgAAAAA1BMVEWYmJgTNs/2AAAASElEQVR42u3BAQEAAACCoP6vbojAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABiDsqAAAHRK0/GAAAAAElFTkSuQmCC" />
+			var img = document.createElement('img');
+			img.setAttribute('src', "https://q1.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
+			img.id = 'qqHead';
+			img.setAttribute('onload', 'image_loaded');
+			document.getElementById('head_input').appendChild(img);
+
 			document.getElementById('level').innerText = levelConfig[jsonData.level][0];
 			document.getElementById('levelUp').innerText = levelConfig[jsonData.level][1];
 			var myClass = document.getElementsByClassName("json_text");
