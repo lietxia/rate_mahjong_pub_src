@@ -61,6 +61,9 @@
 
 			<div id="chart_rader"></div>
 			<div id="chart_line"></div>
+			<div class="card-footer text-muted text-center">
+				https://rate.000.mk 全国雀庄公式战 <span id="now">2021-12-28 12:12</span>
+			</div>
 		</div>
 	</div>
 
@@ -69,6 +72,14 @@
 		crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
 	<script>
+		var today = new Date();
+		var y = today.getFullYear();
+		var m = today.getMonth() + 1;
+		var d = today.getDate();
+		var h = today.getHours();
+		var minutes = today.getMinutes();
+		document.getElementById("now").innerText = y + "-" + m + "-" + d + ' ' + h + ":" + minutes;
+
 		var apiurl = "https://000.mk/r/chart.php";
 		function image_loaded() {
 			var span = document.createElement('span');
@@ -115,8 +126,6 @@
 				['八段', '近50战 均顺≤2.1'],
 				['九段', '已登顶'],
 			];
-			// <img class="img-thumbnail rounded-circle m-3 shadow-sm" id="qqHead" alt="头像"
-			// 			src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAKAAQMAAAA2A1tgAAAAA1BMVEWYmJgTNs/2AAAASElEQVR42u3BAQEAAACCoP6vbojAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABiDsqAAAHRK0/GAAAAAElFTkSuQmCC" />
 			var img = document.createElement('img');
 			img.id = 'qqHead';
 			img.setAttribute('src', "https://q1.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
