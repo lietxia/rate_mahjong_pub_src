@@ -179,6 +179,13 @@
 			}
 
 		}
+		function new_row() {
+			var phone = prompt("请输入手机号");
+			var user_name = prompt("请输入昵称");
+			var tr = document.createElement('tr');
+			tr.innerHTML = '<td><div class="form-check"><label class="form-check-label" ><input class="form-check-input" type="checkbox">' + phone + '</label></div></td><td contenteditable="true">' + user_name + '</td><td contenteditable="true">0</td><td contenteditable="true">0</td><td contenteditable="true">0</td>';
+			document.getElementById('table_data').appendChild(tr);
+		}
 		function addmember() {
 			var postdata = {
 				"cid": webobj.cid,
@@ -236,8 +243,8 @@
 				}, "json");
 		}
 		function del_log_or_member() {
+			if (confirm('此操作很危险，要进行吗？') == false) { return; }
 			var t = document.getElementById("del_type").value;
-			console.log(t);
 			if (t != 1 && t != 2 && t != 3) { return; }
 			var type = ["none", "del_log", "del_member", "edit_phone"];
 			var postdata = {
@@ -455,8 +462,8 @@
 
 		<div id="form3" class="passed card shadow mt-3 d-none">
 			<div class="card-body">
-				<h4>多重记录导入 <button class="btn btn-info btn-sm" type="button" data-toggle="collapse" data-target="#new_log_tips"
-						aria-expanded="false" aria-controls="new_log_tips">
+				<h4>多重记录导入 <button class="btn btn-info btn-sm" type="button" data-toggle="collapse"
+						data-target="#new_log_tips" aria-expanded="false" aria-controls="new_log_tips">
 						显示说明
 					</button></h4>
 				<div class="collapse" id="new_log_tips">
@@ -509,7 +516,8 @@
 				</div>
 				手机号 昵称 QQ号 积分 余额<br>
 				<div class="form-group">
-					<textarea class="form-control" id="new_member_textarea" name="new_member_textarea" rows="3"></textarea>
+					<textarea class="form-control" id="new_member_textarea" name="new_member_textarea"
+						rows="3"></textarea>
 					<small class="text-muted">
 						上方数据 与 电子表格/在线表格 可以互相粘贴
 					</small>
@@ -573,6 +581,7 @@
 						</tr>
 					</tbody>
 				</table>
+				<button type="button" class="btn btn-primary" onclick="new_row()">添加新成员</button>
 				<button type="button" class="btn btn-danger" onclick="delete_select()">删除选中会员</button>
 				<button type="button" class="btn btn-primary" onclick="save_table()">保存</button>
 			</div>
