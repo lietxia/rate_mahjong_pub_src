@@ -38,29 +38,21 @@
             json: {}
         };
         function save_table() {
-            var taget = document.getElementById("new_member_textarea");
-            var table_data = document.getElementById("table_data").children;
+            var tr = document.querySelectorAll("#table_data>tr")
             var text = "";
-            for (var i = 0; i < table_data.length; i++) {
-                var e = table_data[i].innerText;
-                e = "1".replace(/\s+/, "\t");
-                text += e + "\n";
+            for (var i = 0; i < tr.length; i++) {
+                text += "\n" + (tr[i].innerText.trim().replace(/\s+/, "\t"));
             }
-            taget.value = text;
+            document.getElementById("new_member_textarea").value = text.trim();
             addmember();
         }
         function delete_select() {
-            var table_data = document.getElementById("table_data").children;
+            var check_boxes = document.querySelectorAll('#table_data input:checked');
             var text = "";
-            for (var i = 0; i < table_data.length; i++) {
-                var e = table_data[i];
-                if (e.querySelector("input").checked) {
-                    text += " " + e.querySelector("label.form-check-label").innerText;
-                }
-                e = "1".replace(/\s+/, "\t");
-                text += e + "\n";
+            for (var i = 0; i < check_boxes.length; i++) {
+                text += ' ' + check_boxes[i].parentNode.innerText;
             }
-            document.getElementById("deltext").value = text;
+            document.getElementById("deltext").value = text.trim()
             document.getElementById("del_type").value = 2;
             del_log_or_member();
         }
@@ -411,7 +403,7 @@
                     </div>
                 </div>
                 <small class="text-muted">
-                    【活跃度】分子分母 输入 2/7 表示一星期，有2天雀庄营业。输入 15/30 表示一个月有15天营业。
+                    【活跃度】分子分母 输入 2/7 表示一星期，有2天雀庄营业。输入 15/30 表示一个月有15天营业。
                 </small>
                 <hr />
                 <h4>雀庄状况</h4>
@@ -528,11 +520,12 @@
 
         <div id="form5" class="passed card shadow mt-3 d-none">
             <div class="card-body">
-                <h4>多重 记录/成員 刪除</h4>
+                <h4>批量删除记录+批量删除成员+批量改手机号</h4>
                 <small class="text-muted">
-                    刪除成員：輸入手機號<br>
-                    刪除對戰：輸入編號（記錄頁面#123字樣的東西）<br>
-                    用空格/回車分隔，記得把【不刪除】改一下
+                    批量删除成员：輸入手機號【例】12344443333 12344446666<br>
+                    批量删除记录：輸入編號（記錄頁面#123字樣的東西）【例】122 123 22<br>
+                    批量改手机号：原手机号+新手机号 原手机号+新手机号【例】12344443333 12344446666 12344443333 12344446666<br>
+                    用【空格/回車】分隔，記得取消【不刪除】
                 </small>
                 <textarea class="form-control mb-3" id="deltext" rows="2"></textarea>
                 <div class="input-group">
@@ -540,6 +533,7 @@
                         <option value="0" selected>不刪除</option>
                         <option value="1">刪除記錄</option>
                         <option value="2">刪除成員</option>
+                        <option value="3">改手机号（测试中）</option>
                     </select>
                     <div class="input-group-append">
                         <button class="btn btn-primary" type="button" onclick="del_log_or_member()">刪除</button>
@@ -576,8 +570,8 @@
                         </tr>
                     </tbody>
                 </table>
-                <button type="button" class="btn btn-danger">删除选中会员(未完成)</button>
-                <button type="button" class="btn btn-primary" onclick="">保存(未完成)</button>
+                <button type="button" class="btn btn-danger">删除选中会员</button>
+                <button type="button" class="btn btn-primary" onclick="save_table()">保存</button>
             </div>
         </div>
     </div>
