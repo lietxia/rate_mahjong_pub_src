@@ -93,7 +93,7 @@
 				if (json.code == 0 && json.hasOwnProperty("msg")) {//成功
 					if (json.msg === '需要参数') {
 						var userName = prompt('请输入选手昵称');
-						window.location.search = "name=" + userName;
+						return window.location.search = "name=" + userName;
 					}
 					return alert(json.msg);
 				}
