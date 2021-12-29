@@ -133,6 +133,9 @@
 				['八段', '近50战 均顺≤2.1'],
 				['九段', '已登顶'],
 			];
+			if (jsonData.radar[0] == 0) { //火力怪异现象
+				jsonData.radar[0] = null;
+			}
 			var img = document.createElement('img');
 			img.id = 'qqHead';
 			img.setAttribute('src', "https://q1.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
