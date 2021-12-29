@@ -182,9 +182,11 @@
 		function new_row() {
 			var phone = prompt("请输入手机号");
 			var user_name = prompt("请输入昵称");
-			var tr = document.createElement('tr');
-			tr.innerHTML = '<td><div class="form-check"><label class="form-check-label" ><input class="form-check-input" type="checkbox">' + phone + '</label></div></td><td contenteditable="true">' + user_name + '</td><td contenteditable="true">0</td><td contenteditable="true">0</td><td contenteditable="true">0</td>';
-			document.getElementById('table_data').appendChild(tr);
+			if (phone > 1 && user_name.trim() != '') {
+				var tr = document.createElement('tr');
+				tr.innerHTML = '<td><div class="form-check"><label class="form-check-label" ><input class="form-check-input" type="checkbox">' + phone + '</label></div></td><td contenteditable="true">' + user_name + '</td><td contenteditable="true">0</td><td contenteditable="true">0</td><td contenteditable="true">0</td>';
+				document.getElementById('table_data').appendChild(tr);
+			}
 		}
 		function addmember() {
 			var postdata = {
