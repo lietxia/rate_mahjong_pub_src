@@ -81,6 +81,10 @@
 		var d = today.getDate();
 		var h = today.getHours();
 		var minutes = today.getMinutes();
+		m = m < 10 ? '0' + m : m;
+		d = d < 10 ? '0' + d : d;
+		h = h < 10 ? '0' + h : h;
+		minutes = minutes < 10 ? '0' + minutes : minutes;
 		document.getElementById("now").innerText = y + "-" + m + "-" + d + ' ' + h + ":" + minutes;
 
 		var apiurl = "https://000.mk/r/chart.php";
