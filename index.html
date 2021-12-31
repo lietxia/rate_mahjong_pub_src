@@ -115,11 +115,10 @@
 	            {{ if(!cid1&&value[1]!=base.cid){continue;} }}
 	            <tr>
 	            <td>{{=idx}}</td>
-	            <td class="text-wrap">{{!value[0]}}</td>
+				<td class="text-wrap"><a href="./chart/?area={{=webobj.last_query[1]}}&name={{=value[0]}}" target="_blank">{{=value[0]}}</a></td>
 	            <td>{{=base.cid2name[value[1]]||value[1]}}</td>
 	            <td>{{=webobj.lv_data[value[2]]||value[2]}}</td>
-				<td><a href="./chart/?area={{=webobj.last_query[1]}}&name={{=value[4]}}" target="_blank">{{=value[4]}}</a></td>
-	            {{ for(var i=4;i< value.length;i++){ }}
+	            {{ for(var i=3;i< value.length;i++){ }}
 	            <td>{{=value[i]}}</td>
 	            {{ }idx++; }}
 	            </tr>
@@ -154,7 +153,7 @@
 	        {{~abc :value:index}}
 	        <tr>
 	        <td>{{=index+1}}</td>
-	        <td class="text-wrap">{{!value[0]}}</td>
+			<td class="text-wrap"><a href="./chart/?area={{=webobj.last_query[1]}}&name={{=value[0]}}" target="_blank">{{=value[0]}}</a></td>
 	        {{ for(var i=1;i< value.length;i++){ }}
 	        <td>{{=value[i]}}</td>
 	        {{ } }}
