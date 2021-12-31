@@ -3,38 +3,22 @@
 
 <head>
 
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>雀庄公式战</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.6.0/dist/darkly/bootstrap.min.css"
-        media="(prefers-color-scheme: dark)" />
-    <link rel="stylesheet" href="css/main.css" />
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<title>雀庄公式战</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.6.0/dist/darkly/bootstrap.min.css"
+		media="(prefers-color-scheme: dark)" />
+	<link rel="stylesheet" href="css/main.css" />
 </head>
 <script>
-    (function () {
-        //Remove QQ/TIM URL suffix
-        var patt = new RegExp(/(.+)[\?\&]tdsourcetag\=\w+$/);
-        var arr = patt.exec(window.location.href);
-        if (arr != null) { window.location.href = arr[1]; }
-
-        /*
-        //If at night, load night CSS
-        var hours = new Date().getHours();
-        var css = document.createElement("link");
-        css.setAttribute("rel", "stylesheet");
-        css.setAttribute("href",
-            (hours > 6 && hours < 20) ?
-                'https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css' :
-                "https://cdn.jsdelivr.net/npm/bootswatch@4.6.0/dist/darkly/bootstrap.min.css");
-        document.head.appendChild(css);
-        var css2 = document.createElement("link");
-        css2.setAttribute("rel", "stylesheet");
-        css2.setAttribute("href", "css/main.css");
-        document.head.appendChild(css2);
-        */
-    })()
+	(function () {
+		//Remove QQ/TIM URL suffix
+		var patt = new RegExp(/(.+)[\?\&]tdsourcetag\=\w+$/);
+		var arr = patt.exec(window.location.href);
+		if (arr != null) { window.location.href = arr[1]; }
+	})()
 
 </script>
 <!--template-->
@@ -83,7 +67,24 @@
 	    {{ } }}
 	    </div>
 	    </script>
-
+<!-- function username_link(cols = [1]) {
+			var tr = document.getElementsByTagName('tr');
+			if (typeof tr === 'object' && tr.length > 0 &&
+				typeof cols === "object" && cols.length > 0) {
+				for (let i = 1; i < tr.length; i++) {
+					for (let j = 0; j < cols.length; j++) {
+						var target = tr[i].children[cols[j]];
+						var a = document.createElement('a');
+						a.href = '/chart/?area=' + webobj.last_query[1]
+							+ '&name=' + target.innerText;
+						a.setAttribute('target', '_blank');
+						a.innerText = target.innerText;
+						target.innerText = '';
+						target.appendChild(a);
+					}
+				}
+			}
+		} -->
 <script id="templ_area_name" type="text/html">
 {{=marked(it[0])}}
 </script>
@@ -117,7 +118,8 @@
 	            <td class="text-wrap">{{!value[0]}}</td>
 	            <td>{{=base.cid2name[value[1]]||value[1]}}</td>
 	            <td>{{=webobj.lv_data[value[2]]||value[2]}}</td>
-	            {{ for(var i=3;i< value.length;i++){ }}
+				<td><a href="./chart/?area={{=webobj.last_query[1]}}&name={{=value[4]}}" target="_blank">{{=value[4]}}</a></td>
+	            {{ for(var i=4;i< value.length;i++){ }}
 	            <td>{{=value[i]}}</td>
 	            {{ }idx++; }}
 	            </tr>
@@ -231,7 +233,8 @@
 	            <td class="small">{{!value[0]}}</td>
 	            <td>{{=base.cid2name[value[1]]}}</td>
 	            {{ for(var i=2;i< 14;i++){var v=value[i],c=""; }}
-	            {{ if(i%3===1){v/=10;c=v< 0?'text-danger':'text-success'} }}
+				{{ if(i%3===2){v='<a target="_blank" href="./chart/?area='+webobj.last_query[1]+'&name='+v+'">'+v+'</a>';} }}
+	            {{ if(i%3===1){v/=10;c=v< 0?'text-danger':'text-success';} }}
 	            <td class="{{=c}}">{{=v}}</td>
 	            {{ } }}
 	            </tr>
@@ -243,42 +246,42 @@
 <!--template-->
 
 <body onhashchange="webobj.onhashchange()">
-    <!--navbar-->
-    <nav class="navbar navbar-dark bg-primary navbar-expand-sm sticky-top shadow">
-        <a class="navbar-brand" href="#">雀庄公式战</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
-            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+	<!--navbar-->
+	<nav class="navbar navbar-dark bg-primary navbar-expand-sm sticky-top shadow">
+		<a class="navbar-brand" href="#">雀庄公式战</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+			aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
 
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link" href="#">首页</a></li>
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item"><a class="nav-link" href="./admin/">管理</a></li>
-                </ul>
-        </div>
-    </nav>
+		<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item"><a class="nav-link" href="#">首页</a></li>
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item"><a class="nav-link" href="./admin/">管理</a></li>
+				</ul>
+		</div>
+	</nav>
 
-    <div class="jumbotron jumbotron-fluid pt-4 pb-2">
-        <div class="container">
-            <h1 id="jumbotron_title" class="display-4"></h1>
-            <p id="jumbotron_text" class="lead"></p>
-        </div>
-    </div>
+	<div class="jumbotron jumbotron-fluid pt-4 pb-2">
+		<div class="container">
+			<h1 id="jumbotron_title" class="display-4"></h1>
+			<p id="jumbotron_text" class="lead"></p>
+		</div>
+	</div>
 
-    <!--content-->
-    <div class="container" id="content_div"></div>
+	<!--content-->
+	<div class="container" id="content_div"></div>
 
-    <!--javaScript-->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
+	<!--javaScript-->
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+		crossorigin="anonymous"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/dot@1.1.3/doT.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tinysort@3.2.7/dist/tinysort.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked@1.1.0/marked.min.js" crossorigin="anonymous"></script>
-    <script src="js/main.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/dot@1.1.3/doT.min.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/tinysort@3.2.7/dist/tinysort.min.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/marked@1.1.0/marked.min.js" crossorigin="anonymous"></script>
+	<script src="js/main.js"></script>
 </body>
 
 
