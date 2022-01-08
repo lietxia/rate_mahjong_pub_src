@@ -184,8 +184,12 @@
 			document.getElementById('level').innerText = levelConfig[jsonData.level][0];
 			document.getElementById('lv_count').innerText = levelConfig[jsonData.level][1];
 			document.getElementById('lv_avg').innerText = levelConfig[jsonData.level][2];
-			document.getElementById('logs').innerText = jsonData['logs'].join(' ');
 
+			var str = '', logs = jsonData['logs'];
+			for (var i = 0; i < logs.length; i += 5) {
+				str += arr.slice(i, i + 5).join('') + ' ';
+			}
+			document.getElementById('logs').innerText = str;
 
 			document.getElementById('totalScore').innerText = jsonData['totalScore'] > 0 ? '+' + jsonData['totalScore'] : jsonData['totalScore'];
 			var myClass = document.getElementsByClassName("json_text");
