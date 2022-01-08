@@ -72,15 +72,15 @@
 					<span class="json_text" id="killCount"></span><br>
 
 					<span class="d-inline-block">通算得点</span>
-					<span id="totalScore"></span><br>
+					<small id="totalScore"></small><br>
 
 				</div>
 				<div class="col m-2">
 					<span class="d-inline-block">最高点数</span>
-					(<span class="json_text" id="maxPoint"></span>)<br>
+					<span class="json_text" id="maxPoint"></span><br>
 
 					<span class="d-inline-block">平均点数</span>
-					(<span class="json_text" id="pointAvg"></span>)<br>
+					<span class="json_text" id="pointAvg"></span><br>
 
 					<span class="d-inline-block">升段均顺≤<span id="lv_avg"></span></span>
 					(<span class="json_text" id="currentAvg"></span>)<br>
@@ -184,14 +184,30 @@
 			document.getElementById('level').innerText = levelConfig[jsonData.level][0];
 			document.getElementById('lv_count').innerText = levelConfig[jsonData.level][1];
 			document.getElementById('lv_avg').innerText = levelConfig[jsonData.level][2];
+			document.getElementById('currentAvg').className +=
+				(jsonData.currentAvg <= levelConfig[jsonData.level][2]) ?
+					' text-success' : ' text-danger';
+			document.getElementById('currentCount').className +=
+				(jsonData.currentCount >= levelConfig[jsonData.level][1]) ?
+					' text-success' : ' text-danger';
 
 			var str = '', logs = jsonData['logs'];
 			for (var i = 0; i < logs.length; i += 5) {
 				str += logs.slice(i, i + 5).join('') + ' ';
 			}
-			document.getElementById('logs').innerText = str;
+			if (i % 5 > 0) {
+				str += logs.slice(0 - (i % 5)).join('');
+			}
 
-			document.getElementById('totalScore').innerText = jsonData['totalScore'] > 0 ? '+' + jsonData['totalScore'] : jsonData['totalScore'];
+			document.getElementById('logs').innerText = str;
+			var totalScore = document.getElementById('totalScore');
+			if (jsonData['totalScore'] >= 0) {//text-success
+				totalScore.innerText = '+' + jsonData['totalScore'];
+				totalScore.className = 'text-success';
+			} else {
+				totalScore.innerText = jsonData['totalScore'];
+				totalScore.className = 'text-danger';
+			}
 			var myClass = document.getElementsByClassName("json_text");
 			for (let i = 0; i < myClass.length; i++) {
 				const element = myClass[i];
