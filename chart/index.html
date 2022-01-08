@@ -187,7 +187,7 @@
 
 			var str = '', logs = jsonData['logs'];
 			for (var i = 0; i < logs.length; i += 5) {
-				str += arr.slice(i, i + 5).join('') + ' ';
+				str += logs.slice(i, i + 5).join('') + ' ';
 			}
 			document.getElementById('logs').innerText = str;
 
