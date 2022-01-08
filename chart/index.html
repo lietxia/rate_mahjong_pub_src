@@ -16,6 +16,10 @@
 			height: 200px;
 		}
 
+		#chart_pie {
+			height: 200px;
+		}
+
 		#chart_line {
 			height: 120px;
 		}
@@ -40,46 +44,62 @@
 	</style>
 </head>
 
-<body class="mt-3 bg-secondary">
+<body class="my-3 bg-secondary">
 	<div class="container">
 		<div class="card shadow-lg">
-			<div class="row">
-				<div class="col-3 text-end" id="head_input">
+			<div class="row align-items-center">
+				<div class="col-md-3 text-center">
+					<div id="head_input" class="py-1 px-3"></div>
+					<span class="json_text" id="userName"></span>
+					<br class="d-none d-md-block" />
+					<span class="badge bg-primary" id="level"></span>
+					<span class="badge bg-secondary">R<span class="json_text" id="rate"></span></span>
 				</div>
-				<div class="col-md-4 d-flex align-items-center">
-					<div class="ps-4">
-						<h5 class="card-title mb-0">
-							<span class="badge bg-primary" id="level"></span>
-							<span class="json_text" id="userName"></span>
-						</h5>
+				<div class="col-4 mx-2">
+					<span class="json_text badge bg-secondary rounded-pill" id="club"></span>
+					<br>
 
-						<span class="badge bg-secondary rounded-pill">R<span class="json_text" id="rate"></span></span>
-						<span class="json_text badge bg-secondary rounded-pill" id="club"></span>
-						<span id="title"></span>
-						<br>
-						全国排行：<span class="json_text" id="rank"></span><br>
-						<span class="json_text" id="areaName"></span>：<span class="json_text" id="areaRank"></span><br>
-						总对局数：<span class="json_text" id="totalCount"></span><br>
-						飞人吃一：<span class="json_text" id="killCount"></span>
-					</div>
+					<span class="d-inline-block">全国排行</span>
+					<span class="json_text" id="rank"></span><br>
+
+					<span class="json_text d-inline-block" id="areaName"></span>
+					<span class="json_text" id="areaRank"></span><br>
+
+					<span class="d-inline-block">总对局数</span>
+					<span class="json_text" id="totalCount"></span><br>
+
+					<span class="d-inline-block">飞人吃一</span>
+					<span class="json_text" id="killCount"></span><br>
+
+					<span class="d-inline-block">通算得点</span>
+					<span id="totalScore"></span><br>
+
 				</div>
-				<div class="col-md-5 d-flex align-items-center">
-					<div class="ps-4">
-						<h5 class="card-title mb-0">升段条件</h5>
-						<span class="badge bg-secondary rounded-pill mb-1" id="levelUp"></span><br>
-						升段均顺：<span class="json_text" id="currentAvg"></span><br>
-						升段对局：<span class="json_text" id="currentCount"></span><br>
-						最高得点：<span class="json_text" id="maxPoint"></span><br>
-						通算得点：<span class="json_text" id="totalScore"></span><br>
-						平均得点：<span class="json_text" id="pointAvg"></span>
-					</div>
+				<div class="col m-2">
+					<span class="d-inline-block">最高点数</span>
+					(<span class="json_text" id="maxPoint"></span>)<br>
+
+					<span class="d-inline-block">平均点数</span>
+					(<span class="json_text" id="pointAvg"></span>)<br>
+
+					<span class="d-inline-block">升段均顺≤<span id="lv_avg"></span></span>
+					(<span class="json_text" id="currentAvg"></span>)<br>
+					<span class="d-inline-block">升段局数≥<span id="lv_count"></span></span>
+					(<span class="json_text" id="currentCount"></span>)<br>
+
+					<span class="d-inline-block">最近顺位</span>
+					<small id="logs" class="text-break text-wrap"></small>
 				</div>
 			</div>
-
-			<div id="chart_rader"></div>
+			<div class="row align-items-center">
+				<div id="chart_rader" class="col-md-6"></div>
+				<div id="chart_pie" class="col-md-6"></div>
+			</div>
 			<div id="chart_line"></div>
 			<div class="card-footer text-muted text-center">
-				https://rate.000.mk 全国雀庄公式战 <span id="now">2021-12-28 12:12</span>
+				<a href="https://rate.000.mk">https://rate.000.mk</a>
+				<span class="d-none d-sm-inline-block">全国雀庄公式战</span>
+				<small id="now">2021-12-28 12:12</small>
 			</div>
 		</div>
 	</div>
@@ -135,21 +155,21 @@
 		function generateCharts(jsonData) {
 
 			var levelConfig = [
-				['新人', '近7战 均顺≤2.9'],
-				['五级', '近7战 均顺≤2.8'],
-				['四级', '近10战 均顺≤2.7'],
-				['三级', '近10战 均顺≤2.7'],
-				['二级', '近12战 均顺≤2.6'],
-				['一级', '近16战 均顺≤2.6'],
-				['初段', '近16战 均顺≤2.5'],
-				['二段', '近20战 均顺≤2.5'],
-				['三段', '近25战 均顺≤2.4'],
-				['四段', '近25战 均顺≤2.4'],
-				['五段', '近30战 均顺≤2.3'],
-				['六段', '近40战 均顺≤2.1'],
-				['七段', '近45战 均顺≤2.0'],
-				['八段', '近50战 均顺≤1.9'],
-				['九段', '已登顶'],
+				['新人', 7, 2.9],
+				['五级', 7, 2.8],
+				['四级', 10, 2.7],
+				['三级', 10, 2.7],
+				['二级', 12, 2.6],
+				['一级', 16, 2.6],
+				['初段', 16, 2.5],
+				['二段', 20, 2.5],
+				['三段', 25, 2.4],
+				['四段', 25, 2.4],
+				['五段', 30, 2.3],
+				['六段', 40, 2.1],
+				['七段', 45, 2.0],
+				['八段', 50, 1.9],
+				['九段', 1, 0],
 			];
 			if (jsonData.radar[0] == 0) { //火力怪异现象
 				jsonData.radar[0] = null;
@@ -157,12 +177,17 @@
 			var img = document.createElement('img');
 			img.id = 'qqHead';
 			img.setAttribute('src', "https://q1.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
-			img.setAttribute('class', "img-thumbnail rounded-circle m-3 shadow-sm");
+			img.setAttribute('class', "img-thumbnail rounded-circle shadow-sm");
 			img.setAttribute('onload', 'image_loaded()');
 			document.getElementById('head_input').appendChild(img);
 
 			document.getElementById('level').innerText = levelConfig[jsonData.level][0];
-			document.getElementById('levelUp').innerText = levelConfig[jsonData.level][1];
+			document.getElementById('lv_count').innerText = levelConfig[jsonData.level][1];
+			document.getElementById('lv_avg').innerText = levelConfig[jsonData.level][2];
+			document.getElementById('logs').innerText = jsonData['logs'].join(' ');
+
+
+			document.getElementById('totalScore').innerText = jsonData['totalScore'] > 0 ? '+' + jsonData['totalScore'] : jsonData['totalScore'];
 			var myClass = document.getElementsByClassName("json_text");
 			for (let i = 0; i < myClass.length; i++) {
 				const element = myClass[i];
@@ -170,6 +195,7 @@
 			}
 			var myChart = echarts.init(document.getElementById("chart_rader"));
 			var myChart2 = echarts.init(document.getElementById("chart_line"));
+			var myChart3 = echarts.init(document.getElementById("chart_pie"));
 			var app = {};
 			var option = {
 				legend: { show: false },
@@ -184,7 +210,7 @@
 						{ name: '技术 (Rate)', max: 1800, min: 1300 },
 						{ name: '进攻 (一位率)', max: 0.35 }
 					],
-					center: ['25%', '50%'],
+					//center: ['25%', '50%'],
 					radius: "65%",
 					axisName: {
 						color: '#333',
@@ -204,8 +230,14 @@
 							}
 						]
 					},
+				]
+			};
+			var option3 = {
+				legend: { show: false },
+				tooltip: { show: true, },
+				series: [
 					{
-						center: ['70%', '50%'],
+						//center: ['70%', '50%'],
 						type: 'pie',
 						radius: ['40%', '75%'],
 						itemStyle: {
@@ -226,6 +258,7 @@
 
 				]
 			};
+
 			var option2 = {
 				legend: {
 					show: false
@@ -273,6 +306,12 @@
 			if (option && typeof option === 'object') {
 				myChart.setOption(option);
 				myChart2.setOption(option2);
+				myChart3.setOption(option3);
+				window.onresize = function () {
+					myChart.resize();
+					myChart2.resize();
+					myChart3.resize();
+				};
 			}
 		}
 
