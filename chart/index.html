@@ -25,7 +25,13 @@
 		}
 
 		#qqHead {
-			width: 150px;
+			height: 140px;
+			width: 140px;
+		}
+
+		#qqHead2 {
+			height: 140px;
+			width: 140px;
 		}
 
 		body,
@@ -47,56 +53,75 @@
 <body class="my-3 bg-secondary">
 	<div class="container">
 		<div class="card shadow-lg">
-			<div class="row align-items-center">
-				<div class="col-md-auto text-center">
-					<div id="head_input" class="py-1 px-3"></div>
-					<span class="badge bg-primary" id="level"></span>
-					<span class="json_text" id="userName"></span>
-					
+			<div class="row d-sm-none justify-content-center align-items-center text-center">
+				<div class="col-auto">
+					<span id="head_input2" class="py-1"></span>
 				</div>
-				<div class="col-4 mx-2">
-					<span class="badge bg-secondary rounded-pill">R<span class="json_text" id="rate"></span></span>
-					<span class="json_text badge bg-secondary rounded-pill" id="club"></span><br>
-
-					<span class="d-inline-block">全国排行</span>
-					<span class="json_text" id="rank"></span><br>
-
-					<span class="json_text d-inline-block" id="areaName"></span>
-					<span class="json_text" id="areaRank"></span><br>
-
-					<span class="d-inline-block">总对局数</span>
-					<span class="json_text" id="totalCount"></span><br>
-
-					<span class="d-inline-block">飞人吃一</span>
-					<span class="json_text" id="killCount"></span><br>
-
-					<span class="d-inline-block">通算<span class="d-none d-sm-inline-block">得点</span></span>
-					<small id="totalScore"></small><br>
-
-				</div>
-				<div class="col mx-2">
-					<span class="d-inline-block">最高点数</span>
-					<span class="json_text" id="maxPoint"></span><br>
-
-					<span class="d-inline-block">平均点数</span>
-					<span class="json_text" id="pointAvg"></span><br>
-
-					<span class="d-inline-block">升段均顺≤<span id="lv_avg"></span></span>
-					(<span class="json_text" id="currentAvg"></span>)<br>
-					<span class="d-inline-block">升段局数≥<span id="lv_count"></span></span>
-					(<span class="json_text" id="currentCount"></span>)<br>
-
-					<span class="d-inline-block">最近顺位</span>
-					<small id="logs" class="text-break text-wrap"></small>
+				<div class="col-auto">
+					<h3 class="card-title mb-0" id="userName2"></h3>
+					<span class="badge bg-primary" id="level2"></span>
+					<span class="badge bg-secondary">R<span id="rate2">1500</span></span>
+					<br>
+					<span class="badge bg-secondary rounded-pill" id="club2"></span>
 				</div>
 			</div>
+
+			<div class="row align-items-center">
+				<div class="col-sm-4 col-6">
+					<div class="ps-4">
+						<span class="json_text badge bg-secondary rounded-pill d-none d-sm-inline-block" id="club"></span><br>
+
+						<span class="d-inline-block">全国排行</span>
+						<span class="json_text" id="rank"></span><br>
+
+						<span class="json_text d-inline-block" id="areaName"></span>
+						<span class="json_text" id="areaRank"></span><br>
+
+						<span class="d-inline-block">总对局数</span>
+						<span class="json_text" id="totalCount"></span><br>
+
+						<span class="d-inline-block">飞人吃一</span>
+						<span class="json_text" id="killCount"></span>
+					</div>
+				</div>
+
+				<div class="col-4 text-center d-none d-sm-block">
+					<div id="head_input" class="py-1"></div>
+					<span class="json_text" id="userName"></span>
+					<br>
+					<span class="badge bg-primary" id="level"></span>
+					<span class="badge bg-secondary">R<span class="json_text" id="rate"></span></span>
+				</div>
+				<div class="col-sm-4 col-6 text-end">
+					<div class="pe-4">
+						<span class="d-inline-block">最高点数</span>
+						<span class="json_text" id="maxPoint"></span><br>
+
+						<span class="d-inline-block">平均点数</span>
+						<span class="json_text" id="pointAvg"></span><br>
+
+						<span class="d-inline-block"><span class="d-none d-sm-inline-block">升段</span>均顺≤<span id="lv_avg"></span></span>
+						(<span class="json_text" id="currentAvg"></span>)<br>
+						<span class="d-inline-block"><span class="d-none d-sm-inline-block">升段</span>局数≥<span id="lv_count"></span></span>
+						(<span class="json_text" id="currentCount"></span>)<br>
+
+						<span class="d-inline-block">通算<span class="d-none d-sm-inline-block">得点</span></span>
+						<small id="totalScore"></small>
+					</div>
+				</div>
+			</div>
+
 			<div class="row align-items-center">
 				<div id="chart_rader" class="col-md-6"></div>
 				<div id="chart_pie" class="col-md-6"></div>
 			</div>
+			<small class="text-center text-muted">最近顺位
+				<span id="logs" class="text-break text-wrap"></span>
+			</small>
 			<div id="chart_line"></div>
+
 			<div class="card-footer text-muted text-center">
-				<a href="https://rate.000.mk">https://rate.000.mk</a>
+				https://rate.000.mk
 				<span class="d-none d-sm-inline-block">全国雀庄公式战</span>
 				<small id="now">2021-12-28 12:12</small>
 			</div>
@@ -179,8 +204,16 @@
 			img.setAttribute('class', "img-thumbnail rounded-circle shadow-sm");
 			img.setAttribute('onload', 'image_loaded()');
 			document.getElementById('head_input').appendChild(img);
-
+			var img = document.createElement('img');
+			img.id = 'qqHead2';
+			img.setAttribute('src', "https://q1.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
+			img.setAttribute('class', "img-thumbnail rounded-circle shadow-sm");
+			document.getElementById('head_input2').appendChild(img);
+			document.getElementById('rate2').innerText = jsonData.rate;
+			document.getElementById('userName2').innerText = jsonData.userName;
+			document.getElementById('club2').innerText = jsonData.club;
 			document.getElementById('level').innerText = levelConfig[jsonData.level][0];
+			document.getElementById('level2').innerText = levelConfig[jsonData.level][0];
 			document.getElementById('lv_count').innerText = levelConfig[jsonData.level][1];
 			document.getElementById('lv_avg').innerText = levelConfig[jsonData.level][2];
 			document.getElementById('currentAvg').className +=
