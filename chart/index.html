@@ -225,7 +225,7 @@
 			document.getElementById('level2').innerText = levelConfig[jsonData.level][0];
 			document.getElementById('lv_count').innerText = levelConfig[jsonData.level][1];
 			document.getElementById('lv_avg').innerText = levelConfig[jsonData.level][2];
-
+			if (jsonData.percent == 100) { jsonData.percent = 99.9; }
 			document.getElementById('percent').innerText =
 				(jsonData.totalCount == 0 || jsonData.percent <= 10)
 					? '未来可期的雀士' : '击败了' + jsonData.percent + '%雀士';
