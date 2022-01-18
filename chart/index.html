@@ -101,8 +101,8 @@
 						<span class="d-inline-block">平均点<span class="d-none d-sm-inline-block">数</span></span>
 						<span class="json_text" id="pointAvg"></span><br>
 
-						<span>击败了</span><span class="json_text" id="percent"></span><span>%雀士</span><br>
-						
+						<span id="percent"></span><br>
+
 						<span class="d-inline-block"><span class="d-none d-sm-inline-block">升段</span>局数≥<span
 								id="lv_count"></span></span>
 						(<span class="json_text" id="currentCount"></span>)<br>
@@ -115,7 +115,7 @@
 							<span class="d-inline-block">通算<span class="d-none d-sm-inline-block">得点</span></span>
 							<small id="totalScore"></small>
 						</span>
-						
+
 					</div>
 				</div>
 			</div>
@@ -225,6 +225,10 @@
 			document.getElementById('level2').innerText = levelConfig[jsonData.level][0];
 			document.getElementById('lv_count').innerText = levelConfig[jsonData.level][1];
 			document.getElementById('lv_avg').innerText = levelConfig[jsonData.level][2];
+
+			document.getElementById('percent').innerText =
+				(jsonData.totalCount == 0 || jsonData.percent <= 10)
+					? '未来可期的雀士' : '击败了' + jsonData.percent + '%雀士';
 			document.getElementById('currentAvg').className +=
 				(jsonData.currentAvg <= levelConfig[jsonData.level][2]) ?
 					' text-success' : ' text-danger';
