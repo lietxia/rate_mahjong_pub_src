@@ -232,12 +232,6 @@
 			document.getElementById('currentAvg').className +=
 				(jsonData.currentAvg <= levelConfig[jsonData.level][2]) ?
 					' text-success' : ' text-danger';
-			if (jsonData.currentCount >= levelConfig[jsonData.level][1]) {
-				document.getElementById('currentCount').className += ' text-success';
-				document.getElementById('currentCount').innerText = '完成';
-			} else {
-				document.getElementById('currentCount').className += ' text-danger';
-			}
 
 			var str = '', logs = jsonData['logs'];
 			for (var i = 0; i < logs.length; i += 5) {
@@ -260,6 +254,12 @@
 			for (let i = 0; i < myClass.length; i++) {
 				const element = myClass[i];
 				element.innerText = jsonData[element.id];
+			}
+			if (jsonData.currentCount >= levelConfig[jsonData.level][1]) {
+				document.getElementById('currentCount').className += ' text-success';
+				document.getElementById('currentCount').innerText = '完成';
+			} else {
+				document.getElementById('currentCount').className += ' text-danger';
 			}
 			var myChart = echarts.init(document.getElementById("chart_rader"));
 			var myChart2 = echarts.init(document.getElementById("chart_line"));
