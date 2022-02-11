@@ -11,11 +11,11 @@ var webobj = {
         if (!!window.ActiveXObject || "ActiveXObject" in window) {
             //如果是IE
             var js = document.createElement('script');
-            js.setAttribute('src', 'https://cdn.jsdelivr.net/npm/xlsx@0.16.1/dist/shim.min.js');
+            js.setAttribute('src', 'https://cdn.bootcdn.net/ajax/libs/xlsx/0.18.0/shim.min.js');
             document.body.appendChild(js);
         }
         var js2 = document.createElement('script');
-        js2.setAttribute('src', 'https://cdn.jsdelivr.net/npm/xlsx@0.16.1/dist/xlsx.full.min.js');
+        js2.setAttribute('src', 'https://cdn.bootcdn.net/ajax/libs/xlsx/0.18.0/xlsx.full.min.js');
         js2.setAttribute('id', 'xls_script');
         js2.setAttribute('onload', 'window.webobj.excel2()');
         document.body.appendChild(js2);
