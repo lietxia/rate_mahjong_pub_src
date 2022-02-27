@@ -69,13 +69,13 @@
 			<div class="row align-items-center">
 				<div class="col-sm-4 col-6">
 					<div class="ps-4">
-						<span class="json_text badge bg-secondary rounded-pill d-none d-sm-inline-block"
-							id="club"></span><br>
+						<span class="json_text badge bg-secondary d-none d-sm-inline-block" id="areaName"></span><br>
+						<span class="json_text badge bg-secondary d-none d-sm-inline-block" id="club"></span><br>
 
 						<span class="d-inline-block">全国排行</span>
 						<span class="json_text" id="rank"></span><br>
 
-						<span class="json_text d-inline-block" id="areaName"></span>
+						<span class="d-inline-block">雀庄内排行</span>
 						<span class="json_text" id="areaRank"></span><br>
 
 						<span class="d-inline-block">总对局数</span>
@@ -228,7 +228,7 @@
 			if (jsonData.percent == 100) { jsonData.percent = 99.9; }
 			document.getElementById('percent').innerText =
 				(jsonData.totalCount == 0 || jsonData.percent <= 10)
-					? '未来可期的雀士' : '击败了' + jsonData.percent + '%雀士';
+					? '未来可期的雀士' : '击败' + jsonData.percent + '%雀士';
 			document.getElementById('currentAvg').className +=
 				(jsonData.currentAvg <= levelConfig[jsonData.level][2]) ?
 					' text-success' : ' text-danger';
