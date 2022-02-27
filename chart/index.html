@@ -228,7 +228,7 @@
 			if (jsonData.percent == 100) { jsonData.percent = 99.9; }
 			document.getElementById('percent').innerText =
 				(jsonData.totalCount == 0 || jsonData.percent <= 10)
-					? '未来可期的雀士' : '击败' + jsonData.percent + '%雀士';
+					? '未来可期的雀士' : '打败' + jsonData.percent + '%雀士';
 			document.getElementById('currentAvg').className +=
 				(jsonData.currentAvg <= levelConfig[jsonData.level][2]) ?
 					' text-success' : ' text-danger';
