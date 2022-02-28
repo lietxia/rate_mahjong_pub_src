@@ -63,15 +63,14 @@
 					<span class="badge bg-secondary">R<span id="rate2">1500</span></span>
 					<br>
 					<span class="badge bg-secondary rounded-pill" id="club2"></span><br>
-					<span class="badge bg-secondary" id="areaName2"></span><br>
 				</div>
 			</div>
 
 			<div class="row align-items-center">
 				<div class="col-sm-4 col-6">
 					<div class="ps-4">
-						<span class="json_text badge bg-secondary d-none d-sm-inline-block" id="areaName"></span>
-						<br class="d-none d-sm-inline-block">
+						<span class="json_text badge bg-secondary" id="areaName"></span>
+						<br>
 						<span class="json_text badge bg-secondary d-none d-sm-inline-block" id="club"></span>
 						<br class="d-none d-sm-inline-block">
 
@@ -224,7 +223,6 @@
 			document.getElementById('rate2').innerText = jsonData.rate;
 			document.getElementById('userName2').innerText = jsonData.userName;
 			document.getElementById('club2').innerText = jsonData.club;
-			document.getElementById('areaName2').innerText = jsonData.areaName;
 			document.getElementById('level').innerText = levelConfig[jsonData.level][0];
 			document.getElementById('level2').innerText = levelConfig[jsonData.level][0];
 			document.getElementById('lv_count').innerText = levelConfig[jsonData.level][1];
