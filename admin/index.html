@@ -73,7 +73,7 @@
 			if (typeof json.text === "object") {
 				json.text = JSON.stringify(json.text);
 			}
-			var div = document.createElement("div");
+			var div = document.createElement("pre");
 			var color = ["success", "warning", "danger", "info", "primary"];
 			div.setAttribute("class", "alert alert-" + color[json.status] + " alert-dismissible fade show shadow-sm");
 			div.setAttribute("role", "alert");
