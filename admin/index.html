@@ -73,11 +73,13 @@
 			if (typeof json.text === "object") {
 				json.text = JSON.stringify(json.text);
 			}
-			var div = document.createElement("pre");
+			var div = document.createElement("div");
 			var color = ["success", "warning", "danger", "info", "primary"];
 			div.setAttribute("class", "alert alert-" + color[json.status] + " alert-dismissible fade show shadow-sm");
 			div.setAttribute("role", "alert");
-			div.appendChild(document.createTextNode(now + " " + json.text));
+			var pre=document.createElement('pre');
+			pre.appendChild(document.createTextNode(now + " " + json.text));
+			div.appendChild(pre);
 			var btn = document.createElement("button");
 			btn.setAttribute("class", "close");
 			btn.setAttribute("data-dismiss", "alert");
