@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet"
+          crossorigin="anonymous">
+
+    <title>全國聯賽TI5 MVP榜</title>
+</head>
+
+<body onhashchange="page_change()" onload="page_change()">
+<div class="container text-center mt-3">
+
+    <h1><span id="nick_name"></span>同桌战绩统计</h1>
+
+    <!--    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">-->
+    <!--        仇恨值 = 他的名次 - 你的名次 <br>-->
+    <!--        获胜率 = 你名次靠前的次数 ÷ 总对战次数<br>-->
+    <!--        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
+    <!--    </div>-->
+    <table class="table table-striped table-hover table-bordered table-sm mt-3 text-cent">
+        <thead>
+        <tr>
+            <th scope="col" rowspan="2">#</th>
+            <th scope="col" rowspan="2">对手<br>昵称</th>
+            <th scope="col" rowspan="2">仇恨<br>值</th>
+            <th scope="col" rowspan="2">相遇<br>次数</th>
+            <th scope="col" rowspan="2">对他<br>胜率</th>
+            <th scope="col" colspan="5">相遇时对手成绩</th>
+            <th scope="col" colspan="5">相遇时自己成绩</th>
+        </tr>
+        <tr>
+            <th scope="col">1位</th>
+            <th scope="col">2位</th>
+            <th scope="col">3位</th>
+            <th scope="col">4位</th>
+            <th scope="col">平顺</th>
+            <th scope="col">1位</th>
+            <th scope="col">2位</th>
+            <th scope="col">3位</th>
+            <th scope="col">4位</th>
+            <th scope="col">平顺</th>
+        </tr>
+        </thead>
+        <tbody id="table_data">
+        </tbody>
+    </table>
+</div>
+
+
+<script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+
+<script>
+    window.json_data = {};
+    window.last_uid = 0;
+
+    function page_change() {
+        const my_hash = window.location.hash.split('#', 3);
+        const uid = (my_hash.length >= 2 && my_hash[1] > 0) ? parseInt(my_hash[1]) : 0;
+        if (uid === 0 || uid === window.last_uid) {
+            return;
+        }
+        window.last_uid = uid;
+        const nickname = (my_hash.length >= 3) ? decodeURI(my_hash[2]) : '';
+        document.getElementById('nick_name').innerText = '(' + nickname + ')';
+        const request = new XMLHttpRequest();
+        request.open("get", "https://000.mk/r/rival.php?uid=" + uid);
+        request.send(null);
+        request.onload = function () {
+            if (request.status === 200) {
+                window.json_data = JSON.parse(request.responseText);
+                console.log(window.json_data);
+                gen_table(nickname);
+            } else {
+                alert("载入数据失败，请刷新");
+            }
+        }
+    }
+
+    function gen_table() {
+
+        const target = document.getElementById("table_data");
+        target.textContent = "";
+        const table_data = window.json_data;
+
+        for (let i = 0; i < table_data.length; i++) {
+            const tr = document.createElement('tr');
+            const table_row = table_data[i];
+            const col_array = [
+                (i + 1),
+                table_row['name'],
+                table_row['hate'],
+                table_row['count'],
+                Math.round(table_row['win'] / table_row['count'] * 100) + "%",
+                table_row['r1'], table_row['r2'], table_row['r3'], table_row['r4'],
+                Math.round((table_row['r1'] + table_row['r2'] * 2 + table_row['r3'] * 3 + table_row['r4'] * 4) / table_row['count'] * 100) / 100,
+                table_row['u1'], table_row['u2'], table_row['u3'], table_row['u4'],
+                Math.round((table_row['u1'] + table_row['u2'] * 2 + table_row['u3'] * 3 + table_row['u4'] * 4) / table_row['count'] * 100) / 100
+            ];
+            for (let j = 0; j < col_array.length; j++) {
+
+                const td = document.createElement("td");
+                if (j === 1) {
+                    const a = document.createElement('a');
+                    a.innerText = col_array[j];
+                    a.href = '#' + table_row['uid'] + '#' + table_row['name'];
+                    td.appendChild(a);
+                } else {
+                    td.innerText = col_array[j];
+                }
+                tr.appendChild(td);
+            }
+            target.appendChild(tr);
+        }
+    }
+</script>
+</body>
+
+</html>

@@ -55,7 +55,7 @@
 		<div class="card shadow-lg">
 			<div class="row d-sm-none justify-content-center align-items-center text-center">
 				<div class="col-auto">
-					<span id="head_input2" class="py-1"></span>
+					<a id="head_input2" class="py-1" href="#"></a>
 				</div>
 				<div class="col-auto">
 					<h3 class="card-title mb-0" id="userName2"></h3>
@@ -89,7 +89,7 @@
 				</div>
 
 				<div class="col-4 text-center d-none d-sm-block">
-					<div id="head_input" class="py-1"></div>
+					<a id="head_input" class="py-1" href="#"></a>
 					<span class="json_text" id="userName"></span>
 					<br>
 					<span class="badge bg-primary" id="level"></span>
@@ -215,11 +215,13 @@
 			img.setAttribute('class', "img-thumbnail rounded-circle shadow-sm");
 			img.setAttribute('onload', 'image_loaded()');
 			document.getElementById('head_input').appendChild(img);
+			document.getElementById('head_input').setAttribute('href','../rival.html#'+jsonData.uid+'#'+jsonData.userName);
 			var img = document.createElement('img');
 			img.id = 'qqHead2';
 			img.setAttribute('src', "https://q1.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
 			img.setAttribute('class', "img-thumbnail rounded-circle shadow-sm");
 			document.getElementById('head_input2').appendChild(img);
+			document.getElementById('head_input2').setAttribute('href','../rival.html#'+jsonData.uid+'#'+jsonData.userName);
 			document.getElementById('rate2').innerText = jsonData.rate;
 			document.getElementById('userName2').innerText = jsonData.userName;
 			document.getElementById('club2').innerText = jsonData.club;
