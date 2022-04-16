@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1" name="viewport">
+
+	<!-- Bootstrap CSS -->
+	<link crossorigin="anonymous" href="https://cdn.staticfile.org/twitter-bootstrap/5.1.3/css/bootstrap.min.css"
+	      rel="stylesheet">
+
+	<title>Hello, world!</title>
+</head>
+
+<body>
+<div class="container mt-3">
+	<div class="card shadow text-center">
+		<ul class="list-group list-group-flush">
+			<li class="list-group-item">
+				<span>7月19日(周一)</span>
+				<div aria-label="Basic checkbox toggle button group" class="btn-group" role="group">
+					<input autocomplete="off" class="btn-check" id="btncheck1" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck1">上午</label>
+
+					<input autocomplete="off" class="btn-check" id="btncheck2" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck2">中午</label>
+
+					<input autocomplete="off" class="btn-check" id="btncheck3" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck3">下午</label>
+
+					<input autocomplete="off" class="btn-check" id="btncheck4" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck4">晚上</label>
+				</div>
+			</li>
+			<li class="list-group-item">
+				<a aria-controls="collapseExample" aria-expanded="false" class="btn btn-primary btn-sm" data-bs-toggle="collapse"
+				   href="#collapseExample" role="button">
+					7月20日(周二)
+				</a>
+				<div aria-label="Basic checkbox toggle button group" class="btn-group my-2" role="group">
+					<input autocomplete="off" class="btn-check" id="btncheck5" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck5">上午<span
+							class="badge bg-primary">3</span></label>
+
+					<input autocomplete="off" class="btn-check" id="btncheck6" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck6">中午<span
+							class="badge bg-primary">4</span></label>
+
+					<input autocomplete="off" class="btn-check" id="btncheck7" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck7">下午</label>
+
+					<input autocomplete="off" class="btn-check" id="btncheck8" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck8">晚上</label>
+				</div>
+				<div class="collapse" id="collapseExample">
+					<div class="card card-body">
+						Some placeholder content for the collapse component. This panel is hidden by default but
+						revealed when the user activates the relevant trigger.
+					</div>
+				</div>
+			</li>
+			<li class="list-group-item">
+				<span>7月19日(周一)</span>
+				<div aria-label="Basic checkbox toggle button group" class="btn-group" role="group">
+					<input autocomplete="off" class="btn-check" id="btncheck1" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck1">上午</label>
+
+					<input autocomplete="off" class="btn-check" id="btncheck2" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck2">中午</label>
+
+					<input autocomplete="off" class="btn-check" id="btncheck3" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck3">下午</label>
+
+					<input autocomplete="off" class="btn-check" id="btncheck4" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck4">晚上</label>
+				</div>
+			</li>
+			<li class="list-group-item">
+				<span>7月19日(周一)</span>
+				<div aria-label="Basic checkbox toggle button group" class="btn-group" role="group">
+					<input autocomplete="off" class="btn-check" id="btncheck1" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck1">上午</label>
+
+					<input autocomplete="off" class="btn-check" id="btncheck2" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck2">中午</label>
+
+					<input autocomplete="off" class="btn-check" id="btncheck3" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck3">下午</label>
+
+					<input autocomplete="off" class="btn-check" id="btncheck4" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck4">晚上</label>
+				</div>
+			</li>
+
+			<li class="list-group-item">
+				<span>7月19日(周一)</span>
+				<div aria-label="Basic checkbox toggle button group" class="btn-group" role="group">
+					<input autocomplete="off" class="btn-check" id="btncheck1" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck1">上午</label>
+
+					<input autocomplete="off" class="btn-check" id="btncheck2" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck2">中午</label>
+
+					<input autocomplete="off" class="btn-check" id="btncheck3" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck3">下午</label>
+
+					<input autocomplete="off" class="btn-check" id="btncheck4" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck4">晚上</label>
+				</div>
+			</li>
+			<li class="list-group-item">
+				<span>7月19日(周一)</span>
+				<div aria-label="Basic checkbox toggle button group" class="btn-group" role="group">
+					<input autocomplete="off" class="btn-check" id="btncheck1" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck1">上午</label>
+
+					<input autocomplete="off" class="btn-check" id="btncheck2" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck2">中午</label>
+
+					<input autocomplete="off" class="btn-check" id="btncheck3" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck3">下午</label>
+
+					<input autocomplete="off" class="btn-check" id="btncheck4" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck4">晚上</label>
+				</div>
+			</li>
+			<li class="list-group-item">
+				<span>7月19日(周一)</span>
+				<div aria-label="Basic checkbox toggle button group" class="btn-group" role="group">
+					<input autocomplete="off" class="btn-check" id="btncheck1" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck1">上午</label>
+
+					<input autocomplete="off" class="btn-check" id="btncheck2" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck2">中午</label>
+
+					<input autocomplete="off" class="btn-check" id="btncheck3" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck3">下午</label>
+
+					<input autocomplete="off" class="btn-check" id="btncheck4" type="checkbox">
+					<label class="btn btn-outline-secondary btn-sm" for="btncheck4">晚上</label>
+				</div>
+			</li>
+
+		</ul>
+
+	</div>
+</div>
+
+
+<script crossorigin="anonymous"
+        src="https://cdn.staticfile.org/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+
+</html>

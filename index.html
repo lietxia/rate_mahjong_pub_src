@@ -3,70 +3,77 @@
 
 <head>
 
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta charset="utf-8"/>
+	<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+	<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
 	<title>雀庄公式战</title>
-	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="https://cdn.staticfile.org/bootswatch/4.6.1/darkly/bootstrap.min.css"
-		media="(prefers-color-scheme: dark)" />
-	<link rel="stylesheet" href="css/main.css" />
+	<link href="https://cdn.staticfile.org/twitter-bootstrap/4.6.1/css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="https://cdn.staticfile.org/bootswatch/4.6.1/darkly/bootstrap.min.css"
+	      media="(prefers-color-scheme: dark)"
+	      rel="stylesheet"/>
+	<link href="css/main.css" rel="stylesheet"/>
 </head>
 <script>
 	(function () {
 		//Remove QQ/TIM URL suffix
-		var patt = new RegExp(/(.+)[\?\&]tdsourcetag\=\w+$/);
+		var patt = new RegExp(/(.+)[?&]tdsourcetag=\w+$/);
 		var arr = patt.exec(window.location.href);
-		if (arr != null) { window.location.href = arr[1]; }
+		if (arr != null) {
+			window.location.href = arr[1];
+		}
 	})()
 
 </script>
 <!--template-->
-<script id="templ_main" type="text/html">
+<script id="templ_main" type="text/plain">
 	<div class="alert alert-warning alert-dismissible fade show" role="alert">
-	    {{=it[0].area_name}}
-	    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-	      <span aria-hidden="true">&times;</span>
-	    </button>
-	  </div>
-	  
-	  <div class="btn-group shadow-sm rounded btn-block">
-	    <button type="button" class="filter1 btn btn-info" onclick="webobj.filter1(this,1)">全部</button>
-	    <button type="button" class="filter1 btn btn-info" onclick="webobj.filter1(this,2)">华北</button>
-	    <button type="button" class="filter1 btn btn-info" onclick="webobj.filter1(this,3)">东北</button>
-	    <button type="button" class="filter1 btn btn-info" onclick="webobj.filter1(this,4)">华东</button>
-	    <button type="button" class="filter1 btn btn-info" onclick="webobj.filter1(this,5)">中南</button>
-	    <button type="button" class="filter1 btn btn-info" onclick="webobj.filter1(this,6)">西部</button>
-	  </div>
+		{{=it[0].area_name}}
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+
+	<div class="btn-group shadow-sm rounded btn-block">
+		<button type="button" class="filter1 btn btn-info" onclick="webobj.filter1(this,1)">全部</button>
+		<button type="button" class="filter1 btn btn-info" onclick="webobj.filter1(this,2)">华北</button>
+		<button type="button" class="filter1 btn btn-info" onclick="webobj.filter1(this,3)">东北</button>
+		<button type="button" class="filter1 btn btn-info" onclick="webobj.filter1(this,4)">华东</button>
+		<button type="button" class="filter1 btn btn-info" onclick="webobj.filter1(this,5)">中南</button>
+		<button type="button" class="filter1 btn btn-info" onclick="webobj.filter1(this,6)">西部</button>
+	</div>
 
 	<div class="row justify-content-center row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
 
-	    {{ for(var i=1;i< it.length;i++){var base=it[i];if(base.status==0){continue;} }}
-	    <div class="col text-center mt-3 card_item ctype_{{=base.ctype}} status_{{=base.status}} ">
-	        <div class="card shadow">
-	            <div class="card-body">
-	                <a href="#/{{=base.cid}}/">
-	                <h5 class="card-title">
-	                    <span class="badge badge-secondary d-inline d-sm-none">{{=webobj.obj2text.status[base.status]}}</span>
-	                    <span class="text-{{=webobj.obj2text.color[base.ctype]}}">
+		{{ for(var i=1;i< it.length;i++){var base=it[i];if(base.status==0){continue;} }}
+		<div class="col text-center mt-3 card_item ctype_{{=base.ctype}} status_{{=base.status}} ">
+			<div class="card shadow">
+				<div class="card-body">
+					<a href="#/{{=base.cid}}/">
+						<h5 class="card-title">
+							<span class="badge badge-secondary d-inline d-sm-none">{{=webobj.obj2text.status[base.status]}}</span>
+							<span class="text-{{=webobj.obj2text.color[base.ctype]}}">
 	                    {{=base.name}}</span>
-	                </h5></a>
-	                    <span class="d-none d-sm-inline">{{=webobj.obj2text.status[base.status]}}</span>
-	                    <div class="progress mt-2 md-0">
-	                        <div class="progress-bar progress-bar-striped bg-{{=webobj.obj2text.color[base.ctype]+((base.status==4)?'':' progress-bar-animated')}}" role="progressbar"  style="width: {{=Math.ceil(base.numerator/base.denominator*100)}}%">{{=base.numerator+"/"+base.denominator}}</div>
-	                      </div>
-	                </div>
-	            <div class="card-footer">
-	                <p class="card-text">
-	                    <span class="badge badge-pill badge-{{=webobj.obj2text.color[base.ctype]}}">{{=webobj.obj2text.ctype2str[base.ctype]}}</span>
-	                    {{=base.area_name}}
-	                </p>
-	            </div>
-	        </div>
-	    </div>
-	    {{ } }}
-	    </div>
-	    </script>
+						</h5></a>
+					<span class="d-none d-sm-inline">{{=webobj.obj2text.status[base.status]}}</span>
+					<div class="progress mt-2 md-0">
+						<div class="progress-bar progress-bar-striped bg-{{=webobj.obj2text.color[base.ctype]+((base.status==4)?'':' progress-bar-animated')}}"
+						     role="progressbar" style="width: {{=Math.ceil(base.numerator/base.denominator*100)}}%">
+							{{=base.numerator+"/"+base.denominator}}
+						</div>
+					</div>
+				</div>
+				<div class="card-footer">
+					<p class="card-text">
+						<span class="badge badge-pill badge-{{=webobj.obj2text.color[base.ctype]}}">{{=webobj.obj2text.ctype2str[base.ctype]}}</span>
+						{{=base.area_name}}
+					</p>
+				</div>
+			</div>
+		</div>
+		{{ } }}
+	</div>
+
+</script>
 <!-- function username_link(cols = [1]) {
 			var tr = document.getElementsByTagName('tr');
 			if (typeof tr === 'object' && tr.length > 0 &&
@@ -85,82 +92,86 @@
 				}
 			}
 		} -->
-<script id="templ_area_name" type="text/html">
-{{=marked(it[0])}}
+<script id="templ_area_name" type="text/plain">
+	{{=marked(it[0])}}
+
 </script>
-<script id="templ_level" type="text/html">
+<script id="templ_level" type="text/plain">
 	<h3>段位榜
-	    <a class="btn btn-primary mr-2" href="javascript:window.webobj.excel1();">下载数据</a>
-	    {{? window.webobj.this_query[1]!=='1' }}
-	    <a class="btn btn-info" href="#/1/level/">查看总榜</a>
-	    {{?}}
+		<a class="btn btn-primary mr-2" href="javascript:window.webobj.excel1();">下载数据</a>
+		{{? window.webobj.this_query[1]!=='1' }}
+		<a class="btn btn-info" href="#/1/level/">查看总榜</a>
+		{{?}}
 	</h3>
-	总成绩 = 成績(例如+12.0)之和<br />
-	升段局数 = 挑战升级的对局数(升段后清零，只会取最后N战)<br />
+	总成绩 = 成績(例如+12.0)之和<br/>
+	升段局数 = 挑战升级的对局数(升段后清零，只会取最后N战)<br/>
 	升段均順 = 挑战升级的平均顺位（升段后归零，只取最后N战）
 	<div class="table-responsive">
-	    <table class="mytable table table-sm table-striped table-bordered table-hover text-center mt-3" id="table1">
-	        <thead>
-	            <tr>
-	                <th>#</th>
-	                {{ var base=webobj.cache.base[webobj.this_query[1]]; }}
-	                {{ for(var i=0;i< it[0].length;i++){ }}
-	                <th onclick="webobj.sort_table1(this)">{{=it[0][i]}}</th>
-	                {{ }var abc=Array.from(it),idx=1,cid1=base.cid==='1';abc.shift(); }}
-	            </tr>
-	        </thead>
-	        <tbody>
-	            {{~abc :value:index}}
+		<table class="mytable table table-sm table-striped table-bordered table-hover text-center mt-3" id="table1">
+			<thead>
+			<tr>
+				<th>#</th>
+				{{ var base=webobj.cache.base[webobj.this_query[1]]; }}
+				{{ for(var i=0;i< it[0].length;i++){ }}
+				<th onclick="webobj.sort_table1(this)">{{=it[0][i]}}</th>
+				{{ }var abc=Array.from(it),idx=1,cid1=base.cid==='1';abc.shift(); }}
+			</tr>
+			</thead>
+			<tbody>
+			{{~abc :value:index}}
 
-	            {{ if(!cid1&&value[1]!=base.cid){continue;} }}
-	            <tr>
-	            <td>{{=idx}}</td>
-				<td class="text-wrap"><a href="./chart/?area={{=value[1]}}&name={{=value[0]}}" target="_blank">{{=value[0]}}</a></td>
-	            <td>{{=base.cid2name[value[1]]||value[1]}}</td>
-	            <td>{{=webobj.lv_data[value[2]]||value[2]}}</td>
-	            {{ for(var i=3;i< value.length;i++){ }}
-	            <td>{{=value[i]}}</td>
-	            {{ }idx++; }}
-	            </tr>
-	            {{~}}
-	        </tbody>
+			{{ if(!cid1&&value[1]!=base.cid){continue;} }}
+			<tr>
+				<td>{{=idx}}</td>
+				<td class="text-wrap"><a href="./chart/?area={{=value[1]}}&name={{=value[0]}}" target="_blank">{{=value[0]}}</a>
+				</td>
+				<td>{{=base.cid2name[value[1]]||value[1]}}</td>
+				<td>{{=webobj.lv_data[value[2]]||value[2]}}</td>
+				{{ for(var i=3;i< value.length;i++){ }}
+				<td>{{=value[i]}}</td>
+				{{ }idx++; }}
+			</tr>
+			{{~}}
+			</tbody>
 	</div>
+
 </script>
-<script id="templ_ranking" type="text/html">
-<h3>成绩统计
-	<a class="btn btn-primary mr-2" href="javascript:window.webobj.excel1();">下载数据</a>
-	{{? window.webobj.this_query[1]!=='1' }}
-	<a class="btn btn-info" href="#/1/ranking/">查看总榜</a>
-	{{?}}
-</h3>
-平均順位 = (一位數×1 + 二位數×2 + 三位數×3 + 四位數×4) ÷ 對戰數<br />
-連對率 = (一位數 + 二位數) ÷ 對戰數<br />
-合計成績 = 成績(例如+12.0)之和<br />
-合計點數 = 結束點數(例如25000)之和<br />
-1位～4位 = 1位次數～4位次數<br />
-<div class="table-responsive">
-	<table class="mytable table table-sm table-striped table-bordered table-hover text-center mt-3" id="table1">
-	    <thead>
-	        <tr>
-	            <th>#</th>
-	            {{ var base=webobj.cache.base[webobj.this_query[1]]; }}
-	            {{ for(var i=0;i< it[0].length;i++){ }}
-	            <th onclick="webobj.sort_table1(this)">{{=it[0][i]}}</th>
-	            {{ }var abc=Array.from(it);abc.shift(); }}
-	        </tr>
-	    </thead>
-	    <tbody>
-	        {{~abc :value:index}}
-	        <tr>
-	        <td>{{=index+1}}</td>
-			<td class="text-wrap"><a href="./chart/?name={{=value[0]}}" target="_blank">{{=value[0]}}</a></td>
-	        {{ for(var i=1;i< value.length;i++){ }}
-	        <td>{{=value[i]}}</td>
-	        {{ } }}
-	        </tr>
-	        {{~}}
-	    </tbody>
-</div>
+<script id="templ_ranking" type="text/plain">
+	<h3>成绩统计
+		<a class="btn btn-primary mr-2" href="javascript:window.webobj.excel1();">下载数据</a>
+		{{? window.webobj.this_query[1]!=='1' }}
+		<a class="btn btn-info" href="#/1/ranking/">查看总榜</a>
+		{{?}}
+	</h3>
+	平均順位 = (一位數×1 + 二位數×2 + 三位數×3 + 四位數×4) ÷ 對戰數<br/>
+	連對率 = (一位數 + 二位數) ÷ 對戰數<br/>
+	合計成績 = 成績(例如+12.0)之和<br/>
+	合計點數 = 結束點數(例如25000)之和<br/>
+	1位～4位 = 1位次數～4位次數<br/>
+	<div class="table-responsive">
+		<table class="mytable table table-sm table-striped table-bordered table-hover text-center mt-3" id="table1">
+			<thead>
+			<tr>
+				<th>#</th>
+				{{ var base=webobj.cache.base[webobj.this_query[1]]; }}
+				{{ for(var i=0;i< it[0].length;i++){ }}
+				<th onclick="webobj.sort_table1(this)">{{=it[0][i]}}</th>
+				{{ }var abc=Array.from(it);abc.shift(); }}
+			</tr>
+			</thead>
+			<tbody>
+			{{~abc :value:index}}
+			<tr>
+				<td>{{=index+1}}</td>
+				<td class="text-wrap"><a href="./chart/?name={{=value[0]}}" target="_blank">{{=value[0]}}</a></td>
+				{{ for(var i=1;i< value.length;i++){ }}
+				<td>{{=value[i]}}</td>
+				{{ } }}
+			</tr>
+			{{~}}
+			</tbody>
+	</div>
+
 </script>
 <!--
 	<table class="mytable table table-sm table-bordered table-hover text-center mt-3">
@@ -195,97 +206,103 @@
 	    </tbody>
 	</table>
 -->
-<script id="templ_log" type="text/html">
+<script id="templ_log" type="text/plain">
 	<h3>对战记录
-	    <a class="btn btn-primary mr-2" href="javascript:window.webobj.excel1();">下载数据</a>
-	    {{? window.webobj.this_query[1]!=='1' }}
-	    <a class="btn btn-info" href="#/1/log/">查看总榜</a>
-	    {{?}}
+		<a class="btn btn-primary mr-2" href="javascript:window.webobj.excel1();">下载数据</a>
+		{{? window.webobj.this_query[1]!=='1' }}
+		<a class="btn btn-info" href="#/1/log/">查看总榜</a>
+		{{?}}
 	</h3>
-	
+
 	{{ var base=webobj.cache.base[webobj.this_query[1]],this_acid=(webobj.this_query.length>=4)?webobj.this_query[3]:base.numerator; }}
 	<div class="table-responsive">
-	    <table class="mytable table table-sm table-striped table-bordered table-hover text-center mt-3">
-	        <thead>
-	            <tr>
-	                <th>#</th>
-	                <th>时间</th>
-	                <th>地域</th>
-	                <th>一位</th>
-	                <th>点数</th>
-	                <th>成绩</th>
-	                <th>二位</th>
-	                <th>点数</th>
-	                <th>成绩</th>
-	                <th>三位</th>
-	                <th>点数</th>
-	                <th>成绩</th>
-	                <th>四位</th>
-	                <th>点数</th>
-	                <th>成绩</th>
-	            </tr>
-	        </thead>
-	        <tbody>
-	            {{ for(var index=it.length;index--;){var value=it[index];  }}
-	            <tr>
-	            <td>{{=value[14]}}</td>
-	            <td class="small">{{!value[0]}}</td>
-	            <td>{{=base.cid2name[value[1]]}}</td>
-	            {{ for(var i=2;i< 14;i++){var v=value[i],c=""; }}
+		<table class="mytable table table-sm table-striped table-bordered table-hover text-center mt-3">
+			<thead>
+			<tr>
+				<th>#</th>
+				<th>时间</th>
+				<th>地域</th>
+				<th>一位</th>
+				<th>点数</th>
+				<th>成绩</th>
+				<th>二位</th>
+				<th>点数</th>
+				<th>成绩</th>
+				<th>三位</th>
+				<th>点数</th>
+				<th>成绩</th>
+				<th>四位</th>
+				<th>点数</th>
+				<th>成绩</th>
+			</tr>
+			</thead>
+			<tbody>
+			{{ for(var index=it.length;index--;){var value=it[index]; }}
+			<tr>
+				<td>{{=value[14]}}</td>
+				<td class="small">{{!value[0]}}</td>
+				<td>{{=base.cid2name[value[1]]}}</td>
+				{{ for(var i=2;i< 14;i++){var v=value[i],c=""; }}
 				{{ if(i%3===2){v='<a target="_blank" href="./chart/?area='+value[1]+'&name='+v+'">'+v+'</a>';} }}
-	            {{ if(i%3===1){v/=10;c=v< 0?'text-danger':'text-success';} }}
-	            <td class="{{=c}}">{{=v}}</td>
-	            {{ } }}
-	            </tr>
-	        {{ } }}
-	        </tbody>
+				{{ if(i%3===1){v/=10;c=v< 0?'text-danger':'text-success';} }}
+				<td class="{{=c}}">{{=v}}</td>
+				{{ } }}
+			</tr>
+			{{ } }}
+			</tbody>
 	</div>
+
 
 </script>
 <!--template-->
 
 <body onhashchange="webobj.onhashchange()">
-	<!--navbar-->
-	<nav class="navbar navbar-dark bg-primary navbar-expand-sm sticky-top shadow">
-		<a class="navbar-brand" href="#">雀庄公式战</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
-			aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+<!--navbar-->
+<nav class="navbar navbar-dark bg-primary navbar-expand-sm sticky-top shadow">
+	<a class="navbar-brand" href="#">雀庄公式战</a>
+	<button aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation"
+	        class="navbar-toggler"
+	        data-target="#navbarTogglerDemo02" data-toggle="collapse" type="button">
+		<span class="navbar-toggler-icon"></span>
+	</button>
 
-		<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+	<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item">
+				<a class="nav-link" href="#">首页</a>
+			</li>
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item"><a class="nav-link" href="#">首页</a></li>
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item"><a class="nav-link" href="./admin/">管理</a></li>
-				</ul>
+				<li class="nav-item">
+					<a class="nav-link" href="./admin/">管理</a>
+				</li>
 			</ul>
-			<form class="d-flex" action="./chart/">
-				<input class="form-control mr-2" name="name" type="search" placeholder="昵称" aria-label="Search">
-				<input class="btn btn-light" type="submit" value="搜索" />
-			</form>
-		</div>
-	</nav>
-
-	<div class="jumbotron jumbotron-fluid pt-4 pb-2">
-		<div class="container">
-			<h1 id="jumbotron_title" class="display-4"></h1>
-			<p id="jumbotron_text" class="lead"></p>
-		</div>
+		</ul>
+		<form action="./chart/" class="d-flex">
+			<input aria-label="Search" class="form-control mr-2" name="name" placeholder="昵称" type="search">
+			<input class="btn btn-light" type="submit" value="搜索"/>
+		</form>
 	</div>
+</nav>
 
-	<!--content-->
-	<div class="container" id="content_div"></div>
+<div class="jumbotron jumbotron-fluid pt-4 pb-2">
+	<div class="container">
+		<h1 class="display-4" id="jumbotron_title"></h1>
+		<p class="lead" id="jumbotron_text"></p>
+	</div>
+</div>
 
-	<!--javaScript-->
-	<script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
-	<script src="https://cdn.staticfile.org/twitter-bootstrap/4.6.1/js/bootstrap.bundle.min.js"
-		crossorigin="anonymous"></script>
+<!--content-->
+<div class="container" id="content_div"></div>
 
-	<script src="https://cdn.staticfile.org/dot/1.1.3/doT.min.js" crossorigin="anonymous"></script>
-	<script src="https://cdn.staticfile.org/tinysort/3.2.5/tinysort.min.js" crossorigin="anonymous"></script>
-	<script src="https://cdn.staticfile.org/marked/3.0.8/marked.min.js" crossorigin="anonymous"></script>
-	<script src="js/main.js"></script>
+<!--javaScript-->
+<script crossorigin="anonymous" src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
+<script crossorigin="anonymous"
+        src="https://cdn.staticfile.org/twitter-bootstrap/4.6.1/js/bootstrap.bundle.min.js"></script>
+
+<script crossorigin="anonymous" src="https://cdn.staticfile.org/dot/1.1.3/doT.min.js"></script>
+<script crossorigin="anonymous" src="https://cdn.staticfile.org/tinysort/3.2.5/tinysort.min.js"></script>
+<script crossorigin="anonymous" src="https://cdn.staticfile.org/marked/3.0.8/marked.min.js"></script>
+<script src="js/main.js"></script>
 </body>
 
 
