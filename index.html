@@ -15,11 +15,11 @@
 </head>
 <script>
 	(function () {
-		//Remove QQ/TIM URL suffix
-		var patt = new RegExp(/(.+)[?&]tdsourcetag=\w+$/);
-		var arr = patt.exec(window.location.href);
-		if (arr != null) {
-			window.location.href = arr[1];
+		if (window.location.hostname != 'rate.r-mj.com') {
+			window.location.hostname = 'rate.r-mj.com';
+		}
+		if (window.location.protocol === 'http:') {
+			window.location.protocol = 'https:';
 		}
 	})()
 
