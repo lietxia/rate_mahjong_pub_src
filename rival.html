@@ -74,7 +74,7 @@
 		const nickname = (my_hash.length >= 3) ? decodeURI(my_hash[2]) : '';
 		document.getElementById('nick_name').innerText = nickname;
 		const request = new XMLHttpRequest();
-		request.open("get", "https://000.mk/r/rival.php?uid=" + uid);
+		request.open("get", "https://cdn.r-mj.com/r/rival.php?uid=" + uid);
 		request.send(null);
 		request.onload = function () {
 			if (request.status === 200) {
