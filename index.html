@@ -93,7 +93,7 @@
 			}
 		} -->
 <script id="templ_area_name" type="text/plain">
-	{{=marked(it[0])}}
+	{{=marked.parse(it[0])}}
 
 </script>
 <script id="templ_level" type="text/plain">
@@ -205,6 +205,13 @@
 	        {{ } }}
 	    </tbody>
 	</table>
+
+		<nav aria-label="Page navigation example">
+		<ul class="pagination pagination-sm justify-content-center">
+			<li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="webobj.goto(1)">1</a></li>
+		</ul>
+	</nav>
+
 -->
 <script id="templ_log" type="text/plain">
 	<h3>对战记录
