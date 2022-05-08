@@ -61,17 +61,15 @@
 	window.last_uid = 0;
 
 	function page_change() {
-		let my_hash = window.location.hash.split('/', 3);
-		let my_hast2 = window.location.hash.split('#', 3);
-		if (my_hast2.length > my_hash.length) {
-			my_hash = my_hast2;
-		}
+		let my_hash = window.location.hash.split('/');
 		const uid = (my_hash.length >= 2 && my_hash[1] > 0) ? parseInt(my_hash[1]) : 0;
 		if (uid === 0 || uid === window.last_uid) {
 			return alert('网址错误');
 		}
 		window.last_uid = uid;
-		const nickname = (my_hash.length >= 3) ? decodeURI(my_hash[2]) : '';
+		my_hash.shift();
+		my_hash.shift();
+		const nickname = (my_hash.length >= 1) ? decodeURI(my_hash.join('/')) : '';
 		document.getElementById('nick_name').innerText = nickname;
 		const request = new XMLHttpRequest();
 		request.open("get", "https://cdn.r-mj.com/r/rival.php?uid=" + uid);
