@@ -15,7 +15,7 @@
 </head>
 <script>
 	(function () {
-		if (window.location.hostname != 'rate.r-mj.com') {
+		if (window.location.hostname !== 'rate.r-mj.com') {
 			window.location.hostname = 'rate.r-mj.com';
 		}
 		if (window.location.protocol === 'http:') {
@@ -93,7 +93,7 @@
 			}
 		} -->
 <script id="templ_area_name" type="text/plain">
-	{{=marked(it[0])}}
+	{{=marked.parse(it[0])}}
 
 </script>
 <script id="templ_level" type="text/plain">
@@ -205,6 +205,13 @@
 	        {{ } }}
 	    </tbody>
 	</table>
+
+		<nav aria-label="Page navigation example">
+		<ul class="pagination pagination-sm justify-content-center">
+			<li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="webobj.goto(1)">1</a></li>
+		</ul>
+	</nav>
+
 -->
 <script id="templ_log" type="text/plain">
 	<h3>对战记录
@@ -301,7 +308,7 @@
 
 <script crossorigin="anonymous" src="https://cdn.staticfile.org/dot/1.1.3/doT.min.js"></script>
 <script crossorigin="anonymous" src="https://cdn.staticfile.org/tinysort/3.2.5/tinysort.min.js"></script>
-<script crossorigin="anonymous" src="https://cdn.staticfile.org/marked/3.0.8/marked.min.js"></script>
+<script crossorigin="anonymous" src="https://cdn.staticfile.org/marked/4.0.15/marked.min.js"></script>
 <script src="js/main.js"></script>
 </body>
 
