@@ -234,10 +234,12 @@
 			document.getElementById('lv_avg').innerText = levelConfig[jsonData.level][2];
 			document.getElementById('lv_sum').innerText = levelConfig[jsonData.level][3];
 			var c_sum = 0;
-			for (let i = 0; i < jsonData['logs'].length; i++) {
-				c_sum += jsonData['logs'][i];
+			if (jsonData.currentAvg > 0) {
+				for (let i = 0; i < jsonData['logs'].length; i++) {
+					c_sum += jsonData['logs'][i];
+				}
 			}
-			console.log(jsonData['logs'],c_sum);
+			console.log(jsonData['logs'], c_sum);
 			document.getElementById('currentSum').innerText = c_sum;
 			if (jsonData.percent == 100) {
 				jsonData.percent = 99.9;
