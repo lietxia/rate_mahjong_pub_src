@@ -108,11 +108,11 @@
                     var i = 0;
                     arr.forEach(e => {
                         e[1] = cid2name[e[1]];
-                        e.unshift(i + 1);
                         e[2] /= 10;//$row['max15'],
                         e[3] /= 10;//$row['total_score'],
                         e[4] = (e[4] / e[6]).toFixed(2);//$row['total_order'],
-                        e[5] = (e[5] / e[6]).toFixed(2);//$row['total_order'],
+                        e[5] = Math.round(e[5] * 1000 / e[6]);//$row['total_order'],
+                        e.unshift(i + 1);
                         data[i] = e;
                         i++;
                     });
