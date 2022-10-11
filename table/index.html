@@ -21,6 +21,7 @@
             <label for="time_end">结束:</label>
             <input id="time_end" type="datetime-local" name="time_end">
             <button type="button" class="btn btn-primary" onclick="search(true)">搜索</button>
+            <kbd class="d-inline-block">说明在底部</kbd>
         </form>
         <div class="toolbar input-group mb-3">
             <select class="form-select" id="time_type" onchange="search()">
@@ -35,9 +36,12 @@
                 <option value="9">一日榜</option>
             </select>
             <select class="form-select" id="cid_type" onchange="search()">
-                <option value="1" selected>全国</option>
+                <option value="1" selected>统计全国</option>
             </select>
-
+            <select class="form-select" id="filter_type" onchange="search()">
+                <option value="1" selected>跨雀庄统计</option>
+                <option value="2">排除其他雀庄</option>
+            </select>
         </div>
         <table id="my_table" class="table-sm table-striped" data-search="true" data-show-columns="true"
             data-pagination="true" data-show-columns-toggle-all="true" data-page-size="25"
@@ -48,6 +52,7 @@
                     <th data-field="1" data-sortable="true" data-halign="center" data-align="center">选手</th>
                     <th data-field="2" data-sortable="true" data-halign="center" data-align="center">归属</th>
                     <th data-field="3" data-sortable="true" data-halign="center" data-align="center">15连</th>
+                    <th data-field="12" data-sortable="true" data-halign="center" data-align="center">20顺</th>
                     <th data-field="4" data-sortable="true" data-halign="center" data-align="center">总成绩</th>
                     <th data-field="5" data-sortable="true" data-halign="center" data-align="center">均顺</th>
                     <th data-field="6" data-sortable="true" data-halign="center" data-align="center">均点</th>
@@ -63,9 +68,10 @@
         <div class="mt-3 alert alert-warning alert-dismissible fade show" role="alert">
             <kbd>成绩</kbd> = (最终点数-25000)÷1000+<kbd>马</kbd>(1位~4位的马依次是 +30 +10 -10 -30)<br />
             <kbd>15连</kbd> = 连续15局最高<kbd>成绩</kbd><br />
+            <kbd>20顺</kbd> = 20战以上平均顺位<br />
             <kbd>均顺</kbd> = 平均顺位<br />
             <kbd>均点</kbd> = 平均点数<br />
-            <kbd>时间选择器</kbd>是<kbd>标准时</kbd> 我们是UTC+8，那个时间选择器会少8个小时(浏览器没提供时区规范)<br />
+            <kbd>时间选择器</kbd>是<kbd>标准时</kbd> 我们是UTC+8，时间选择器会少8个小时<br />
             <kbd>季榜</kbd> 是 1~3月 / 4~6月 / 7~9月 / 10~12月<br />
             <kbd>半年榜</kbd> 是 1~6月 / 7~12月<br />
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -94,11 +100,12 @@
             if (!skip_set_time) {
                 gen_start_end();
             }
+            var filter = document.getElementById('filter_type').value;
             var cid = document.getElementById('cid_type').value;
             var start = document.getElementById('time_start').valueAsNumber / 1000;
             var end = document.getElementById('time_end').valueAsNumber / 1000;
             console.log(start, end)
-            fetch(`https://cdn.r-mj.com/r/table.php?cid=${cid}&start=${start}&end=${end}`)
+            fetch(`https://cdn.r-mj.com/r/table.php?cid=${cid}&start=${start}&end=${end}&filter=${filter}`)
                 .then((response) => response.json())
                 .then((myjson) => {
                     var data = [];
@@ -112,6 +119,9 @@
                         e[3] /= 10;//$row['total_score'],
                         e[4] = (e[4] / e[6]).toFixed(2);//$row['total_order'],
                         e[5] = Math.round(e[5] * 100 / e[6]);//$row['total_order'],
+                        var o20 = '未满';
+                        if (e[6] > 20) { o20 = e[4]; }
+                        e.push(o20);
                         e.unshift(i + 1);
                         data[i] = e;
                         i++;
