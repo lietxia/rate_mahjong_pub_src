@@ -3,15 +3,14 @@
 
 <head>
 
-	<meta charset="utf-8"/>
-	<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
-	<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+	<meta charset="utf-8" />
+	<meta content="IE=edge" http-equiv="X-UA-Compatible" />
+	<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport" />
 	<title>雀庄公式战</title>
-	<link href="https://cdn.staticfile.org/twitter-bootstrap/4.6.1/css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="https://cdn.staticfile.org/twitter-bootstrap/4.6.1/css/bootstrap.min.css" rel="stylesheet" />
 	<link href="https://cdn.staticfile.org/bootswatch/4.6.1/darkly/bootstrap.min.css"
-	      media="(prefers-color-scheme: dark)"
-	      rel="stylesheet"/>
-	<link href="css/main.css" rel="stylesheet"/>
+		media="(prefers-color-scheme: dark)" rel="stylesheet" />
+	<link href="css/main.css" rel="stylesheet" />
 </head>
 <script>
 	(function () {
@@ -264,54 +263,51 @@
 <!--template-->
 
 <body onhashchange="webobj.onhashchange()">
-<!--navbar-->
-<nav class="navbar navbar-dark bg-primary navbar-expand-sm sticky-top shadow">
-	<a class="navbar-brand" href="#">雀庄公式战</a>
-	<button aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation"
-	        class="navbar-toggler"
-	        data-target="#navbarTogglerDemo02" data-toggle="collapse" type="button">
-		<span class="navbar-toggler-icon"></span>
-	</button>
+	<!--navbar-->
+	<nav class="navbar navbar-dark bg-primary navbar-expand-sm sticky-top shadow">
+		<a class="navbar-brand" href="#">雀庄公式战</a>
+		<button aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation"
+			class="navbar-toggler" data-target="#navbarTogglerDemo02" data-toggle="collapse" type="button">
+			<span class="navbar-toggler-icon"></span>
+		</button>
 
-	<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-		<ul class="navbar-nav mr-auto">
-			<li class="nav-item">
-				<a class="nav-link" href="#">首页</a>
-			</li>
+		<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item">
-					<a class="nav-link" href="./admin/">管理</a>
-					<a class="nav-link" href="./table/">月榜</a>
-					<a class="nav-link" href="./lvup/">升段</a>
+					<a class="nav-link" href="#">首页</a>
 				</li>
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item"><a class="nav-link" href="./admin/">管理</a> </li>
+					<li class="nav-item"><a class="nav-link" href="./table/">月榜</a></li>
+					<li class="nav-item"><a class="nav-link" href="./lvup/">升段</a></li>
+				</ul>
 			</ul>
-		</ul>
-		<form action="./chart/" class="d-flex">
-			<input aria-label="Search" class="form-control mr-2" name="name" placeholder="昵称" type="search">
-			<input class="btn btn-light" type="submit" value="搜索"/>
-		</form>
+			<form action="./chart/" class="d-flex">
+				<input aria-label="Search" class="form-control mr-2" name="name" placeholder="昵称" type="search">
+				<input class="btn btn-light" type="submit" value="搜索" />
+			</form>
+		</div>
+	</nav>
+
+	<div class="jumbotron jumbotron-fluid pt-4 pb-2">
+		<div class="container">
+			<h1 class="display-4" id="jumbotron_title"></h1>
+			<p class="lead" id="jumbotron_text"></p>
+		</div>
 	</div>
-</nav>
 
-<div class="jumbotron jumbotron-fluid pt-4 pb-2">
-	<div class="container">
-		<h1 class="display-4" id="jumbotron_title"></h1>
-		<p class="lead" id="jumbotron_text"></p>
-	</div>
-</div>
+	<!--content-->
+	<div class="container" id="content_div"></div>
 
-<!--content-->
-<div class="container" id="content_div"></div>
+	<!--javaScript-->
+	<script crossorigin="anonymous" src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
+	<script crossorigin="anonymous"
+		src="https://cdn.staticfile.org/twitter-bootstrap/4.6.1/js/bootstrap.bundle.min.js"></script>
 
-<!--javaScript-->
-<script crossorigin="anonymous" src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
-<script crossorigin="anonymous"
-        src="https://cdn.staticfile.org/twitter-bootstrap/4.6.1/js/bootstrap.bundle.min.js"></script>
-
-<script crossorigin="anonymous" src="https://cdn.staticfile.org/dot/1.1.3/doT.min.js"></script>
-<script crossorigin="anonymous" src="https://cdn.staticfile.org/tinysort/3.2.5/tinysort.min.js"></script>
-<script crossorigin="anonymous" src="https://cdn.staticfile.org/marked/4.0.15/marked.min.js"></script>
-<script src="js/main.js"></script>
+	<script crossorigin="anonymous" src="https://cdn.staticfile.org/dot/1.1.3/doT.min.js"></script>
+	<script crossorigin="anonymous" src="https://cdn.staticfile.org/tinysort/3.2.5/tinysort.min.js"></script>
+	<script crossorigin="anonymous" src="https://cdn.staticfile.org/marked/4.0.15/marked.min.js"></script>
+	<script src="js/main.js"></script>
 </body>
 
 
