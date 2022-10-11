@@ -21,7 +21,11 @@
             <label for="time_end">结束:</label>
             <input id="time_end" type="datetime-local" name="time_end">
             <button type="button" class="btn btn-primary" onclick="search(true)">搜索</button>
+            <br />
             <kbd class="d-inline-block">说明在底部</kbd>
+            <label for="log_count">只显示</label>
+            <input id="log_count" type="number" name="log_count" value="1" onchange="search()">
+            场以上的选手
         </form>
         <div class="toolbar input-group mb-3">
             <select class="form-select" id="time_type" onchange="search()">
@@ -52,7 +56,6 @@
                     <th data-field="1" data-sortable="true" data-halign="center" data-align="center">选手</th>
                     <th data-field="2" data-sortable="true" data-halign="center" data-align="center">归属</th>
                     <th data-field="3" data-sortable="true" data-halign="center" data-align="center">15连</th>
-                    <th data-field="12" data-sortable="true" data-halign="center" data-align="center">20顺</th>
                     <th data-field="4" data-sortable="true" data-halign="center" data-align="center">总成绩</th>
                     <th data-field="5" data-sortable="true" data-halign="center" data-align="center">均顺</th>
                     <th data-field="6" data-sortable="true" data-halign="center" data-align="center">均点</th>
@@ -113,18 +116,24 @@
                     console.log(myjson);
                     var arr = myjson.data;
                     var i = 0;
+                    var count = parseInt(document.getElementById('log_count').value);
+                    var is_count = count > 1;
                     arr.forEach(e => {
                         e[1] = cid2name[e[1]];
                         e[2] /= 10;//$row['max15'],
                         e[3] /= 10;//$row['total_score'],
                         e[4] = (e[4] / e[6]).toFixed(2);//$row['total_order'],
                         e[5] = Math.round(e[5] * 100 / e[6]);//$row['total_order'],
-                        var o20 = '未满';
-                        if (e[6] > 20) { o20 = e[4]; }
-                        e.push(o20);
+                        if (is_count) {//要过滤
+                            if (e[6] >= count) {
+                                data[i] = e;
+                                i++;
+                            }
+                        } else {//不要过滤
+                            data[i] = e;
+                            i++;
+                        }
                         e.unshift(i + 1);
-                        data[i] = e;
-                        i++;
                     });
                     //$('#my_table').bootstrapTable({ data: data });
 
