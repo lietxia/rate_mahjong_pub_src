@@ -15,7 +15,7 @@
 
 <body>
     <div class="container-fluid">
-        <form>
+        <div>
             <label for="time_start">开始:</label>
             <input id="time_start" type="datetime-local" name="time_start">
             <label for="time_end">结束:</label>
@@ -26,7 +26,7 @@
             <label for="log_count">只显示</label>
             <input id="log_count" type="number" name="log_count" value="1" onchange="search()">
             场以上的选手
-        </form>
+        </div>
         <div class="toolbar input-group mb-3">
             <select class="form-select" id="time_type" onchange="search()">
                 <option value="1">年榜</option>
