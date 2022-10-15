@@ -197,7 +197,7 @@ var webobj = {
 			var newa = webobj.ce("a",
 				"class", "btn btn-info",
 				"role", "button",
-				"href", i == 3 ? "/table/" : add,
+				"href", i == 3 ? "/table/#/" + this_cid : add,
 				"target", i == 3 ? "_blank" : "_self",
 			)
 
