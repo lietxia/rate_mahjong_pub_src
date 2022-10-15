@@ -59,9 +59,9 @@ var webobj = {
 		tableHeader.setAttribute('data-order', order);
 		tinysort(
 			tableBody.querySelectorAll('tr'), {
-				selector: 'td:nth-child(' + (tableHeaderIndex + 1) + ')',
-				order: order
-			});
+			selector: 'td:nth-child(' + (tableHeaderIndex + 1) + ')',
+			order: order
+		});
 
 		var trs = tableBody.querySelectorAll('tr');
 		for (var i = 0; i < trs.length; i++) {
@@ -82,7 +82,7 @@ var webobj = {
 		status: ["隱藏", "⏱️通常在周末营业", "✅全天营业", "⏳暂时闭店", "⛔永久闭店"],
 		color: ["info", "success", "danger", "primary", "warning", "info"]
 	},
-	cache: {base: {}},
+	cache: { base: {} },
 	ce: function () {//createElement
 		if (arguments.length % 2 == 0 || arguments.length < 1) {
 			return;
@@ -185,21 +185,22 @@ var webobj = {
 
 		var submenu = webobj.ce("div", "class", "mt-2 btn-group btn-block");
 		var link = ["", "log", "level", "ranking"];
-		var text = ["介绍", "记录", "段位", "统计"];
+		var text = ["介绍", "记录", "段位", "月榜"];
 		var sub_fn = (webobj.this_query.length >= 3
 			&& link.indexOf(webobj.this_query[2]) >= 0) ?
 			webobj.this_query[2] : "area_name";
 
 		for (var i = 0; i < link.length; i++) {
-			var add = (i == 0) ? "" : "/";
-			if (i == 1) {
-				add += base.numerator + "/"
-			}
+			var add = "#/" + this_cid + "/" + link[i];
+			if (i > 0) { add += "/"; }
+
 			var newa = webobj.ce("a",
 				"class", "btn btn-info",
 				"role", "button",
-				"href", "#/" + this_cid + "/" + link[i] + add
+				"href", i == 3 ? "/table/" : add,
+				"target", i == 3 ? "_blank" : "_self",
 			)
+
 			newa.innerText = text[i]
 			submenu.appendChild(newa);
 		}
