@@ -246,6 +246,12 @@
                 [4, "DDMM", "47", 4817, 14295, 212, 123, 116, 41, 35, 25, 15],
             ];
             $('#my_table').bootstrapTable({ data: data })
+            if (window.location.hash.length >= 3) {
+                var cid = window.location.hash.replace(/[^\d]/g, '');
+                if (cid >= 2) {
+                    $("#cid_type").val(cid);
+                }
+            }
             search();
         })
     </script>
