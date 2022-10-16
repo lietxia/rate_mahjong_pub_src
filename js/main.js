@@ -73,16 +73,16 @@ var webobj = {
 	page_go: function (log_page) {
 		// -1 == 向前翻页
 		// 0  == 向后翻页
-		var page = parseInt(window.webobj.page);
-		var this_query = window.webobj.this_query;
-		var this_log = window.webobj.cache[this_query.join('/')];
+		var page = parseInt(webobj.page);
+		var this_query = webobj.this_query;
+		var this_log = webobj.cache[this_query.join('/')];
 		var page_max = Math.ceil(this_log.length / 50);
 
 		if (log_page === -1) {
 			var this_page = page - 1;
 		}
 		if (log_page === 0) {
-			var this_page = page - 1;
+			var this_page = page + 1;
 		}
 		if (log_page >= 1) {
 			var this_page = log_page;
