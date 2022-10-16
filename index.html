@@ -13,14 +13,14 @@
 	<link href="css/main.css" rel="stylesheet" />
 </head>
 <script>
-	// (function () {
-	// 	if (window.location.hostname !== 'rate.r-mj.com') {
-	// 		window.location.hostname = 'rate.r-mj.com';
-	// 	}
-	// 	if (window.location.protocol === 'http:') {
-	// 		window.location.protocol = 'https:';
-	// 	}
-	// })()
+	(function () {
+		if (window.location.hostname !== 'rate.r-mj.com') {
+			window.location.hostname = 'rate.r-mj.com';
+		}
+		if (window.location.protocol === 'http:') {
+			window.location.protocol = 'https:';
+		}
+	})()
 </script>
 <!--template-->
 <script id="templ_main" type="text/plain">
@@ -126,7 +126,7 @@
 		<div class="input-group m-1" role="group" aria-label="Basic example">
 			<input type="button" class="form-control btn btn-outline-primary" onclick="webobj.page_go(-1)" value="向前">
 			<input type="button" class="form-control btn btn-outline-primary" onclick="webobj.page_go(0)" value="向后">
-			<input type="button" class="form-control btn btn-outline-primary" onclick="webobj.log_page(true)" value="全部">
+			<input type="button" class="form-control btn btn-info" onclick="webobj.log_page(true)" value="全部">
 			<input id="input_page_1" type="text" class="form-control" value="1">
 			<button type="button" class="form-control btn btn-primary" 
 			onclick="webobj.page_go(document.getElementById('input_page_1').value)">
@@ -147,7 +147,7 @@
 	<div class="input-group m-1" role="group" aria-label="Basic example">
 		<input type="button" class="form-control btn btn-outline-primary" onclick="webobj.page_go(-1)" value="向前">
 		<input type="button" class="form-control btn btn-outline-primary" onclick="webobj.page_go(0)" value="向后">
-		<input type="button" class="form-control btn btn-outline-primary" onclick="webobj.log_page(true)" value="全部">
+		<input type="button" class="form-control btn btn-info" onclick="webobj.log_page(true)" value="全部">
 		<input id="input_page_2" type="text" class="form-control" value="1">
 		<button type="button" class="form-control btn btn-primary" 
 		onclick="webobj.page_go(document.getElementById('input_page_2').value)">
