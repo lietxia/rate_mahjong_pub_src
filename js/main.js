@@ -140,17 +140,17 @@ var webobj = {
 				+ '</a>', value[3], value[4] / 10,
 
 				'<a target="_blank" href="./chart/?area='
-				+ value[1] + '&name=' + value[2] + '">'
+				+ value[1] + '&name=' + value[5] + '">'
 				+ value[5]
 				+ '</a>', value[6], value[7] / 10,
 
 				'<a target="_blank" href="./chart/?area='
-				+ value[1] + '&name=' + value[2] + '">'
+				+ value[1] + '&name=' + value[8] + '">'
 				+ value[8]
 				+ '</a>', value[9], value[10] / 10,
 
 				'<a target="_blank" href="./chart/?area='
-				+ value[1] + '&name=' + value[2] + '">'
+				+ value[1] + '&name=' + value[11] + '">'
 				+ value[11]
 				+ '</a>', value[12], value[13] / 10,
 			];
