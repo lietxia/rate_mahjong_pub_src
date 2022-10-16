@@ -161,6 +161,8 @@
 			  {{ for(var index=2,max=Math.ceil(it.length/50);index<=max;index++){var value=it[index]; }}
 				<button class="dropdown-item" type="button" onclick="webobj.page_go({{=index}})">{{=index}}</button>
 			  {{ } }}
+			  <div class="dropdown-divider"></div>
+			  <button class="dropdown-item" type="button" onclick="webobj.log_page(true)">全部</button>
 			</div>
 		  </div>
 		
