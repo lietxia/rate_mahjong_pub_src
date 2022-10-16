@@ -13,14 +13,14 @@
 	<link href="css/main.css" rel="stylesheet" />
 </head>
 <script>
-	(function () {
-		if (window.location.hostname !== 'rate.r-mj.com') {
-			window.location.hostname = 'rate.r-mj.com';
-		}
-		if (window.location.protocol === 'http:') {
-			window.location.protocol = 'https:';
-		}
-	})()
+	// (function () {
+	// 	if (window.location.hostname !== 'rate.r-mj.com') {
+	// 		window.location.hostname = 'rate.r-mj.com';
+	// 	}
+	// 	if (window.location.protocol === 'http:') {
+	// 		window.location.protocol = 'https:';
+	// 	}
+	// })()
 </script>
 <!--template-->
 <script id="templ_main" type="text/plain">
@@ -123,21 +123,14 @@
 		{{? window.webobj.this_query[1]!=='1' }}
 		<a class="btn btn-info m-1" href="#/1/log/">查看总榜</a>
 		{{?}}
-		<div class="btn-group m-1" role="group" aria-label="Basic example">
-			<input type="button" class="btn btn-outline-primary" onclick="webobj.page_go(-1)" value="前">
-			<div class="btn-group">
-				<button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">跳转</button>
-				<div class="dropdown-menu dropdown-menu-right">
-				  <button class="dropdown-item" type="button" onclick="webobj.log_page(true)">全部</button>
-				  <div class="dropdown-divider"></div>
-				  <button class="dropdown-item" type="button" onclick="webobj.page_go(1)">1</button>
-				  {{ for(var index=2,max=Math.ceil(it.length/50);index<=max;index++){var value=it[index]; }}
-					<button class="dropdown-item" type="button" onclick="webobj.page_go({{=index}})">{{=index}}</button>
-				  {{ } }}
-				</div>
-			  </div>
-			
-			<input type="button" class="btn btn-outline-primary" onclick="webobj.page_go(0)" value="后">
+		<div class="input-group m-1" role="group" aria-label="Basic example">
+			<input type="button" class="form-control btn btn-outline-primary" onclick="webobj.page_go(-1)" value="向前">
+			<input type="button" class="form-control btn btn-outline-primary" onclick="webobj.page_go(0)" value="向后">
+			<input type="button" class="form-control btn btn-outline-primary" onclick="webobj.log_page(true)" value="全部">
+			<input id="input_page_1" type="text" class="form-control" value="1">
+			<button type="button" class="form-control btn btn-primary" 
+			onclick="webobj.page_go(document.getElementById('input_page_1').value)">
+				1~<span id="max_1">{{=Math.ceil(it.length/50)}}</span></button>
 		</div>
 
 		
@@ -150,23 +143,15 @@
 			<tbody id="my_tbody"></tbody>
 		</table>
 	</div>
-	<div class="btn-group m-1 btn-block" role="group" aria-label="Basic example">
-		<input type="button" class="btn btn-outline-primary" onclick="webobj.page_go(-1)" value="向前">
-		<div class="btn-group">
-			<button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">跳转</button>
-			<div class="dropdown-menu dropdown-menu-right">
-			  <button class="dropdown-item" type="button" onclick="webobj.log_page(true)">全部</button>
-			  <div class="dropdown-divider"></div>
-			  <button class="dropdown-item" type="button" onclick="webobj.page_go(1)">1</button>
-			  {{ for(var index=2,max=Math.ceil(it.length/50);index<=max;index++){var value=it[index]; }}
-				<button class="dropdown-item" type="button" onclick="webobj.page_go({{=index}})">{{=index}}</button>
-			  {{ } }}
-			  <div class="dropdown-divider"></div>
-			  <button class="dropdown-item" type="button" onclick="webobj.log_page(true)">全部</button>
-			</div>
-		  </div>
-		
-		<input type="button" class="btn btn-outline-primary" onclick="webobj.page_go(0)" value="向后">
+	
+	<div class="input-group m-1" role="group" aria-label="Basic example">
+		<input type="button" class="form-control btn btn-outline-primary" onclick="webobj.page_go(-1)" value="向前">
+		<input type="button" class="form-control btn btn-outline-primary" onclick="webobj.page_go(0)" value="向后">
+		<input type="button" class="form-control btn btn-outline-primary" onclick="webobj.log_page(true)" value="全部">
+		<input id="input_page_2" type="text" class="form-control" value="1">
+		<button type="button" class="form-control btn btn-primary" 
+		onclick="webobj.page_go(document.getElementById('input_page_2').value)">
+			1~<span id="max_2">{{=Math.ceil(it.length/50)}}</span></button>
 	</div>
 </script>
 <!--template-->

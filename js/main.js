@@ -100,6 +100,8 @@ var webobj = {
 	},
 	log_page: function (full) {
 		var page = window.webobj.page;
+		document.getElementById('input_page_1').value = page;
+		document.getElementById('input_page_2').value = page;
 		var this_query = window.webobj.this_query;
 		var this_log = window.webobj.cache[this_query.join('/')];
 		var th = ["#", "时间", "地域", "一位", "点数", "成绩", "二位", "点数", "成绩", "三位", "点数", "成绩", "四位", "点数", "成绩"];
