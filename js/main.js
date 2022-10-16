@@ -1,9 +1,11 @@
 var webobj = {
 	this_query: ["main"],
 	last_query: [],
+	page: 1,
 	lv_data: ["新人", "5级", "4级", "3级", "2级", "1级", "初段", "二段", "三段", "四段", "五段", "六段", "七段", "八段", "九段"],
 	apiurl: "https://cdn.r-mj.com/r/",
 	excel1: function () {
+		webobj.log_page(true);
 		if (document.getElementById('xls_script')) {
 			window.webobj.excel2();
 			return
@@ -68,6 +70,110 @@ var webobj = {
 			trs[i].children[0].innerHTML = i + 1;
 		}
 	},
+	page_go: function (log_page) {
+		// -1 == 向前翻页
+		// 0  == 向后翻页
+		var page = window.webobj.page;
+		var this_query = window.webobj.this_query;
+		var this_log = window.webobj.cache[this_query.join('/')];
+		var page_max = Math.ceil(this_log.length / 50);
+
+		if (log_page === -1) {
+			var this_page = page - 1;
+		}
+		if (log_page === 0) {
+			var this_page = page + 1;
+		}
+		if (log_page >= 1) {
+			var this_page = log_page;
+		}
+
+		if (this_page < 1) {
+			this_page = 1
+		} else {
+			if (this_page > page_max) {
+				this_page = page_max;
+			}
+		}
+		window.webobj.page = this_page;
+		webobj.log_page(false);
+	},
+	log_page: function (full) {
+		var page = window.webobj.page;
+		var this_query = window.webobj.this_query;
+		var this_log = window.webobj.cache[this_query.join('/')];
+		var th = ["#", "时间", "地域", "一位", "点数", "成绩", "二位", "点数", "成绩", "三位", "点数", "成绩", "四位", "点数", "成绩"];
+		if (this_query[1] > 1) { th.splice(2, 1); }
+		var myth = document.getElementById("my_th");
+		var tbody = document.getElementById('my_tbody');
+		var base = webobj.cache.base[webobj.this_query[1]];
+		tbody.textContent = '';
+		myth.textContent = '';
+		for (var i = 0; i < th.length; i++) {
+			var e = document.createElement('th');
+			e.innerText = th[i];
+			myth.appendChild(e);
+		}
+		if (full === true) {
+			var start = 0, end = this_log.length;
+		} else {
+			var end = page * 50;
+			var start = end - 50;
+			if (start < 0) start = 0;
+			if (end > this_log.length) end = this_log.length;
+		}
+		for (var i = start; i < end; i++) {
+			var tr = document.createElement('tr');
+			var value = this_log[i];
+			var text = [
+				value[14], value[0],
+				'<a href="#/'
+				+ value[1] + '/log/">'
+				+ base.cid2name[value[1]]
+				+ '</a>',
+
+				'<a target="_blank" href="./chart/?area='
+				+ value[1] + '&name=' + value[2] + '">'
+				+ value[2]
+				+ '</a>', value[3], value[4] / 10,
+
+				'<a target="_blank" href="./chart/?area='
+				+ value[1] + '&name=' + value[2] + '">'
+				+ value[5]
+				+ '</a>', value[6], value[7] / 10,
+
+				'<a target="_blank" href="./chart/?area='
+				+ value[1] + '&name=' + value[2] + '">'
+				+ value[8]
+				+ '</a>', value[9], value[10] / 10,
+
+				'<a target="_blank" href="./chart/?area='
+				+ value[1] + '&name=' + value[2] + '">'
+				+ value[11]
+				+ '</a>', value[12], value[13] / 10,
+			];
+			var myclass = [
+				false, "small", false,
+				false, false, 'text-success',
+				false, false, 'text-success',
+				false, false, 'text-danger',
+				false, false, 'text-danger',
+			];
+			if (this_query[1] > 1) {
+				text.splice(2, 1);
+				myclass.splice(2, 1);
+			}
+			for (let j = 0; j < text.length; j++) {
+				var ele = document.createElement('td');
+				ele.innerHTML = text[j];
+				if (myclass !== false) {
+					ele.className = myclass[j];
+				}
+				tr.appendChild(ele)
+			}
+			tbody.appendChild(tr);
+		}
+	},
 	bin2arr: function (bin, len) {
 		//0b1101=>[1,0,1,1] 逆順序
 		var arr = [];
@@ -125,11 +231,15 @@ var webobj = {
 			if (Object.keys(obj_or_url).length === 0) {
 				return e.innerText = "暂无数据";
 			}
-			return e.innerHTML = templ(obj_or_url);
+			e.innerHTML = templ(obj_or_url);
+			if (temp_id == 'templ_log') { webobj.log_page(false); }
+			return
 		}
 		if (typeof obj_or_url === "string") {
 			if (webobj.cache.hasOwnProperty(query_string)) {
-				return e.innerHTML = templ(webobj.cache[query_string]);
+				e.innerHTML = templ(webobj.cache[query_string]);
+				if (temp_id == 'templ_log') { webobj.log_page(false); }
+				return
 			} else {
 				return $.getJSON(webobj.apiurl + obj_or_url + "?q=" + query_string,
 					function (json) {
@@ -137,7 +247,9 @@ var webobj = {
 							return e.innerText = "暂无数据";
 						}
 						webobj.cache[query_string] = json;
-						return e.innerHTML = templ(json);
+						e.innerHTML = templ(json);
+						if (temp_id == 'templ_log') { webobj.log_page(false); }
+						return
 					});
 			}
 
@@ -150,8 +262,6 @@ var webobj = {
 			console.log("debug", webobj.this_query, webobj.last_query);
 			webobj.change_jumb("全国雀庄公式战", '线下各地雀庄，共通承认的线下段位。');
 			webobj.load_page("templ_main", "rate.php");
-		},
-		admin: function () {
 		},
 		competition: function () {
 			console.log("debug", webobj.this_query, webobj.last_query);
@@ -174,7 +284,7 @@ var webobj = {
 		var status = webobj.obj2text.status;
 		document.getElementById("jumbotron_title").innerText = base.name;
 		var jtext = document.getElementById("jumbotron_text");
-		jtext.innerHTML = "";
+		jtext.textContent = '';
 
 		jtext.appendChild(document.createTextNode(
 			status[base.status] + " "
@@ -213,9 +323,11 @@ var webobj = {
 			"log": "rate.php"
 		};
 		webobj.load_page("templ_" + sub_fn, geturl[sub_fn]);
+
 		if (sub_fn == "area_name") {
 			webobj.marked_fmt();
 		}
+
 	},
 	filter1: function (that, order) {
 		$(".filter1").removeClass("active");

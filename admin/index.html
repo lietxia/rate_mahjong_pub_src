@@ -135,7 +135,7 @@
 		var input_checkbox = ["charge_by_hour", "no_smoking", "order_first", "scoreboard", "ban_gambling"];
 		var setting_arr = bin2arr(json.setting, input_checkbox.length);
 		var tgt = document.getElementById("table_data");
-		tgt.innerText = "";
+		tgt.textContent = '';
 		var ta = "";
 		var forarr = ["name", "qq", "gold", "balance"];
 		for (var i = 0; i < json.members.length; i++) {

@@ -21,7 +21,6 @@
 			window.location.protocol = 'https:';
 		}
 	})()
-
 </script>
 <!--template-->
 <script id="templ_main" type="text/plain">
@@ -73,33 +72,15 @@
 	</div>
 
 </script>
-<!-- function username_link(cols = [1]) {
-			var tr = document.getElementsByTagName('tr');
-			if (typeof tr === 'object' && tr.length > 0 &&
-				typeof cols === "object" && cols.length > 0) {
-				for (let i = 1; i < tr.length; i++) {
-					for (let j = 0; j < cols.length; j++) {
-						var target = tr[i].children[cols[j]];
-						var a = document.createElement('a');
-						a.href = '/chart/?area=' + webobj.last_query[1]
-							+ '&name=' + target.innerText;
-						a.setAttribute('target', '_blank');
-						a.innerText = target.innerText;
-						target.innerText = '';
-						target.appendChild(a);
-					}
-				}
-			}
-		} -->
+
 <script id="templ_area_name" type="text/plain">
 	{{=marked.parse(it[0])}}
-
 </script>
 <script id="templ_level" type="text/plain">
 	<h3>段位榜
-		<a class="btn btn-primary mr-2" href="javascript:window.webobj.excel1();">下载数据</a>
+		<a class="btn btn-primary m-1" href="javascript:window.webobj.excel1();">下载数据</a>
 		{{? window.webobj.this_query[1]!=='1' }}
-		<a class="btn btn-info" href="#/1/level/">查看总榜</a>
+		<a class="btn btn-info m-1" href="#/1/level/">查看总榜</a>
 		{{?}}
 	</h3>
 	总成绩 = 成績(例如+12.0)之和<br/>
@@ -135,130 +116,56 @@
 	</div>
 
 </script>
-<script id="templ_ranking" type="text/plain">
-	<h3>成绩统计
-		<a class="btn btn-primary mr-2" href="javascript:window.webobj.excel1();">下载数据</a>
-		{{? window.webobj.this_query[1]!=='1' }}
-		<a class="btn btn-info" href="#/1/ranking/">查看总榜</a>
-		{{?}}
-	</h3>
-	平均順位 = (一位數×1 + 二位數×2 + 三位數×3 + 四位數×4) ÷ 對戰數<br/>
-	連對率 = (一位數 + 二位數) ÷ 對戰數<br/>
-	合計成績 = 成績(例如+12.0)之和<br/>
-	合計點數 = 結束點數(例如25000)之和<br/>
-	1位～4位 = 1位次數～4位次數<br/>
-	<div class="table-responsive">
-		<table class="mytable table table-sm table-striped table-bordered table-hover text-center mt-3" id="table1">
-			<thead>
-			<tr>
-				<th>#</th>
-				{{ var base=webobj.cache.base[webobj.this_query[1]]; }}
-				{{ for(var i=0;i< it[0].length;i++){ }}
-				<th onclick="webobj.sort_table1(this)">{{=it[0][i]}}</th>
-				{{ }var abc=Array.from(it);abc.shift(); }}
-			</tr>
-			</thead>
-			<tbody>
-			{{~abc :value:index}}
-			<tr>
-				<td>{{=index+1}}</td>
-				<td class="text-wrap"><a href="./chart/?name={{=value[0]}}" target="_blank">{{=value[0]}}</a></td>
-				{{ for(var i=1;i< value.length;i++){ }}
-				<td>{{=value[i]}}</td>
-				{{ } }}
-			</tr>
-			{{~}}
-			</tbody>
-	</div>
 
-</script>
-<!--
-	<table class="mytable table table-sm table-bordered table-hover text-center mt-3">
-	    <thead>
-	        <tr>
-	            <th>时间/区域/备注</th>
-	            <th>名字</th>
-	            <th>点数</th>
-	            <th>成绩</th>
-	        </tr>
-	    </thead>
-	    <tbody>
-	        {{ for(var index=it.length;index--;){var value=it[index];  }}
-	        <tr>
-	            <td class="text-wrap" rowspan="4">
-	                {{=value[0].replace(" ","<br />")}}<br />
-	                {{=base.cid2name[value[1]]}} #{{=value[14]}}
-	            </td>
-	            <td class="text-wrap">{{!value[2]}}</td>
-	            <td>{{=value[3]*100}}</td>
-	            <td class="{{=(value[4]<0)?'text-danger':'text-success'}}">{{=(value[4]>0)?"+"+(value[4])/10:value[4]/10}}</td>
-
-	        </tr>
-	        {{ for(var i=0;i< 9;i+=3){ }}
-	        <tr>
-	            <td class="text-wrap">{{!value[5+i]}}</td>
-	            <td>{{=value[6+i]*100}}</td>
-	            <td class="{{=(value[7+i]<0)?'text-danger':'text-success'}}">{{=(value[7+i]>0)?"+"+(value[7+i])/10:value[7+i]/10}}</td>
-	        </tr>
-	        {{ } }}
-	        {{ } }}
-	    </tbody>
-	</table>
-
-		<nav aria-label="Page navigation example">
-		<ul class="pagination pagination-sm justify-content-center">
-			<li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="webobj.goto(1)">1</a></li>
-		</ul>
-	</nav>
-
--->
 <script id="templ_log" type="text/plain">
 	<h3>对战记录
-		<a class="btn btn-primary mr-2" href="javascript:window.webobj.excel1();">下载数据</a>
+		<a class="btn btn-primary m-1" href="javascript:window.webobj.excel1();">下载数据</a>
 		{{? window.webobj.this_query[1]!=='1' }}
-		<a class="btn btn-info" href="#/1/log/">查看总榜</a>
+		<a class="btn btn-info m-1" href="#/1/log/">查看总榜</a>
 		{{?}}
-	</h3>
+		<div class="btn-group m-1" role="group" aria-label="Basic example">
+			<input type="button" class="btn btn-outline-primary" onclick="webobj.page_go(-1)" value="前">
+			<div class="btn-group">
+				<button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">跳转</button>
+				<div class="dropdown-menu dropdown-menu-right">
+				  <button class="dropdown-item" type="button" onclick="webobj.log_page(true)">全部</button>
+				  <div class="dropdown-divider"></div>
+				  <button class="dropdown-item" type="button" onclick="webobj.page_go(1)">1</button>
+				  {{ for(var index=2,max=Math.ceil(it.length/50);index<=max;index++){var value=it[index]; }}
+					<button class="dropdown-item" type="button" onclick="webobj.page_go({{=index}})">{{=index}}</button>
+				  {{ } }}
+				</div>
+			  </div>
+			
+			<input type="button" class="btn btn-outline-primary" onclick="webobj.page_go(0)" value="后">
+		</div>
 
-	{{ var base=webobj.cache.base[webobj.this_query[1]],this_acid=(webobj.this_query.length>=4)?webobj.this_query[3]:base.numerator; }}
+		
+	</h3>
 	<div class="table-responsive">
 		<table class="mytable table table-sm table-striped table-bordered table-hover text-center mt-3">
 			<thead>
-			<tr>
-				<th>#</th>
-				<th>时间</th>
-				<th>地域</th>
-				<th>一位</th>
-				<th>点数</th>
-				<th>成绩</th>
-				<th>二位</th>
-				<th>点数</th>
-				<th>成绩</th>
-				<th>三位</th>
-				<th>点数</th>
-				<th>成绩</th>
-				<th>四位</th>
-				<th>点数</th>
-				<th>成绩</th>
-			</tr>
+			<tr id="my_th"></tr>
 			</thead>
-			<tbody>
-			{{ for(var index=0;index<it.length;index++){var value=it[index]; }}
-			<tr>
-				<td>{{=value[14]}}</td>
-				<td class="small">{{!value[0]}}</td>
-				<td>{{=base.cid2name[value[1]]}}</td>
-				{{ for(var i=2;i< 14;i++){var v=value[i],c=""; }}
-				{{ if(i%3===2){v='<a target="_blank" href="./chart/?area='+value[1]+'&name='+v+'">'+v+'</a>';} }}
-				{{ if(i%3===1){v/=10;c=v< 0?'text-danger':'text-success';} }}
-				<td class="{{=c}}">{{=v}}</td>
-				{{ } }}
-			</tr>
-			{{ } }}
-			</tbody>
+			<tbody id="my_tbody"></tbody>
+		</table>
 	</div>
-
-
+	<div class="btn-group m-1 btn-block" role="group" aria-label="Basic example">
+		<input type="button" class="btn btn-outline-primary" onclick="webobj.page_go(-1)" value="向前">
+		<div class="btn-group">
+			<button type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">跳转</button>
+			<div class="dropdown-menu dropdown-menu-right">
+			  <button class="dropdown-item" type="button" onclick="webobj.log_page(true)">全部</button>
+			  <div class="dropdown-divider"></div>
+			  <button class="dropdown-item" type="button" onclick="webobj.page_go(1)">1</button>
+			  {{ for(var index=2,max=Math.ceil(it.length/50);index<=max;index++){var value=it[index]; }}
+				<button class="dropdown-item" type="button" onclick="webobj.page_go({{=index}})">{{=index}}</button>
+			  {{ } }}
+			</div>
+		  </div>
+		
+		<input type="button" class="btn btn-outline-primary" onclick="webobj.page_go(0)" value="向后">
+	</div>
 </script>
 <!--template-->
 
@@ -276,11 +183,9 @@
 				<li class="nav-item">
 					<a class="nav-link" href="#">首页</a>
 				</li>
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item"><a class="nav-link" href="./admin/">管理</a> </li>
-					<li class="nav-item"><a class="nav-link" href="./table/">月榜</a></li>
-					<li class="nav-item"><a class="nav-link" href="./lvup/">升段</a></li>
-				</ul>
+				<li class="nav-item"><a class="nav-link" href="./admin/">管理</a> </li>
+				<li class="nav-item"><a class="nav-link" href="./table/">月榜</a></li>
+				<li class="nav-item"><a class="nav-link" href="./lvup/">升段</a></li>
 			</ul>
 			<form action="./chart/" class="d-flex">
 				<input aria-label="Search" class="form-control mr-2" name="name" placeholder="昵称" type="search">
