@@ -5,8 +5,8 @@
 	<meta charset="UTF-8">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 	<title>admin</title>
-	<link href="https://cdn.staticfile.org/twitter-bootstrap/4.6.1/css/bootstrap.min.css" rel="stylesheet" />
-	<link href="https://cdn.staticfile.org/bootswatch/4.6.1/darkly/bootstrap.min.css"
+	<link href="https://cdn.staticfile.org/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="https://cdn.staticfile.org/bootswatch/5.1.3/darkly/bootstrap.min.css"
 		media="(prefers-color-scheme: dark)" rel="stylesheet" />
 	<style>
 		body,
@@ -37,7 +37,7 @@
 			<div class="card-body">
 				<div class="form-group">
 					<label for="login_cid">雀庄编号</label>
-					<select class="custom-select mb-1" id="login_select" onchange="login_select_change()">
+					<select class="form-select mb-1" id="login_select" onchange="login_select_change()">
 						<option selected value="0">请选择</option>
 					</select>
 					<input class="form-control" id="login_cid" placeholder="數字" type="number">
@@ -48,29 +48,31 @@
 				</div>
 			</div>
 			<div class="card-footer">
-				<input class="btn btn-primary btn-block" id="login_button" onclick="login()" type="button" value="登錄" />
+				<div class="d-grid gap-2 col-6 mx-auto">
+					<input class="btn btn-primary btn-block" id="login_button" onclick="login()" type="button"
+						value="登錄" />
+				</div>
+
 			</div>
 		</div>
-
 		<div class="accordion d-none" id="accordionExample">
-			<input class="btn btn-primary m-1" onclick="localStorage.removeItem('rate_pw');location.reload();"
-				type="button" value="登出" />
-			<a class="btn btn-primary m-1" href="../admin_old/" role="button">旧版后台</a>
-			<div class="card" id="form3">
-				<div class="card-header" id="headingTwo">
-					<h2 class="mb-0">
-						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse"
-							data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-							导入新记录
-						</button>
-					</h2>
-				</div>
-				<div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo"
-					data-parent="#accordionExample">
-					<div class="card-body">
+			<input class="btn btn-primary m-1" onclick="localStorage.removeItem('rate_pw');location.reload();" type="button"
+				value="登出" />
+			<a class="btn btn-primary m-1" href="../admin_old/" role="button">若有问题，点此进入旧版后台</a>
+		
+			<div class="accordion-item" id="form3">
+				<h2 class="accordion-header" id="headingTwo">
+					<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+						aria-expanded="true" aria-controls="collapseTwo">
+						导入新记录
+					</button>
+				</h2>
+				<div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo"
+					data-bs-parent="#accordionExample">
+					<div class="accordion-body">
 						<h4>导入新记录
 							<button aria-controls="new_log_tips" aria-expanded="false" class="btn btn-info btn-sm"
-								data-target="#new_log_tips" data-toggle="collapse" type="button">
+								data-bs-target="#new_log_tips" data-bs-toggle="collapse" type="button">
 								显示说明
 							</button>
 						</h4>
@@ -83,8 +85,8 @@
 								【调整前】25000 25000 25000 25000<br>
 								【调整后】2500<b>4</b> 2500<b>9</b> 2500<b>2</b> 25000<br>
 								【例】第一人用昵称，第二人用手机号 第三人用昵称 第四人用QQ（打了2半庄）<textarea class="form-control" rows="4">张三 12300001234 李四 12345678
-320 321 322 37
-25003 25004 25002 25000</textarea></div>
+		320 321 322 37
+		25003 25004 25002 25000</textarea></div>
 						</div>
 						张三 李四 王五 赵六<br>
 						25000 25000 25000 25000<br>
@@ -100,20 +102,20 @@
 					</div>
 				</div>
 			</div>
-			<div class="card">
-				<div class="card-header" id="headingOne">
-					<h2 class="mb-0">
-						<button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
-							data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-							雀庄信息设置
-						</button>
-					</h2>
-				</div>
-				<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-					<form class="card shadow" id="form2">
-						<div class="card-body">
+			<div class="accordion-item">
+				<h2 class="accordion-header" id="headingOne">
+					<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+						aria-expanded="false" aria-controls="collapseOne">
+						雀庄信息设置
+					</button>
+				</h2>
+		
+				<div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+					data-bs-parent="#accordionExample">
+					<form class="accordion-item shadow" id="form2">
+						<div class="accordion-body">
 							<h4>基本設置</h4>
-							<div class="form-row">
+							<div class="row">
 								<div class="form-group col">
 									<label for="i_name">雀庄名称</label>
 									<input class="form-control" id="i_name" name="name" type="text" value="">
@@ -133,18 +135,17 @@
 									西部：重庆/四川/贵州/云南/西藏/陕西/甘肃/青海/宁夏/新疆
 								</div>
 							</div>
-							<div class="form-row">
+							<div class="row">
 								<div class="form-group col">
 									<label for="i_ctype">地域
-										<button aria-controls="area_tips" aria-expanded="false"
-											class="btn btn-info btn-sm" data-target="#area_tips" data-toggle="collapse"
-											type="button">
+										<button aria-controls="area_tips" aria-expanded="false" class="btn btn-info btn-sm"
+											data-bs-target="#area_tips" data-bs-toggle="collapse" type="button">
 											说明
 										</button>
 									</label>
-
-
-									<select class="custom-select mr-sm-2" id="i_ctype" name="ctype">
+		
+		
+									<select class="form-select mr-sm-2" id="i_ctype" name="ctype">
 										<option value="0">其他</option>
 										<option value="1">华北</option>
 										<option value="2">东北</option>
@@ -159,11 +160,11 @@
 										type="text" />
 								</div>
 							</div>
-
-							<div class="form-row mt-2">
+		
+							<div class="row mt-2">
 								<div class="form-group col">
 									<label for="i_status">雀庄狀態</label>
-									<select class="custom-select mr-sm-2" id="i_status" name="status">
+									<select class="form-select mr-sm-2" id="i_status" name="status">
 										<option value="0">不在首页显示</option>
 										<option value="1">通常在周末营业</option>
 										<option value="2">全天营业</option>
@@ -171,20 +172,19 @@
 										<option value="4">永久闭店</option>
 									</select>
 								</div>
-
+		
 								<div class="col form-group">
 									<label for="i_qqgroup">雀庄QQ群</label>
-									<input class="form-control" id="i_qqgroup" name="qqgroup" placeholder="數字"
-										type="text" />
+									<input class="form-control" id="i_qqgroup" name="qqgroup" placeholder="數字" type="text" />
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="i_address">雀庄地址</label>
 								<input class="form-control" id="i_address" name="address" type="text" value="">
 							</div>
-
-
-							<div class="form-row">
+		
+		
+							<div class="row">
 								<div class="col">
 									<label for="i_east">雀庄经度</label>
 									<input class="form-control" id="i_east" name="east" type="text" value="" />
@@ -194,7 +194,7 @@
 									<input class="form-control" id="i_north" name="north" type="text" value="" />
 								</div>
 							</div>
-							<div class="form-row mt-3">
+							<div class="row mt-3">
 								<div class="form-group col">
 									<label for="i_admins">雀庄介绍</label>
 									<textarea class="form-control" id="i_rule" name="rule" rows="5"></textarea>
@@ -211,19 +211,17 @@
 									</small>
 								</div>
 							</div>
-
-
-							<div class="form-row mb-0">
+		
+		
+							<div class="row mb-0">
 								<div class="form-group col">
 									<label for="i_numerator">活跃度,分子</label>
-									<input class="form-control" id="i_numerator" name="numerator" type="text"
-										value="" />
-
+									<input class="form-control" id="i_numerator" name="numerator" type="text" value="" />
+		
 								</div>
 								<div class="form-group col">
 									<label for="i_denominator">活跃度,分母</label>
-									<input class="form-control" id="i_denominator" name="denominator" type="text"
-										value="" />
+									<input class="form-control" id="i_denominator" name="denominator" type="text" value="" />
 								</div>
 							</div>
 							<small class="text-muted">
@@ -231,43 +229,43 @@
 							</small>
 							<hr />
 							<h4>雀庄状况</h4>
-
-							<div class="custom-control custom-checkbox mb-3">
-								<input class="custom-control-input" id="charge_by_hour" type="checkbox">
-								<label class="custom-control-label" for="charge_by_hour">选中=按小时收费/非选中=按半庄收费</label>
+		
+							<div class="form-check mb-3">
+								<input class="form-check-input" id="charge_by_hour" type="checkbox">
+								<label class="form-check-label" for="charge_by_hour">选中=按小时收费/非选中=按半庄收费</label>
 							</div>
-
-							<div class="form-row">
+		
+							<div class="row">
 								<div class="form-group col">
-									<div class="custom-control custom-checkbox">
-										<input class="custom-control-input" id="no_smoking" type="checkbox">
-										<label class="custom-control-label" for="no_smoking">禁止抽烟</label>
+									<div class="form-check">
+										<input class="form-check-input" id="no_smoking" type="checkbox">
+										<label class="form-check-label" for="no_smoking">禁止抽烟</label>
 									</div>
 								</div>
-
+		
 								<div class="form-group col">
-									<div class="custom-control custom-checkbox">
-										<input class="custom-control-input" id="order_first" type="checkbox">
-										<label class="custom-control-label" for="order_first">必须事先预约</label>
+									<div class="form-check">
+										<input class="form-check-input" id="order_first" type="checkbox">
+										<label class="form-check-label" for="order_first">必须事先预约</label>
 									</div>
 								</div>
 							</div>
-
-							<div class="form-row">
+		
+							<div class="row">
 								<div class="form-group col">
-									<div class="custom-control custom-checkbox">
-										<input class="custom-control-input" id="scoreboard" type="checkbox">
-										<label class="custom-control-label" for="scoreboard">有数显麻将机</label>
+									<div class="form-check">
+										<input class="form-check-input" id="scoreboard" type="checkbox">
+										<label class="form-check-label" for="scoreboard">有数显麻将机</label>
 									</div>
 								</div>
-
+		
 								<div class="form-group col">
-									<div class="custom-control custom-checkbox">
-										<input class="custom-control-input" id="ban_gambling" type="checkbox">
-										<label class="custom-control-label" for="ban_gambling">严禁赌博</label>
+									<div class="form-check">
+										<input class="form-check-input" id="ban_gambling" type="checkbox">
+										<label class="form-check-label" for="ban_gambling">严禁赌博</label>
 									</div>
 								</div>
-
+		
 							</div>
 						</div>
 						<div class="card-footer text-center">
@@ -276,17 +274,19 @@
 					</form>
 				</div>
 			</div>
-			<div class="card" id="form5">
-				<div class="card-header" id="headingThree">
-					<h2 class="mb-0">
-						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse"
-							data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-							批量删除记录+批量删除成员+批量改手机号
-						</button>
-					</h2>
-				</div>
-				<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-					<div class="card-body">
+			<div class="accordion-item" id="form5">
+				<h2 class="accordion-header" id="headingThree">
+		
+					<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree"
+						aria-expanded="false" aria-controls="collapseThree">
+						批量删除记录+批量删除成员+批量改手机号
+					</button>
+					
+				</h2>
+		
+				<div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+					data-bs-parent="#accordionExample">
+					<div class="accordion-body">
 						<h4>批量删除记录+批量删除成员+批量改手机号</h4>
 						<small class="text-muted">
 							【批量删除成员】：輸入手機號
@@ -299,7 +299,7 @@
 						</small>
 						<textarea class="form-control mb-3" id="deltext" rows="2"></textarea>
 						<div class="input-group">
-							<select class="custom-select" id="del_type" name="delete_type">
+							<select class="form-select" id="del_type" name="delete_type">
 								<option selected value="0">不刪除</option>
 								<option value="1">刪除記錄</option>
 								<option value="2">刪除成員</option>
@@ -312,25 +312,26 @@
 					</div>
 				</div>
 			</div>
-
-			<div class="card" id="form4">
-				<div class="card-header" id="heading4">
-					<h2 class="mb-0">
-						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse"
-							data-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
-							批量添加/修改会员
-						</button>
-					</h2>
-				</div>
-				<div id="collapse4" class="collapse" aria-labelledby="heading4" data-parent="#accordionExample">
-					<div class="card-body">
+		
+			<div class="accordion-item" id="form4">
+				<h2 class="accordion-header" id="heading4">
+		
+					<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4"
+						aria-expanded="false" aria-controls="collapse4">
+						批量添加/修改会员
+					</button>
+				</h2>
+		
+				<div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4"
+					data-bs-parent="#accordionExample">
+					<div class="accordion-body">
 						<h3>批量添加/修改会员
-							<button class="btn btn-info btn-sm" data-target="#new_menber_tips" data-toggle="collapse"
+							<button class="btn btn-info btn-sm" data-bs-target="#new_menber_tips" data-bs-toggle="collapse"
 								type="button">
 								显示说明
 							</button>
 						</h3>
-
+		
 						<div class="collapse" id="new_menber_tips">
 							<div class="alert alert-info" role="alert">
 								如果手机号【不在】会员列表里，则会【添加新会员】<br>
@@ -353,18 +354,19 @@
 					</div>
 				</div>
 			</div>
-
-			<div class="card" id="form6">
-				<div class="card-header" id="heading5">
-					<h2 class="mb-0">
-						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse"
-							data-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
-							修改会员信息
-						</button>
-					</h2>
-				</div>
-				<div id="collapse5" class="collapse" aria-labelledby="heading5" data-parent="#accordionExample">
-					<div class="card-body">
+		
+			<div class="accordion-item" id="form6">
+				<h2 class="accordion-header" id="heading5">
+		
+					<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5"
+						aria-expanded="false" aria-controls="collapse5">
+						修改会员信息
+					</button>
+				</h2>
+		
+				<div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5"
+					data-bs-parent="#accordionExample">
+					<div class="accordion-body">
 						<table class="table table-striped table-hover table-bordered table-sm mt-3 text-cent">
 							<thead>
 								<tr>
@@ -379,8 +381,7 @@
 								<tr>
 									<td>
 										<div class="form-check">
-											<input class="form-check-input" id="flexCheckDefault" type="checkbox"
-												value="">
+											<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
 											<label class="form-check-label" for="flexCheckDefault">12300001111</label>
 										</div>
 									</td>
@@ -397,326 +398,16 @@
 					</div>
 				</div>
 			</div>
-
+		
 		</div>
+		
 
 	</div>
 	<script src="../js/data_list.js"></script>
 	<script crossorigin="anonymous" src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
 	<script crossorigin="anonymous"
-		src="https://cdn.staticfile.org/twitter-bootstrap/4.6.1/js/bootstrap.bundle.min.js"></script>
-	<script>
-		var webobj = {
-			cid: 1,
-			pw: "",
-			json: {}
-		};
-
-		function login_select_change() {
-			tgt = document.getElementById('login_cid');
-			s = document.getElementById('login_select');
-			tgt.value = s.options[s.selectedIndex].value;
-		}
-		function save_table() {
-			var tr = document.querySelectorAll("#table_data>tr")
-			var text = "";
-			for (var i = 0; i < tr.length; i++) {
-				text += "\n" + (tr[i].innerText.trim().replace(/\s+/, "\t"));
-			}
-			document.getElementById("new_member_textarea").value = text.trim();
-			addmember();
-		}
-
-		function delete_select() {
-			var check_boxes = document.querySelectorAll('#table_data input:checked');
-			var text = "";
-			for (var i = 0; i < check_boxes.length; i++) {
-				text += ' ' + check_boxes[i].parentNode.innerText;
-			}
-			document.getElementById("deltext").value = text.trim()
-			document.getElementById("del_type").value = 2;
-			del_log_or_member();
-		}
-
-		function now_time() {
-			var now = new Date();
-			return now.getFullYear() + "/"
-				+ (now.getMonth() + 1) + "/"
-				+ now.getDate() + " "
-				+ now.getHours() + ":"
-				+ now.getMinutes() + ":"
-				+ now.getSeconds();
-		}
-
-		function display_post(json) {
-			var now = now_time();
-			if (json.hasOwnProperty("status") == false || json.hasOwnProperty("text") == false) {
-				json = { "status": 2, "text": "空返回值#315" }
-			}
-			if (typeof json.text === "object") {
-				json.text = JSON.stringify(json.text);
-			}
-			var div = document.createElement("div");
-			var color = ["success", "warning", "danger", "info", "primary"];
-			div.setAttribute("class", "alert alert-" + color[json.status] + " alert-dismissible fade show shadow-sm");
-			div.setAttribute("role", "alert");
-			var pre = document.createElement('pre');
-			pre.appendChild(document.createTextNode(now + " " + json.text));
-			div.appendChild(pre);
-			var btn = document.createElement("button");
-			btn.setAttribute("class", "close");
-			btn.setAttribute("data-dismiss", "alert");
-			btn.setAttribute("aria-label", "Close");
-			var span = document.createElement("span");
-			span.innerHTML = "&times;";
-			btn.appendChild(span);
-			div.appendChild(btn);
-			var tgt = document.getElementById("return_msg");
-			if (tgt.childNodes.length === 0) {
-				tgt.appendChild(div);
-			} else {
-				tgt.insertBefore(div, tgt.childNodes[0]);
-				document.documentElement.scrollTop = 0;
-			}
-		}
-
-		(function () {
-			var patt = new RegExp(/(.+)[?&]tdsourcetag=\w+$/);
-			var arr = patt.exec(window.location.href);
-			if (arr != null) {
-				window.location.href = arr[1];
-			}
-			window.apiurl = "https://cdn.r-mj.com/r/";
-			var querystr = document.location.hash.match(/\?cid=(\d+)&pw=(.+)/);
-			var l_cid = localStorage.getItem('rate_cid');
-			var l_pw = localStorage.getItem('rate_pw');
-			if (l_cid !== null) {
-				document.getElementById("login_cid").value = l_cid;
-			}
-			if (l_cid !== null && l_pw !== null) {
-				querystr = [0, l_cid, l_pw];
-			}
-			if (querystr) {
-				document.location.hash = "";
-				login(querystr[1], querystr[2]);
-			}
-
-			//options
-			var target = document.getElementById('login_select');
-			for (const cid in cid2name) {
-				if (cid >= 2 && Object.hasOwnProperty.call(cid2name, cid)) {
-					const opt = document.createElement('option');
-					opt.setAttribute('value', cid);
-					opt.innerText = cid2name[cid];
-					target.appendChild(opt);
-				}
-			}
-		}())
-
-		function bin2arr(bin, len) {
-			//0b1101=>[1,0,1,1] 逆順序
-			var arr = [];
-			len = Math.abs(parseInt(len) || 0);
-			while (len--) {
-				arr.unshift((bin >> len) % 2);
-			}
-			return arr;
-		}
-
-		function show_config(json) {
-			//display_post({status: 0, text: "登入成功"});
-			webobj.json = json;
-			$("#form1").addClass('d-none')
-			$("#accordionExample").removeClass('d-none');
-			var input_txt = ["name", "pw",
-				"area_name", "numerator", "qqgroup", "rule", "denominator", "admins", "address", "north", "east"];//id=i_XXXX
-			var input_select = ["ctype", "status"];//i_type
-			var input_checkbox = ["charge_by_hour", "no_smoking", "order_first", "scoreboard", "ban_gambling"];
-			var setting_arr = bin2arr(json.setting, input_checkbox.length);
-			var tgt = document.getElementById("table_data");
-			tgt.textContent = '';
-			var ta = "";
-			var forarr = ["name", "qq", "gold", "balance"];
-			for (var i = 0; i < json.members.length; i++) {
-				var thisdata = json.members[i];
-				ta += thisdata.phone + "\t"
-					+ thisdata.name + "\t"
-					+ thisdata.qq + "\t"
-					+ thisdata.gold + "\t"
-					+ thisdata.balance + "\r\n";
-				var tmp_tr = document.createElement("tr");
-				var td = document.createElement("td");
-				var div = document.createElement("div");
-				div.className = "form-check";
-				var ipt = document.createElement("input");
-				ipt.className = "form-check-input"
-				ipt.setAttribute('type', "checkbox");
-				ipt.setAttribute('id', "cb_" + thisdata.idx);
-				var lable = document.createElement("label");
-				lable.className = "form-check-label"
-				lable.setAttribute('for', "cb_" + thisdata.idx);
-				lable.innerText = thisdata.phone;
-				div.appendChild(ipt);
-				div.appendChild(lable);
-				td.appendChild(div);
-				tmp_tr.appendChild(td);
-				for (var j = 0; j < forarr.length; j++) {
-					var td = document.createElement("td");
-					td.setAttribute('contenteditable', "true");
-					td.innerText = thisdata[forarr[j]];
-					tmp_tr.appendChild(td);
-				}
-				tgt.appendChild(tmp_tr);
-			}
-			$("#new_member_textarea").val(ta);
-			for (var i = 0; i < input_txt.length; i++) {
-				var tgt_id = input_txt[i];
-				var e = document.getElementById("i_" + tgt_id);
-				e.value = json[tgt_id];
-			}
-			for (var i = 0; i < input_select.length; i++) {
-				var tgt_id = input_select[i];
-				var e = document.getElementById("i_" + tgt_id);
-				e.options[json[tgt_id]].selected = true;
-			}
-			for (var i = 0; i < input_checkbox.length; i++) {
-				var tgt_id = input_checkbox[i];
-				var e = document.getElementById(tgt_id);
-				e.checked = setting_arr[i] == 1;
-			}
-		}
-
-		function new_row() {
-			var phone = prompt("请输入手机号");
-			var user_name = prompt("请输入昵称");
-			if (phone > 1 && user_name.trim() != '') {
-				var tr = document.createElement('tr');
-				tr.innerHTML = '<td><div class="form-check"><label class="form-check-label" ><input class="form-check-input" type="checkbox">' + phone + '</label></div></td><td contenteditable="true">' + user_name + '</td><td contenteditable="true">0</td><td contenteditable="true">0</td><td contenteditable="true">0</td>';
-				document.getElementById('table_data').appendChild(tr);
-			}
-		}
-
-		function addmember() {
-			var postdata = {
-				"cid": webobj.cid,
-				"pw": webobj.pw,
-				"q": "addmember",
-				"order": $("#new_member_textarea").val()
-			};
-			return $.post(window.apiurl + "addmember.php", postdata,
-				function (data) {
-					login();
-					if (!data.hasOwnProperty("status") || !data.hasOwnProperty("text")) {
-						return display_post({ status: 1, text: "返回空" });
-					}
-					return display_post(data);
-				}, "json");
-		}
-
-		function addlog() {
-			var postdata = {
-				"cid": webobj.cid,
-				"pw": webobj.pw,
-				"q": "addlog",
-				"is_national": 1,
-				"order": $("#logtext").val()
-			};
-			return $.post(window.apiurl + "addlog.php", postdata,
-				function (data) {
-					login();
-					if (!data.hasOwnProperty("status") || !data.hasOwnProperty("text")) {
-						return display_post({ status: 1, text: "返回空" });
-					}
-					return display_post(data);
-				}, "json");
-		}
-
-		function before_post() {
-			var newdata = $("form").serializeArray();
-			newdata.push({ "name": "pw", "value": webobj.pw });
-			newdata.push({ "name": "cid", "value": webobj.cid });
-			newdata.push({ "name": "q", "value": "update_base" });
-			var input_checkbox = ["charge_by_hour", "no_smoking", "order_first", "scoreboard", "ban_gambling"];
-			var settings = "";
-			for (var i = 0; i < input_checkbox.length; i++) {
-				var e = document.getElementById(input_checkbox[i]);
-				settings = (e.checked ? "1" : "0") + settings;
-			}
-			//console.log("s", settings);
-			newdata.push({ "name": "setting", "value": parseInt(settings, 2) });
-
-			//console.log(newdata);
-			return $.post(window.apiurl + "rate.php", newdata,
-				function (data) {
-					if (!data.hasOwnProperty("status") || !data.hasOwnProperty("text")) {
-						return display_post({ status: 1, text: "返回空" });
-					}
-					return display_post(data);
-				}, "json");
-		}
-
-		function del_log_or_member() {
-			if (confirm('此操作很危险，要进行吗？') == false) {
-				return;
-			}
-			var t = document.getElementById("del_type").value;
-			if (t != 1 && t != 2 && t != 3) {
-				return;
-			}
-			var type = ["none", "del_log", "del_member", "edit_phone"];
-			var postdata = {
-				"cid": webobj.cid,
-				"pw": webobj.pw,
-				"q": type[t],
-				"order": $("#deltext").val()
-			};
-			return $.post(window.apiurl + "del_log.php", postdata,
-				function (data) {
-					login();
-					if (!data.hasOwnProperty("status") || !data.hasOwnProperty("text")) {
-						return display_post({ status: 1, text: "返回空" });
-					}
-					return display_post(data);
-				}, "json");
-		}
-		function login_btn(status = true) {
-			var btn = document.getElementById('login_button');
-			if (status) {
-				btn.value = '登錄中……';
-				btn.setAttribute('disabled', true);
-			} else {
-				btn.value = '登錄中';
-				btn.setAttribute('disabled', false);
-			}
-		}
-		function login(cid, pw) {
-			if (arguments.length === 0) {
-				var cid = webobj.cid = document.getElementById("login_cid").value;
-				var pw = webobj.pw = document.getElementById("login_passwd").value;
-			}
-			login_btn(true);
-			$.post(window.apiurl + "rate.php", {
-				"q": "login",
-				"cid": cid,
-				"pw": pw
-			}, function (data) {
-				if (!data.hasOwnProperty("status")) {
-					return display_post({ status: 1, text: "返回空" });
-				}
-				if (parseInt(data.status) === 0) {
-					localStorage.setItem('rate_cid', cid);
-					localStorage.setItem('rate_pw', pw);
-					console.log('login.status=0', data);
-					show_config(data.data);
-
-				} else {
-					console.log('login.status != 0', data);
-					display_post(data);
-				}
-				return;
-			}, "json");
-		}
-	</script>
+		src="https://cdn.staticfile.org/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+	<script src="admin.js"></script>
 
 </body>
 
