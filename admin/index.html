@@ -31,7 +31,7 @@
 
 	<div class="container my-4">
 		<div id="return_msg"></div>
-
+		<a class="btn btn-primary m-1" href="../admin_old/" role="button">若有问题，点此进入旧版后台</a>
 		<div class="card shadow mb-3" id="form1">
 			<div class="card-header text-center">登入</div>
 			<div class="card-body">
@@ -56,14 +56,13 @@
 			</div>
 		</div>
 		<div class="accordion d-none" id="accordionExample">
-			<input class="btn btn-primary m-1" onclick="localStorage.removeItem('rate_pw');location.reload();" type="button"
-				value="登出" />
-			<a class="btn btn-primary m-1" href="../admin_old/" role="button">若有问题，点此进入旧版后台</a>
-		
+			<input class="btn btn-primary m-1" onclick="localStorage.removeItem('rate_pw');location.reload();"
+				type="button" value="登出" />
+
 			<div class="accordion-item" id="form3">
 				<h2 class="accordion-header" id="headingTwo">
-					<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
-						aria-expanded="true" aria-controls="collapseTwo">
+					<button class="accordion-button" type="button" data-bs-toggle="collapse"
+						data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
 						导入新记录
 					</button>
 				</h2>
@@ -104,12 +103,12 @@
 			</div>
 			<div class="accordion-item">
 				<h2 class="accordion-header" id="headingOne">
-					<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
-						aria-expanded="false" aria-controls="collapseOne">
+					<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+						data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
 						雀庄信息设置
 					</button>
 				</h2>
-		
+
 				<div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
 					data-bs-parent="#accordionExample">
 					<form class="accordion-item shadow" id="form2">
@@ -138,13 +137,14 @@
 							<div class="row">
 								<div class="form-group col">
 									<label for="i_ctype">地域
-										<button aria-controls="area_tips" aria-expanded="false" class="btn btn-info btn-sm"
-											data-bs-target="#area_tips" data-bs-toggle="collapse" type="button">
+										<button aria-controls="area_tips" aria-expanded="false"
+											class="btn btn-info btn-sm" data-bs-target="#area_tips"
+											data-bs-toggle="collapse" type="button">
 											说明
 										</button>
 									</label>
-		
-		
+
+
 									<select class="form-select mr-sm-2" id="i_ctype" name="ctype">
 										<option value="0">其他</option>
 										<option value="1">华北</option>
@@ -160,7 +160,7 @@
 										type="text" />
 								</div>
 							</div>
-		
+
 							<div class="row mt-2">
 								<div class="form-group col">
 									<label for="i_status">雀庄狀態</label>
@@ -172,18 +172,19 @@
 										<option value="4">永久闭店</option>
 									</select>
 								</div>
-		
+
 								<div class="col form-group">
 									<label for="i_qqgroup">雀庄QQ群</label>
-									<input class="form-control" id="i_qqgroup" name="qqgroup" placeholder="數字" type="text" />
+									<input class="form-control" id="i_qqgroup" name="qqgroup" placeholder="數字"
+										type="text" />
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="i_address">雀庄地址</label>
 								<input class="form-control" id="i_address" name="address" type="text" value="">
 							</div>
-		
-		
+
+
 							<div class="row">
 								<div class="col">
 									<label for="i_east">雀庄经度</label>
@@ -211,17 +212,19 @@
 									</small>
 								</div>
 							</div>
-		
-		
+
+
 							<div class="row mb-0">
 								<div class="form-group col">
 									<label for="i_numerator">活跃度,分子</label>
-									<input class="form-control" id="i_numerator" name="numerator" type="text" value="" />
-		
+									<input class="form-control" id="i_numerator" name="numerator" type="text"
+										value="" />
+
 								</div>
 								<div class="form-group col">
 									<label for="i_denominator">活跃度,分母</label>
-									<input class="form-control" id="i_denominator" name="denominator" type="text" value="" />
+									<input class="form-control" id="i_denominator" name="denominator" type="text"
+										value="" />
 								</div>
 							</div>
 							<small class="text-muted">
@@ -229,12 +232,12 @@
 							</small>
 							<hr />
 							<h4>雀庄状况</h4>
-		
+
 							<div class="form-check mb-3">
 								<input class="form-check-input" id="charge_by_hour" type="checkbox">
 								<label class="form-check-label" for="charge_by_hour">选中=按小时收费/非选中=按半庄收费</label>
 							</div>
-		
+
 							<div class="row">
 								<div class="form-group col">
 									<div class="form-check">
@@ -242,7 +245,7 @@
 										<label class="form-check-label" for="no_smoking">禁止抽烟</label>
 									</div>
 								</div>
-		
+
 								<div class="form-group col">
 									<div class="form-check">
 										<input class="form-check-input" id="order_first" type="checkbox">
@@ -250,7 +253,7 @@
 									</div>
 								</div>
 							</div>
-		
+
 							<div class="row">
 								<div class="form-group col">
 									<div class="form-check">
@@ -258,14 +261,14 @@
 										<label class="form-check-label" for="scoreboard">有数显麻将机</label>
 									</div>
 								</div>
-		
+
 								<div class="form-group col">
 									<div class="form-check">
 										<input class="form-check-input" id="ban_gambling" type="checkbox">
 										<label class="form-check-label" for="ban_gambling">严禁赌博</label>
 									</div>
 								</div>
-		
+
 							</div>
 						</div>
 						<div class="card-footer text-center">
@@ -276,14 +279,14 @@
 			</div>
 			<div class="accordion-item" id="form5">
 				<h2 class="accordion-header" id="headingThree">
-		
-					<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree"
-						aria-expanded="false" aria-controls="collapseThree">
+
+					<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+						data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
 						批量删除记录+批量删除成员+批量改手机号
 					</button>
-					
+
 				</h2>
-		
+
 				<div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
 					data-bs-parent="#accordionExample">
 					<div class="accordion-body">
@@ -312,26 +315,26 @@
 					</div>
 				</div>
 			</div>
-		
+
 			<div class="accordion-item" id="form4">
 				<h2 class="accordion-header" id="heading4">
-		
-					<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4"
-						aria-expanded="false" aria-controls="collapse4">
+
+					<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+						data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
 						批量添加/修改会员
 					</button>
 				</h2>
-		
+
 				<div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4"
 					data-bs-parent="#accordionExample">
 					<div class="accordion-body">
 						<h3>批量添加/修改会员
-							<button class="btn btn-info btn-sm" data-bs-target="#new_menber_tips" data-bs-toggle="collapse"
-								type="button">
+							<button class="btn btn-info btn-sm" data-bs-target="#new_menber_tips"
+								data-bs-toggle="collapse" type="button">
 								显示说明
 							</button>
 						</h3>
-		
+
 						<div class="collapse" id="new_menber_tips">
 							<div class="alert alert-info" role="alert">
 								如果手机号【不在】会员列表里，则会【添加新会员】<br>
@@ -354,16 +357,16 @@
 					</div>
 				</div>
 			</div>
-		
+
 			<div class="accordion-item" id="form6">
 				<h2 class="accordion-header" id="heading5">
-		
-					<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5"
-						aria-expanded="false" aria-controls="collapse5">
+
+					<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+						data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
 						修改会员信息
 					</button>
 				</h2>
-		
+
 				<div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5"
 					data-bs-parent="#accordionExample">
 					<div class="accordion-body">
@@ -381,7 +384,8 @@
 								<tr>
 									<td>
 										<div class="form-check">
-											<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
+											<input class="form-check-input" id="flexCheckDefault" type="checkbox"
+												value="">
 											<label class="form-check-label" for="flexCheckDefault">12300001111</label>
 										</div>
 									</td>
@@ -398,9 +402,9 @@
 					</div>
 				</div>
 			</div>
-		
+
 		</div>
-		
+
 
 	</div>
 	<script src="../js/data_list.js"></script>
