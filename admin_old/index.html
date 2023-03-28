@@ -188,14 +188,22 @@
 	}
 
 	function new_row() {
-		var phone = prompt("请输入手机号");
-		var user_name = prompt("请输入昵称");
-		if (phone > 1 && user_name.trim() != '') {
-			var tr = document.createElement('tr');
-			tr.innerHTML = '<td><div class="form-check"><label class="form-check-label" ><input class="form-check-input" type="checkbox">' + phone + '</label></div></td><td contenteditable="true">' + user_name + '</td><td contenteditable="true">0</td><td contenteditable="true">0</td><td contenteditable="true">0</td>';
-			document.getElementById('table_data').appendChild(tr);
-		}
-	}
+    var phone = parseInt(prompt("请输入手机号"));
+
+    if (phone === NaN || phone < 10000000000) {
+        return alert('手机号大于10000000000');
+    }
+    var user_name = prompt("请输入昵称").trim();
+    if (user_name == '') {
+        return alert('用户名不能是空');
+    }
+    if (!isNaN(user_name)) {
+        return alert('用户名不能是纯数字');
+    }
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td><div class="form-check"><label class="form-check-label" ><input class="form-check-input" type="checkbox">' + phone + '</label></div></td><td contenteditable="true">' + user_name + '</td><td contenteditable="true">0</td><td contenteditable="true">0</td><td contenteditable="true">0</td>';
+    document.getElementById('table_data').appendChild(tr);
+}
 
 	function addmember() {
 		var postdata = {
