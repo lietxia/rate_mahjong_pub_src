@@ -262,7 +262,7 @@ var webobj = {
 	web_fn: {
 		main: function () {
 			console.log("debug", webobj.this_query, webobj.last_query);
-			webobj.change_jumb("全国雀庄公式战", '线下各地雀庄，共通承认的线下段位。');
+			webobj.change_jumb("全国雀庄公式战", '线下各地雀庄，共同承认的线下段位。');
 			webobj.load_page("templ_main", "rate.php");
 		},
 		competition: function () {
