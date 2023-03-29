@@ -82,8 +82,10 @@ function display_post(json) {
     if (l_cid !== null) {
         document.getElementById("login_cid").value = l_cid;
     }
-    if (l_cid !== null && l_pw !== null) {
+    if (l_cid !== null && l_pw !== null && l_cid !== '' && l_pw !== '') {
         querystr = [0, l_cid, l_pw];
+        document.getElementById("login_cid").value = l_cid;
+        document.getElementById("login_passwd").value = l_pw;
     }
     if (querystr) {
         document.location.hash = "";
@@ -301,6 +303,8 @@ function login(cid, pw) {
         webobj.cid = l_cid;
         pw = l_pw;
         cid = l_cid;
+        document.getElementById("login_cid").value = cid;
+        document.getElementById("login_passwd").value = pw;
     }
     login_btn(true);
     $.post(window.apiurl + "rate.php", {
