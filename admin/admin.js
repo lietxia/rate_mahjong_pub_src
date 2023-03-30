@@ -3,6 +3,75 @@ var webobj = {
     pw: "",
     json: {}
 };
+function log_gen_table() {
+    var names = [];
+    webobj.json.members.forEach(element => {
+        names.push(element.name);
+    });
+    var text = document.getElementById('logtext');
+    var logs = text.value.split("\n");
+    var split_text = " ";
+    var target = document.getElementById("table_new_log");
+    target.innerText = '';
+    if (logs[0].slice("\t").length > logs[0].slice(" ").length) {
+        split_text = "\t";
+    }
+    for (let i = 0; i < logs.length; i++) {
+        const row = logs[i].split(split_text);
+        var tr = document.createElement('tr');
+        var number_count = 0;
+        var number_sum = 0;
+        var arr = [];
+        for (let j = 0; j < row.length; j++) {
+            if (row[j] === '') continue;
+            arr.push(row[j]);
+            var td = document.createElement('td');
+            td.appendChild(document.createTextNode(row[j]));
+            //td.setAttribute("contenteditable", "true");
+            if (!isNaN(row[j])) {
+                number_count++;
+                number_sum -= row[j];
+            } else {
+                if (names.includes(row[j])) {
+                    td.className = "bg-success";
+                } else {
+                    td.className = "bg-warning";
+                }
+            }
+            tr.appendChild(td);
+        }
+        if (number_count === 4) {//数值
+            number_sum = Math.abs(number_sum);
+            if (number_sum <= 150) {
+                number_sum =
+                    Math.floor(arr[0] * 10) +
+                    Math.floor(arr[1] * 10) +
+                    Math.floor(arr[2] * 10) +
+                    Math.floor(arr[3] * 10);
+            } else {
+                if (number_sum >= 90000) {
+                    number_sum =
+                        Math.floor(arr[0] / 100) +
+                        Math.floor(arr[1] / 100) +
+                        Math.floor(arr[2] / 100) +
+                        Math.floor(arr[3] / 100);
+                }
+            }
+            console.log(number_sum);
+            if (number_sum != 1000) {
+                tr.className = "table-warning";
+            }
+            if (Array.from(new Set(arr)).length !== 4) {
+                tr.className = "table-danger";
+            }
+
+        } else {
+
+        }
+
+        target.appendChild(tr);
+    }
+}
 
 function login_select_change() {
     tgt = document.getElementById('login_cid');
@@ -104,9 +173,6 @@ function display_post(json) {
     }
 }())
 
-function excel_check(text) {
-
-}
 function bin2arr(bin, len) {
     //0b1101=>[1,0,1,1] 逆順序
     var arr = [];
