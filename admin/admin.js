@@ -139,6 +139,7 @@ function display_post(json) {
         tgt.insertBefore(div, tgt.childNodes[0]);
         document.documentElement.scrollTop = 0;
     }
+    document.documentElement.scrollTop = 0;
 }
 
 (function () {
@@ -389,7 +390,7 @@ function login(cid, pw) {
         if (parseInt(data.status) === 0) {
             localStorage.setItem('rate_cid', cid);
             localStorage.setItem('rate_pw', pw);
-            console.log('login.status=0', data);
+            console.log(cid, pw, 'login.status=0', data);
             show_config(data.data);
 
         } else {
