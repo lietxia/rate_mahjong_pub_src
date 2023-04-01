@@ -36,9 +36,9 @@ function log_gen_table() {
                 number_sum -= row[j];
             } else {
                 if (names.includes(row[j])) {
-                    td.className = "bg-success";
+                    td.className = "table-success";
                 } else {
-                    td.className = "bg-warning";
+                    td.className = "table-warning";
                 }
             }
             tr.appendChild(td);
