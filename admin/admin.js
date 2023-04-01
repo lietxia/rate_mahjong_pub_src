@@ -24,7 +24,7 @@ function log_gen_table() {
         var arr = [];
         for (let j = 0; j < row.length; j++) {
             if (row[j] === '') {
-                td.appendChild(document.createElement('td'));
+                tr.appendChild(document.createElement('td'));
                 continue;
             }
             arr.push(row[j]);
