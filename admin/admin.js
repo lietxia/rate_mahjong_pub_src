@@ -23,7 +23,10 @@ function log_gen_table() {
         var number_sum = 0;
         var arr = [];
         for (let j = 0; j < row.length; j++) {
-            if (row[j] === '') continue;
+            if (row[j] === '') {
+                td.appendChild(document.createElement('td'));
+                continue;
+            }
             arr.push(row[j]);
             var td = document.createElement('td');
             td.appendChild(document.createTextNode(row[j]));
