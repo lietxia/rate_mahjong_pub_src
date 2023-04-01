@@ -38,7 +38,7 @@ function log_gen_table() {
                 if (names.includes(row[j])) {
                     td.className = "table-success";
                 } else {
-                    td.className = "table-warning";
+                    td.className = "table-danger";
                 }
             }
             tr.appendChild(td);
