@@ -13,7 +13,7 @@ function log_gen_table() {
     var split_text = " ";
     var target = document.getElementById("table_new_log");
     target.innerText = '';
-    if (logs[0].slice("\t").length > logs[0].slice(" ").length) {
+    if (logs[0].split("\t").length > logs[0].split(" ").length) {
         split_text = "\t";
     }
     for (let i = 0; i < logs.length; i++) {
@@ -23,7 +23,10 @@ function log_gen_table() {
         var number_sum = 0;
         var arr = [];
         for (let j = 0; j < row.length; j++) {
-            if (row[j] === '') continue;
+            if (row[j] === '') {
+                tr.appendChild(document.createElement('td'));
+                continue;
+            }
             arr.push(row[j]);
             var td = document.createElement('td');
             td.appendChild(document.createTextNode(row[j]));
@@ -33,9 +36,9 @@ function log_gen_table() {
                 number_sum -= row[j];
             } else {
                 if (names.includes(row[j])) {
-                    td.className = "bg-success";
+                    td.className = "table-success";
                 } else {
-                    td.className = "bg-warning";
+                    td.className = "table-danger";
                 }
             }
             tr.appendChild(td);
