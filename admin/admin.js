@@ -155,6 +155,8 @@ function display_post(json) {
         querystr = [0, l_cid, l_pw];
         document.getElementById("login_cid").value = l_cid;
         document.getElementById("login_passwd").value = l_pw;
+        webobj.pw = l_pw;
+        webobj.cid = l_cid;
     }
     if (querystr) {
         document.location.hash = "";
