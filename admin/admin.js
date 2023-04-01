@@ -13,7 +13,7 @@ function log_gen_table() {
     var split_text = " ";
     var target = document.getElementById("table_new_log");
     target.innerText = '';
-    if (logs[0].slice("\t").length > logs[0].slice(" ").length) {
+    if (logs[0].split("\t").length > logs[0].split(" ").length) {
         split_text = "\t";
     }
     for (let i = 0; i < logs.length; i++) {
