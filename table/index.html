@@ -1,260 +1,260 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh">
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>月榜等榜单(Beta)</title>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>月榜等榜单(Beta)</title>
 
-    <link href="https://cdn.staticfile.org/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.staticfile.org/bootswatch/5.1.3/darkly/bootstrap.min.css" media="(prefers-color-scheme: dark)"
-    rel="stylesheet">
-    <link href="https://cdn.staticfile.org/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="https://cdn.staticfile.org/bootstrap-table/1.21.3/bootstrap-table.min.css" rel="stylesheet">
+	<link href="https://cdn.staticfile.org/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.staticfile.org/bootswatch/5.1.3/darkly/bootstrap.min.css" media="(prefers-color-scheme: dark)"
+		rel="stylesheet">
+	<link href="https://cdn.staticfile.org/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css" rel="stylesheet">
+	<link href="https://cdn.staticfile.org/bootstrap-table/1.21.3/bootstrap-table.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div>
-            <label for="time_start">开始:</label>
-            <input id="time_start" type="datetime-local" name="time_start">
-            <label for="time_end">结束:</label>
-            <input id="time_end" type="datetime-local" name="time_end">
-            <button type="button" class="btn btn-primary" onclick="search(true)">搜索</button>
-            <br />
-            <kbd class="d-inline-block">说明在底部</kbd>
-            <label for="log_count">只显示</label>
-            <input id="log_count" type="number" name="log_count" value="1" onchange="search()">
-            场以上的选手
-        </div>
-        <div class="toolbar input-group mb-3">
-            <select class="form-select" id="time_type" onchange="search()">
-                <option value="1">年榜</option>
-                <option value="2">半年榜</option>
-                <option value="3">季榜</option>
-                <option value="4">双月榜</option>
-                <option value="5" selected>月榜</option>
-                <option value="6">半月榜</option>
-                <option value="7">周榜</option>
-                <option value="8">三日榜</option>
-                <option value="9">一日榜</option>
-            </select>
-            <select class="form-select" id="cid_type" onchange="search()">
-                <option value="1" selected>统计全国</option>
-                <option value="-1">[浪速南京合计]</option>
-                <option value="-2">[浪速合计]</option>
-            </select>
-            <select class="form-select" id="filter_type" onchange="search()">
-                <option value="1" selected>跨雀庄统计</option>
-                <option value="2">排除其他雀庄</option>
-            </select>
-        </div>
-        <table id="my_table" class="table-sm table-striped" data-search="true" data-show-columns="true"
-            data-pagination="true" data-show-columns-toggle-all="true" data-page-size="25"
-            data-show-pagination-switch="true" data-toolbar=".toolbar" data-buttons="buttons">
-            <thead>
-                <tr>
-                    <th data-field="0" data-sortable="true" data-halign="center" data-align="center">#</th>
-                    <th data-field="1" data-sortable="true" data-halign="center" data-align="center">选手</th>
-                    <th data-field="2" data-sortable="true" data-halign="center" data-align="center">归属</th>
-                    <th data-field="3" data-sortable="true" data-halign="center" data-align="center">15连</th>
-                    <th data-field="4" data-sortable="true" data-halign="center" data-align="center">总成绩</th>
-                    <th data-field="5" data-sortable="true" data-halign="center" data-align="center">均顺</th>
-                    <th data-field="6" data-sortable="true" data-halign="center" data-align="center">均点</th>
-                    <th data-field="7" data-sortable="true" data-halign="center" data-align="center">局数</th>
-                    <th data-field="8" data-sortable="true" data-halign="center" data-align="center">1</th>
-                    <th data-field="9" data-sortable="true" data-halign="center" data-align="center">2</th>
-                    <th data-field="10" data-sortable="true" data-halign="center" data-align="center">3</th>
-                    <th data-field="11" data-sortable="true" data-halign="center" data-align="center">4</th>
-                </tr>
-            </thead>
-            <tbody id="table_body"></tbody>
-        </table>
-        <div class="mt-3 alert alert-warning alert-dismissible fade show" role="alert">
-            <kbd>成绩</kbd> = (最终点数-25000)÷1000+<kbd>马</kbd>(1位~4位的马依次是 +30 +10 -10 -30)<br />
-            <kbd>15连</kbd> = 连续15局最高<kbd>成绩</kbd><br />
-            <kbd>均顺</kbd> = 平均顺位<br />
-            <kbd>均点</kbd> = 平均点数<br />
-            <kbd>时间选择器</kbd>是<kbd>标准时</kbd> 我们是UTC+8，时间选择器会少8个小时<br />
-            <kbd>季榜</kbd> 是 1~3月 / 4~6月 / 7~9月 / 10~12月<br />
-            <kbd>半年榜</kbd> 是 1~6月 / 7~12月<br />
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    </div>
-    <script src="https://cdn.staticfile.org/jquery/3.6.4/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.staticfile.org/bootstrap-table/1.21.3/bootstrap-table.min.js"></script>
-    <script src="../js/data_list.js"></script>
-    <script>
-        var select = document.getElementById('cid_type');
-        var cid;
-        for (cid in cid2name) {
-            if (Object.hasOwnProperty.call(cid2name, cid)) {
-                // <option value="2">浪速·南京</option>
-                var opt = document.createElement('option');
-                opt.setAttribute('value', cid);
-                opt.appendChild(document.createTextNode(cid2name[cid]));
-                select.appendChild(opt);
-            }
-        }
-        function search(skip_set_time = false) {
-            if (!skip_set_time) {
-                gen_start_end();
-            }
-            var filter = document.getElementById('filter_type').value;
-            var cid = document.getElementById('cid_type').value;
-            var start = document.getElementById('time_start').valueAsNumber / 1000;
-            var end = document.getElementById('time_end').valueAsNumber / 1000;
-            console.log(start, end)
-            fetch(`https://cdn.r-mj.com/r/table.php?cid=${cid}&start=${start}&end=${end}&filter=${filter}`)
-                .then((response) => response.json())
-                .then((myjson) => {
-                    var data = [];
-                    var table = $('#my_table');
-                    console.log(myjson);
-                    var arr = myjson.data;
-                    var i = 0;
-                    var count = parseInt(document.getElementById('log_count').value);
-                    var is_count = count > 1;
-                    arr.forEach(e => {
-                        e[1] = cid2name[e[1]];
-                        e[2] /= 10;//$row['max15'],
-                        e[3] /= 10;//$row['total_score'],
-                        e[4] = (e[4] / e[6]).toFixed(2);//$row['total_order'],
-                        e[5] = Math.round(e[5] * 100 / e[6]);//$row['total_order'],
-                        if (is_count) {//要过滤
-                            if (e[6] >= count) {
-                                data[i] = e;
-                                i++;
-                            }
-                        } else {//不要过滤
-                            data[i] = e;
-                            i++;
-                        }
-                        e.unshift(i);
-                    });
-                    //$('#my_table').bootstrapTable({ data: data });
+	<div class="container-fluid">
+		<div>
+			<label for="time_start">开始:</label>
+			<input id="time_start" type="datetime-local" name="time_start">
+			<label for="time_end">结束:</label>
+			<input id="time_end" type="datetime-local" name="time_end">
+			<button type="button" class="btn btn-primary" onclick="search(true)">搜索</button>
+			<br />
+			<kbd class="d-inline-block">说明在底部</kbd>
+			<label for="log_count">只显示</label>
+			<input id="log_count" type="number" name="log_count" value="1" onchange="search()">
+			场以上的选手
+		</div>
+		<div class="toolbar input-group mb-3">
+			<select class="form-select" id="time_type" onchange="search()">
+				<option value="1">年榜</option>
+				<option value="2">半年榜</option>
+				<option value="3">季榜</option>
+				<option value="4">双月榜</option>
+				<option value="5" selected>月榜</option>
+				<option value="6">半月榜</option>
+				<option value="7">周榜</option>
+				<option value="8">三日榜</option>
+				<option value="9">一日榜</option>
+			</select>
+			<select class="form-select" id="cid_type" onchange="search()">
+				<option value="1" selected>统计全国</option>
+				<option value="-1">[浪速南京合计]</option>
+				<option value="-2">[浪速合计]</option>
+			</select>
+			<select class="form-select" id="filter_type" onchange="search()">
+				<option value="1" selected>跨雀庄统计</option>
+				<option value="2">排除其他雀庄</option>
+			</select>
+		</div>
+		<table id="my_table" class="table-sm table-striped" data-search="true" data-show-columns="true"
+			data-pagination="true" data-show-columns-toggle-all="true" data-page-size="25" data-show-pagination-switch="true"
+			data-toolbar=".toolbar" data-buttons="buttons">
+			<thead>
+				<tr>
+					<th data-field="0" data-sortable="true" data-halign="center" data-align="center">#</th>
+					<th data-field="1" data-sortable="true" data-halign="center" data-align="center">选手</th>
+					<th data-field="2" data-sortable="true" data-halign="center" data-align="center">归属</th>
+					<th data-field="3" data-sortable="true" data-halign="center" data-align="center">15连</th>
+					<th data-field="4" data-sortable="true" data-halign="center" data-align="center">总成绩</th>
+					<th data-field="5" data-sortable="true" data-halign="center" data-align="center">均顺</th>
+					<th data-field="6" data-sortable="true" data-halign="center" data-align="center">均点</th>
+					<th data-field="7" data-sortable="true" data-halign="center" data-align="center">局数</th>
+					<th data-field="8" data-sortable="true" data-halign="center" data-align="center">1</th>
+					<th data-field="9" data-sortable="true" data-halign="center" data-align="center">2</th>
+					<th data-field="10" data-sortable="true" data-halign="center" data-align="center">3</th>
+					<th data-field="11" data-sortable="true" data-halign="center" data-align="center">4</th>
+				</tr>
+			</thead>
+			<tbody id="table_body"></tbody>
+		</table>
+		<div class="mt-3 alert alert-warning alert-dismissible fade show" role="alert">
+			<kbd>成绩</kbd> = (最终点数-25000)÷1000+<kbd>马</kbd>(1位~4位的马依次是 +30 +10 -10 -30)<br />
+			<kbd>15连</kbd> = 连续15局最高<kbd>成绩</kbd><br />
+			<kbd>均顺</kbd> = 平均顺位<br />
+			<kbd>均点</kbd> = 平均点数<br />
+			<kbd>时间选择器</kbd>是<kbd>标准时</kbd> 我们是UTC+8，时间选择器会少8个小时<br />
+			<kbd>季榜</kbd> 是 1~3月 / 4~6月 / 7~9月 / 10~12月<br />
+			<kbd>半年榜</kbd> 是 1~6月 / 7~12月<br />
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	</div>
+	<script src="https://cdn.staticfile.org/jquery/3.6.4/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.staticfile.org/bootstrap-table/1.21.3/bootstrap-table.min.js"></script>
+	<script src="../js/data_list.js"></script>
+	<script>
+		var select = document.getElementById('cid_type');
+		var cid;
+		for (cid in cid2name) {
+			if (Object.hasOwnProperty.call(cid2name, cid)) {
+				// <option value="2">浪速·南京</option>
+				var opt = document.createElement('option');
+				opt.setAttribute('value', cid);
+				opt.appendChild(document.createTextNode(cid2name[cid]));
+				select.appendChild(opt);
+			}
+		}
+		function search(skip_set_time = false) {
+			if (!skip_set_time) {
+				gen_start_end();
+			}
+			var filter = document.getElementById('filter_type').value;
+			var cid = document.getElementById('cid_type').value;
+			var start = document.getElementById('time_start').valueAsNumber / 1000;
+			var end = document.getElementById('time_end').valueAsNumber / 1000;
+			console.log(start, end)
+			fetch(`https://cdn.r-mj.com/r/table.php?cid=${cid}&start=${start}&end=${end}&filter=${filter}`)
+				.then((response) => response.json())
+				.then((myjson) => {
+					var data = [];
+					var table = $('#my_table');
+					console.log(myjson);
+					var arr = myjson.data;
+					var i = 0;
+					var count = parseInt(document.getElementById('log_count').value);
+					var is_count = count > 1;
+					arr.forEach(e => {
+						e[1] = cid2name[e[1]];
+						e[2] /= 10;//$row['max15'],
+						e[3] /= 10;//$row['total_score'],
+						e[4] = (e[4] / e[6]).toFixed(2);//$row['total_order'],
+						e[5] = Math.round(e[5] * 100 / e[6]);//$row['total_order'],
+						if (is_count) {//要过滤
+							if (e[6] >= count) {
+								data[i] = e;
+								i++;
+							}
+						} else {//不要过滤
+							data[i] = e;
+							i++;
+						}
+						e.unshift(i);
+					});
+					//$('#my_table').bootstrapTable({ data: data });
 
-                    if (cid === '1') {
-                        table.bootstrapTable('showColumn', '2');
-                    } else {
-                        table.bootstrapTable('hideColumn', '2');
-                    }
-                    table.bootstrapTable('load', data);
-                });
+					if (cid === '1') {
+						table.bootstrapTable('showColumn', '2');
+					} else {
+						table.bootstrapTable('hideColumn', '2');
+					}
+					table.bootstrapTable('load', data);
+				});
 
-        }
+		}
 
-        function gen_start_end() {
-            var type = document.getElementById('time_type').value;
-            var start = document.getElementById('time_start');
-            var end = document.getElementById('time_end');
-            var d = new Date();
-            var m = d.getMonth() + 1;
-            var y = d.getFullYear();
-            var date = d.getDate();
-            var xday = d.getDay();
-            var start0, end0;
-            var today0 = new Date(y, m - 1, date, 0, 0, 0);
-            var today9 = new Date(y, m - 1, date, 23, 59, 59);
-            switch (type) {
-                case '1'://年榜
-                    start0 = new Date(y, 0, 1, 0, 0, 0);
-                    end0 = new Date(y, 11, 31, 23, 59, 59);
-                    break;
-                case '2'://半年榜 1～6月，7～12月
-                    if (m >= 7) {
-                        start0 = new Date(y, 6, 1, 0, 0, 0);
-                        end0 = new Date(y, 11, 31, 23, 59, 59);
-                    } else {
-                        start0 = new Date(y, 0, 1, 0, 0, 0);
-                        end0 = new Date(y, 6, 30, 23, 59, 59);
-                    }
-                    break;
-                case '3'://季榜 1～3，4～6，7～9，10～12
-                    if (m >= 10) { //10~12月
-                        start0 = new Date(y, 9, 1, 0, 0, 0);
-                        end0 = new Date(y, 11, 31, 23, 59, 59);
-                        break;
-                    }
-                    if (m <= 3) { //1~3月
-                        start0 = new Date(y, 0, 1, 0, 0, 0);
-                        end0 = new Date(y, 2, 31, 23, 59, 59);
-                        break;
-                    }
-                    if (m <= 6) { //4～6月
-                        start0 = new Date(y, 3, 1, 0, 0, 0);
-                        end0 = new Date(y, 5, 30, 23, 59, 59);
-                    } else { //7～9月
-                        start0 = new Date(y, 6, 1, 0, 0, 0);
-                        end0 = new Date(y, 8, 30, 23, 59, 59);
-                    }
-                    break;
-                case '4': //双月榜
-                    if (m % 2 === 0) { //end不变
-                        start0 = new Date(y, m - 2, 1, 0, 0, 0);
-                        if (m == 12) {
-                            end0 = new Date(y, 11, 31, 23, 59, 59);
-                        } else {
-                            end0 = new Date(y, m, 1, 0, 0, 0);
-                        }
-                    } else { //start不变
-                        start0 = new Date(y, m - 1, 1, 0, 0, 0);
-                        if (m == 11) {
-                            end0 = new Date(y, 11, 31, 23, 59, 59);
-                        } else {
-                            end0 = new Date(y, m + 1, 1, 0, 0, 0);
-                        }
-                    }
-                    break;
-                case '6'://半月榜
-                    if (date <= 15) {
-                        start0 = new Date(y, m - 1, 1, 0, 0, 0);
-                        end0 = new Date(y, m - 1, 15, 23, 59, 59);
-                    } else {
-                        start0 = new Date(y, m - 1, 16, 0, 0, 0);
-                        end0 = new Date(y, m, 1, 0, 0, 0);
-                    }
-                    break;
-                case '7'://周榜
-                    offset = [-6, 0, -1, -2, -3, -4, -5];
-                    start0 = new Date(today0.getTime() + 86400000 * offset[xday]);
-                    end0 = today9;
-                    break;
-                case '8'://三日榜
-                    start0 = new Date(today0.getTime() + 86400000 * -2);
-                    end0 = today9;
-                    break;
-                case '9'://1日榜
-                    start0 = today0;
-                    end0 = today9;
-                    break;
-                default:
-                    start0 = new Date(y, m - 1, 1, 0, 0, 0);
-                    end0 = new Date(y, m, 1, 0, 0, 0);
-                    break;
-            }
-            start.valueAsNumber = start0.getTime();
-            end.valueAsNumber = end0.getTime();
-        }
-        $(function () {
-            var data = [
-                [1, "\u84ec\u5c0f\u84bf", "2", 5563, 7891, 229, 69, 115, 36, 32, 25, 22],
-                [2, "XinQ", "21", 5321, 10969, 180, 249, 44, 20, 15, 7, 2],
-                [3, "\u6728\u6728", "2", 5144, 11517, 215, 115, 100, 37, 24, 26, 13],
-                [4, "DDMM", "47", 4817, 14295, 212, 123, 116, 41, 35, 25, 15],
-            ];
-            $('#my_table').bootstrapTable({ data: data })
-            if (window.location.hash.length >= 3) {
-                var cid = window.location.hash.replace(/[^\d]/g, '');
-                if (cid >= 2) {
-                    $("#cid_type").val(cid);
-                }
-            }
-            search();
-        })
-    </script>
+		function gen_start_end() {
+			var type = document.getElementById('time_type').value;
+			var start = document.getElementById('time_start');
+			var end = document.getElementById('time_end');
+			var d = new Date();
+			var m = d.getMonth() + 1;
+			var y = d.getFullYear();
+			var date = d.getDate();
+			var xday = d.getDay();
+			var start0, end0;
+			var today0 = new Date(y, m - 1, date, 0, 0, 0);
+			var today9 = new Date(y, m - 1, date, 23, 59, 59);
+			switch (type) {
+				case '1'://年榜
+					start0 = new Date(y, 0, 1, 0, 0, 0);
+					end0 = new Date(y, 11, 31, 23, 59, 59);
+					break;
+				case '2'://半年榜 1～6月，7～12月
+					if (m >= 7) {
+						start0 = new Date(y, 6, 1, 0, 0, 0);
+						end0 = new Date(y, 11, 31, 23, 59, 59);
+					} else {
+						start0 = new Date(y, 0, 1, 0, 0, 0);
+						end0 = new Date(y, 6, 30, 23, 59, 59);
+					}
+					break;
+				case '3'://季榜 1～3，4～6，7～9，10～12
+					if (m >= 10) { //10~12月
+						start0 = new Date(y, 9, 1, 0, 0, 0);
+						end0 = new Date(y, 11, 31, 23, 59, 59);
+						break;
+					}
+					if (m <= 3) { //1~3月
+						start0 = new Date(y, 0, 1, 0, 0, 0);
+						end0 = new Date(y, 2, 31, 23, 59, 59);
+						break;
+					}
+					if (m <= 6) { //4～6月
+						start0 = new Date(y, 3, 1, 0, 0, 0);
+						end0 = new Date(y, 5, 30, 23, 59, 59);
+					} else { //7～9月
+						start0 = new Date(y, 6, 1, 0, 0, 0);
+						end0 = new Date(y, 8, 30, 23, 59, 59);
+					}
+					break;
+				case '4': //双月榜
+					if (m % 2 === 0) { //end不变
+						start0 = new Date(y, m - 2, 1, 0, 0, 0);
+						if (m == 12) {
+							end0 = new Date(y, 11, 31, 23, 59, 59);
+						} else {
+							end0 = new Date(y, m, 1, 0, 0, 0);
+						}
+					} else { //start不变
+						start0 = new Date(y, m - 1, 1, 0, 0, 0);
+						if (m == 11) {
+							end0 = new Date(y, 11, 31, 23, 59, 59);
+						} else {
+							end0 = new Date(y, m + 1, 1, 0, 0, 0);
+						}
+					}
+					break;
+				case '6'://半月榜
+					if (date <= 15) {
+						start0 = new Date(y, m - 1, 1, 0, 0, 0);
+						end0 = new Date(y, m - 1, 15, 23, 59, 59);
+					} else {
+						start0 = new Date(y, m - 1, 16, 0, 0, 0);
+						end0 = new Date(y, m, 1, 0, 0, 0);
+					}
+					break;
+				case '7'://周榜
+					offset = [-6, 0, -1, -2, -3, -4, -5];
+					start0 = new Date(today0.getTime() + 86400000 * offset[xday]);
+					end0 = today9;
+					break;
+				case '8'://三日榜
+					start0 = new Date(today0.getTime() + 86400000 * -2);
+					end0 = today9;
+					break;
+				case '9'://1日榜
+					start0 = today0;
+					end0 = today9;
+					break;
+				default:
+					start0 = new Date(y, m - 1, 1, 0, 0, 0);
+					end0 = new Date(y, m, 1, 0, 0, 0);
+					break;
+			}
+			start.valueAsNumber = start0.getTime();
+			end.valueAsNumber = end0.getTime();
+		}
+		$(function () {
+			var data = [
+				[1, "\u84ec\u5c0f\u84bf", "2", 5563, 7891, 229, 69, 115, 36, 32, 25, 22],
+				[2, "XinQ", "21", 5321, 10969, 180, 249, 44, 20, 15, 7, 2],
+				[3, "\u6728\u6728", "2", 5144, 11517, 215, 115, 100, 37, 24, 26, 13],
+				[4, "DDMM", "47", 4817, 14295, 212, 123, 116, 41, 35, 25, 15],
+			];
+			$('#my_table').bootstrapTable({ data: data })
+			if (window.location.hash.length >= 3) {
+				var cid = window.location.hash.replace(/[^\d]/g, '');
+				if (cid >= 2) {
+					$("#cid_type").val(cid);
+				}
+			}
+			search();
+		})
+	</script>
 </body>
 
 </html>
