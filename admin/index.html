@@ -50,7 +50,7 @@
 			<div class="card-footer">
 				<div class="d-grid gap-2 col-6 mx-auto">
 					<input class="btn btn-primary btn-block" id="login_button" onclick="login()" type="button"
-						value="登錄" />
+						value="登入" />
 				</div>
 
 			</div>
@@ -92,8 +92,9 @@
 						<small class="text-muted">
 							分数，可以缩小100倍或1000倍
 						</small>
-						
-						<textarea class="form-control mb-3" id="logtext" name="logtext" rows="4" onchange="log_gen_table()"></textarea>
+
+						<textarea class="form-control mb-3" id="logtext" name="logtext" rows="4"
+							onchange="log_gen_table()"></textarea>
 
 						<table class="table table-striped table-hover table-bordered table-sm mt-3 text-cent">
 							<thead>
@@ -101,10 +102,9 @@
 							<tbody id="table_new_log">
 							</tbody>
 						</table>
-						<div class="input-group">
-							<div class="input-group-append">
-								<button class="btn btn-primary" onclick="addlog()" type="button">多重记录导入</button>
-							</div>
+						<div class="d-grid gap-2 col-6 mx-auto">
+							<input id="multi_input" class="btn btn-primary" onclick="addlog()" type="button" disabled
+								value="请先输入记录"></input>
 						</div>
 					</div>
 				</div>
