@@ -72,9 +72,9 @@ function log_gen_table() {
 
 		}
 
-        target.appendChild(tr);
-    }
-    btn_ctrl(false, "multi_input", "多重记录导入");
+		target.appendChild(tr);
+	}
+	btn_ctrl(false, "multi_input", "多重记录导入");
 }
 
 function login_select_change() {
@@ -158,10 +158,10 @@ function display_post(json) {
 	}
 	if (l_cid !== null && l_pw !== null && l_cid !== '' && l_pw !== '') {
 		querystr = [0, l_cid, l_pw];
-		document.getElementById("login_cid").value = l_cid;
-		document.getElementById("login_passwd").value = l_pw;
-		webobj.pw = l_pw;
-		webobj.cid = l_cid;
+		document.getElementById("login_cid").value = l_cid + "";
+		document.getElementById("login_passwd").value = l_pw + "";
+		webobj.pw = l_pw + "";
+		webobj.cid = l_cid + "";
 	}
 	if (querystr) {
 		document.location.hash = "";
@@ -289,22 +289,22 @@ function addmember() {
 }
 
 function addlog() {
-    btn_ctrl(true, "multi_input", "导入中……");
-    var postdata = {
-        "cid": webobj.cid,
-        "pw": webobj.pw,
-        "q": "addlog",
-        "is_national": 1,
-        "order": $("#logtext").val()
-    };
-    return $.post(window.apiurl + "addlog.php", postdata,
-        function (data) {
-            login();
-            if (!data.hasOwnProperty("status") || !data.hasOwnProperty("text")) {
-                return display_post({ status: 1, text: "返回空" });
-            }
-            return display_post(data);
-        }, "json");
+	btn_ctrl(true, "multi_input", "导入中……");
+	var postdata = {
+		"cid": webobj.cid,
+		"pw": webobj.pw,
+		"q": "addlog",
+		"is_national": 1,
+		"order": $("#logtext").val()
+	};
+	return $.post(window.apiurl + "addlog.php", postdata,
+		function (data) {
+			login();
+			if (!data.hasOwnProperty("status") || !data.hasOwnProperty("text")) {
+				return display_post({ status: 1, text: "返回空" });
+			}
+			return display_post(data);
+		}, "json");
 }
 
 function before_post() {
@@ -356,43 +356,43 @@ function del_log_or_member() {
 		}, "json");
 }
 function btn_ctrl(to_disabled = true, ele = 'login_button', text = '登入中……') {
-    var btn = document.getElementById(ele);
-    if (to_disabled) {
-        btn.setAttribute('disabled', true);
-    } else {
+	var btn = document.getElementById(ele);
+	if (to_disabled) {
+		btn.setAttribute('disabled', true);
+	} else {
 		btn.removeAttribute("disabled")
-    }
-    btn.value = text;
+	}
+	btn.value = text;
 }
 function login(cid, pw) {
-    if (arguments.length === 0) {
-        var cid = document.getElementById("login_cid").value;
-        var pw = document.getElementById("login_passwd").value;
-    }
-    var l_pw = localStorage.getItem('rate_pw');
-    var l_cid = localStorage.getItem('rate_cid');
-    if (l_pw !== null && l_cid !== null) {
-        webobj.pw = l_pw;
-        webobj.cid = l_cid;
-        pw = l_pw;
-        cid = l_cid;
-        document.getElementById("login_cid").value = cid;
-        document.getElementById("login_passwd").value = pw;
-    }
-    btn_ctrl(true);
-    $.post(window.apiurl + "rate.php", {
-        "q": "login",
-        "cid": cid,
-        "pw": pw
-    }, function (data) {
-        if (!data.hasOwnProperty("status")) {
-            return display_post({ status: 1, text: "返回空" });
-        }
-        if (parseInt(data.status) === 0) {
-            localStorage.setItem('rate_cid', cid);
-            localStorage.setItem('rate_pw', pw);
-            console.log(cid, pw, 'login.status=0', data);
-            show_config(data.data);
+	if (arguments.length === 0) {
+		var cid = document.getElementById("login_cid").value;
+		var pw = document.getElementById("login_passwd").value;
+	}
+	var l_pw = localStorage.getItem('rate_pw');
+	var l_cid = localStorage.getItem('rate_cid');
+	if (l_pw !== null && l_cid !== null) {
+		webobj.pw = l_pw;
+		webobj.cid = l_cid;
+		pw = l_pw;
+		cid = l_cid;
+		document.getElementById("login_cid").value = cid;
+		document.getElementById("login_passwd").value = pw;
+	}
+	btn_ctrl(true);
+	$.post(window.apiurl + "rate.php", {
+		"q": "login",
+		"cid": cid,
+		"pw": pw
+	}, function (data) {
+		if (!data.hasOwnProperty("status")) {
+			return display_post({ status: 1, text: "返回空" });
+		}
+		if (parseInt(data.status) === 0) {
+			localStorage.setItem('rate_cid', cid);
+			localStorage.setItem('rate_pw', pw);
+			console.log(cid, pw, 'login.status=0', data);
+			show_config(data.data);
 
 		} else {
 			console.log('login.status != 0', data);
