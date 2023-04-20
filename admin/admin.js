@@ -256,8 +256,8 @@ function show_config(json) {
 function new_row() {
 	var phone = parseInt(prompt("请输入手机号"));
 
-	if (phone === NaN || phone < 10000000000) {
-		return alert('手机号大于10000000000');
+	if (phone === NaN || phone < 20000000000) {
+		return alert('手机号大于20000000000');
 	}
 	var user_name = prompt("请输入昵称").trim();
 	if (user_name == '') {
