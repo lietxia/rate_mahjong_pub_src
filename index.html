@@ -42,7 +42,7 @@
 
 	<div class="row justify-content-center row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
 
-		{{ for(var i=1;i< it.length;i++){var base=it[i];if(base.status==0){continue;} }}
+		{{ for(var i=0;i< it.length;i++){var base=it[i];if(base.status==0){continue;} }}
 		<div class="col text-center mt-3 card_item ctype_{{=base.ctype}} status_{{=base.status}} ">
 			<div class="card shadow">
 				<div class="card-body">
