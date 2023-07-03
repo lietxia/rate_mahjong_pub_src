@@ -290,7 +290,6 @@ function addmember() {
 
 function addlog() {
 	btn_ctrl(true, "multi_input", "导入中,输入框变更后可再提交");
-	l_cid
 	var postdata = {
 		"cid": webobj.cid,
 		"pw": webobj.pw,
