@@ -9,7 +9,8 @@
 	<!-- Bootstrap CSS -->
 	<link crossorigin="anonymous" href="https://cdn.staticfile.org/twitter-bootstrap/5.1.3/css/bootstrap.min.css"
 		rel="stylesheet">
-
+	<link href="https://cdn.staticfile.org/bootswatch/5.1.3/darkly/bootstrap.min.css"
+		media="(prefers-color-scheme: dark)" rel="stylesheet" />
 	<title>个人战绩</title>
 	<style>
 		#chart_rader {
@@ -47,10 +48,20 @@
 				"Segoe UI Emoji", "Segoe UI Symbol",
 				sans-serif;
 		}
+
+		body {
+			background-color: rgb(108, 117, 125);
+		}
+
+		@media (prefers-color-scheme: dark) {
+			body {
+				background-color: rgb(34, 34, 34);
+			}
+		}
 	</style>
 </head>
 
-<body class="my-3 bg-secondary">
+<body class="my-3">
 	<div class="container">
 		<div class="card shadow-lg">
 			<div class="row d-sm-none justify-content-center align-items-center text-center">
@@ -303,8 +314,12 @@
 					//center: ['25%', '50%'],
 					radius: "65%",
 					axisName: {
-						color: '#333',
+						fontSize: 13,
 						fontWeight: 'bold',
+						color: "#222",
+						borderRadius: 10,
+						padding: [2, 6],
+						backgroundColor: "rgba(255,255,255,0.5)"
 					},
 				},
 				series: [
@@ -333,16 +348,25 @@
 						radius: ['35%', '70%'],
 						itemStyle: {
 							borderRadius: 5,
-							borderColor: '#fff',
-							borderWidth: 2
+							borderColor: "rgba(255,255,255,0.5)",
+							borderWidth: 3
 						},
 						label: {
 							show: true,
+							fontWeight: 'bold',
+							color: "#222",
+							borderRadius: 8,
+							padding: 3,
+							fontSize: 13,
+							backgroundColor: "rgba(255,255,255,0.5)",
 							formatter: '{d}%\n{c}回{b}'
 						},
 						labelLine: {
 							length: 10,
 							length2: 15,
+							lineStyle: {
+								width: 2
+							}
 						},
 						data: jsonData.pie
 					},
@@ -366,10 +390,16 @@
 				xAxis: {
 					type: 'category',
 					show: false,
-					boundaryGap: false,
+					boundaryGap: false
 				},
 				yAxis: {
-					type: 'value'
+					type: 'value',
+					splitLine: {
+						lineStyle: {
+							// 使用深浅的间隔色
+							color: 'rgba(128,128,128,0.3)'
+						}
+					}
 				},
 				series: [
 					{
