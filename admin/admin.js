@@ -369,9 +369,12 @@ function login(cid, pw) {
 		var cid = document.getElementById("login_cid").value;
 		var pw = document.getElementById("login_passwd").value;
 	}
-	var l_pw = localStorage.getItem('rate_pw');
-	var l_cid = localStorage.getItem('rate_cid');
-	if (l_pw !== null && l_cid !== null) {
+	var l_pw;
+	var l_cid;
+	if (localStorage.getItem('rate_pw')
+		&& localStorage.getItem('rate_cid')) {
+		l_pw = localStorage.getItem('rate_pw');
+		l_cid = localStorage.getItem('rate_cid');
 		webobj.pw = l_pw;
 		webobj.cid = l_cid;
 		pw = l_pw;
@@ -391,6 +394,8 @@ function login(cid, pw) {
 		if (parseInt(data.status) === 0) {
 			localStorage.setItem('rate_cid', cid);
 			localStorage.setItem('rate_pw', pw);
+			webobj.pw = pw;
+			webobj.cid = cid;
 			console.log(cid, pw, 'login.status=0', data);
 			show_config(data.data);
 
