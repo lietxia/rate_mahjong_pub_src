@@ -167,98 +167,102 @@
 		src="https://cdn.staticfile.org/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 	<script crossorigin="anonymous" src="https://cdn.staticfile.org/echarts/5.3.0/echarts.min.js"></script>
 	<script>
-		window.onload = function () {
-			var today = new Date();
-			var y = today.getFullYear();
-			var m = today.getMonth() + 1;
-			var d = today.getDate();
-			var h = today.getHours();
-			var minutes = today.getMinutes();
-			m = m < 10 ? '0' + m : m;
-			d = d < 10 ? '0' + d : d;
-			h = h < 10 ? '0' + h : h;
-			minutes = minutes < 10 ? '0' + minutes : minutes;
-			document.getElementById("now").innerText = y + "-" + m + "-" + d + ' ' + h + ":" + minutes;
-			function image_loaded() {
-				var span = document.createElement('span');
-				span.id = 'image_loaded';
-				document.body.append(span);
+		function image_loaded() {
+			var span = document.createElement('span');
+			span.id = 'image_loaded';
+			document.body.append(span);
+		}
+		function generateCharts(uin) {
+			var user = window.uin2data[uin];
+			console.log(user);
+			var total_count = user[19] + user[20] + user[21] + user[22];
+			var avg1 = user[19] == 0 ? 0 :
+				Math.round(user[13] / user[19] * 100);
+			var avg2 = user[20] == 0 ? 0 :
+				Math.round(user[14] / user[20] * 100);
+			var avg3 = user[21] == 0 ? 0 :
+				Math.round(user[15] / user[21] * 100);
+			var avg4 = user[22] == 0 ? 0 :
+				Math.round(user[16] / user[22] * 100);
+			var nofly = (user[22] <= 5 || user[22] == 0) ? 1
+				: Math.round(1 - (user[16] / user[22]) * 10000) / 10000;
+			var current_avg = 0;
+			for (let i = 0; i < user[11].length; i++) {
+				current_avg += parseInt(user[11]) * 100;
 			}
+			current_avg = total_count == 0 ? 0 : current_avg / user[11].length;
+			var recent = [];
+			for (let i = 0; i < user[12].length; i++) {
+				recent[i] = user[12][i] * 100;
+			}
+			window.onload = function () {
+				var today = new Date();
+				var y = today.getFullYear();
+				var m = today.getMonth() + 1;
+				var d = today.getDate();
+				var h = today.getHours();
+				var minutes = today.getMinutes();
+				m = m < 10 ? '0' + m : m;
+				d = d < 10 ? '0' + d : d;
+				h = h < 10 ? '0' + h : h;
+				minutes = minutes < 10 ? '0' + minutes : minutes;
+				document.getElementById("now").innerText = y + "-" + m + "-" + d + ' ' + h + ":" + minutes;
 
-			fetch(window.apiurl + '/cache/rank.json?' + rank_version)
-				.catch(error => alert("抓取数据失败"))
-				.then((response) => response.json())
-				.then((json) => {
-					/*$row["uid"], $row["name"], $row["cid"],
-					$row["qq"], $rank_all, $rank_shop[$row["cid"]],
-					$row["r"], $row["lv"], $row["kill_count"],
-					$row["fly"], $row["avg10"], $row["rank_arr"],
-					$row["pt_arr"],
-					$row["pt_sum1"], $row["pt_sum2"],
-					$row["pt_sum3"], $row["pt_sum4"],
-					$row["pt_max"], $row["pt_min"],
-					$row["c1"], $row["c2"], $row["c3"], $row["c4"],
-					$row["lv_up"]
-					*/
-					window.uin2data = [];
-					window.name2uin = {};
-					json.forEach(ele => {
-						window.uin2data[ele[0]] = ele;
-						if (!window.name2uin.hasOwnProperty(ele[1])) {
-							window.name2uin[ele[1]] = {};
+
+				fetch(window.apiurl + '/cache/rank.json?' + rank_version)
+					.catch(error => alert("抓取数据失败"))
+					.then((response) => response.json())
+					.then((json) => {
+						/*$row["uid"], $row["name"], $row["cid"],
+						$row["qq"], $rank_all, $rank_shop[$row["cid"]],
+						$row["r"], $row["lv"], $row["kill_count"],
+						$row["fly"], $row["avg10"], $row["rank_arr"],
+						$row["pt_arr"],
+						$row["pt_sum1"], $row["pt_sum2"],
+						$row["pt_sum3"], $row["pt_sum4"],
+						$row["pt_max"], $row["pt_min"],
+						$row["c1"], $row["c2"], $row["c3"], $row["c4"],
+						$row["lv_up"]
+						*/
+						window.uin2data = [];
+						window.name2uin = {};
+						for (let i = 0; i < json.length; i++) {
+							const ele = json[i];
+							window.uin2data[ele[0]] = ele;
+							if (!window.name2uin.hasOwnProperty(ele[1])) {
+								window.name2uin[ele[1]] = {};
+							}
+							window.name2uin[ele[1]][ele[2]] = ele[1];
 						}
-						window.name2uin[ele[1]][ele[2]] = ele[1];
+						// var uin = find_uin(json);
+						// generateCharts(json[uin]);
 					});
-					// var uin = find_uin(json);
-					// generateCharts(json[uin]);
-				});
-			fetch(window.apiurl + "/r/chart2.php" + window.location.search)
-				.catch(error => alert("fetch失败"))
-				.then((response) => response.json())
-				.then((json) => {
-					if (json.code == 0 && json.hasOwnProperty("msg")) {//成功
-						if (json.msg === '需要参数') {
-							var userName = prompt('请输入选手昵称');
-							return window.location.search = "name=" + userName;
+				fetch(window.apiurl + "/r/chart2.php" + window.location.search)
+					.catch(error => alert("fetch失败"))
+					.then((response) => response.json())
+					.then((json) => {
+						if (json.code == 0 && json.hasOwnProperty("msg")) {//成功
+							if (json.msg === '需要参数') {
+								var userName = prompt('请输入选手昵称');
+								return window.location.search = "name=" + userName;
+							}
+							return alert(json.msg);
 						}
-						return alert(json.msg);
-					}
-					if (json.code == 1) {//成功
-						return generateCharts(json['uin']);
-					}
-					if (json.code == 2) {//多重
-						var number = prompt(json.msg, 1);
-						if (number > 0) {
-							return window.location.search += "&area=" + number;
-						} else {
-							return alert('错误的输入')
+						if (json.code == 1) {//成功
+							return generateCharts(json['uin']);
 						}
-					}
-					return alert("找不到此选手");
-				});
+						if (json.code == 2) {//多重
+							var number = prompt(json.msg, 1);
+							if (number > 0) {
+								return window.location.search += "&area=" + number;
+							} else {
+								return alert('错误的输入')
+							}
+						}
+						return alert("找不到此选手");
+					});
 
-			function generateCharts(uin) {
-				var user = window.uin2data[uin];
-				var total_count = user[19] + user[20] + user[21] + user[22];
-				var avg1 = user[19] == 0 ? 0 :
-					Math.round(user[13] / user[19] * 100);
-				var avg2 = user[20] == 0 ? 0 :
-					Math.round(user[14] / user[20] * 100);
-				var avg3 = user[21] == 0 ? 0 :
-					Math.round(user[15] / user[21] * 100);
-				var avg4 = user[22] == 0 ? 0 :
-					Math.round(user[16] / user[22] * 100);
-				var nofly = (user[22] <= 5 || user[22] == 0) ? 1
-					: Math.round(1 - (user[16] / user[22]) * 10000) / 10000;
-				var current_avg = 0;
-				for (let i = 0; i < user[11].length; i++) {
-					current_avg += parseInt(user[11]) * 100;
-				}
-				current_avg = total_count == 0 ? 0 : current_avg / user[11].length;
-				var recent = [];
-				for (let i = 0; i < user[12].length; i++) {
-					recent[i] = user[12][i] * 100;
-				}
+
 
 				jsonData = {
 					"pt1": avg1,
