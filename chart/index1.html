@@ -12,18 +12,6 @@
 	<link href="https://cdn.staticfile.org/bootswatch/5.1.3/darkly/bootstrap.min.css"
 		media="(prefers-color-scheme: dark)" rel="stylesheet" />
 	<title>个人战绩</title>
-	<script>
-		(function () {
-			if (window.location.origin === "http://bot0.000.mk") {
-				window.apiurl = "http://bot0.000.mk";
-			} else {
-				window.apiurl = "https://cdn.r-mj.com";
-			}
-			var script = document.createElement('script');
-			script.src = window.apiurl + "/nocache/rank_version.js";
-			document.head.appendChild(script);
-		})()
-	</script>
 	<style>
 		#chart_rader {
 			height: 195px;
@@ -83,7 +71,7 @@
 				<div class="col-auto">
 					<h3 class="card-title mb-0" id="userName2"></h3>
 					<span class="badge bg-primary" id="level2"></span>
-					<span class="badge bg-secondary">R<span id="rate2">1500</span></span>
+					<span class="badge bg-secondary">Rate<span id="rate2">1500</span></span>
 					<br>
 					<span class="badge bg-secondary rounded-pill" id="club2"></span><br>
 				</div>
@@ -116,7 +104,7 @@
 					<span class="json_text" id="userName"></span>
 					<br>
 					<span class="badge bg-primary" id="level"></span>
-					<span class="badge bg-secondary">R<span class="json_text" id="rate"></span></span>
+					<span class="badge bg-secondary">Rate<span class="json_text" id="rate"></span></span>
 				</div>
 				<div class="col-sm-4 col-6 text-end">
 					<div class="pe-4">
@@ -150,7 +138,8 @@
 				<div class="col-md-6" id="chart_rader"></div>
 				<div class="col-md-6" id="chart_pie"></div>
 			</div>
-			<small class="text-center text-muted">最近顺位
+			<small class="text-center text-muted">
+				<span class="badge bg-info rounded-pill" id="lvup">最近顺位</span>
 				<span class="text-break text-wrap" id="logs"></span>
 			</small>
 			<div id="chart_line"></div>
@@ -167,14 +156,109 @@
 		src="https://cdn.staticfile.org/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 	<script crossorigin="anonymous" src="https://cdn.staticfile.org/echarts/5.3.0/echarts.min.js"></script>
 	<script>
+		if (window.location.origin === "http://bot0.000.mk") {
+			window.apiurl = "http://bot0.000.mk";
+		} else {
+			window.apiurl = "https://cdn.r-mj.com";
+		}
+		window.step_count = 0;
+		function step() {
+			console.log(window.step_count);
+			if (window.step_count === 2) {
+				generateCharts();
+			}
+		}
+		function check_update() {
+			if (window.data_version != window.json_version) {
+				return fetch(fetch(window.apiurl + '/r/gen_rank.php'));
+			}
+		}
+		(function () {
+			var today = new Date();
+			var y = today.getFullYear();
+			var m = today.getMonth() + 1;
+			var d = today.getDate();
+			var h = today.getHours();
+			var minutes = today.getMinutes();
+			m = m < 10 ? '0' + m : m;
+			d = d < 10 ? '0' + d : d;
+			h = h < 10 ? '0' + h : h;
+			minutes = minutes < 10 ? '0' + minutes : minutes;
+			document.getElementById("now").innerText = y + "-" + m + "-" + d + ' ' + h + ":" + minutes;
+		})()
+		function fetch_version(data_version) {
+			console.log('in fetch_version')
+			window.data_version = data_version;
+			fetch(window.apiurl + '/cache/rank.json?' + data_version)
+				.catch(error => alert("抓取数据失败"))
+				.then((response) => response.json())
+				.then((json) => {
+					window.json_version = json['version'];
+					console.log('fetch rank.json');
+					window.uin2data = {};
+					window.name2uin = {};
+					window.players = json["data"].length;
+					for (let i = 0; i < window.players; i++) {
+						const ele = json["data"][i];
+						window.uin2data[ele[0]] = ele;
+						if (!window.name2uin.hasOwnProperty(ele[1])) {
+							window.name2uin[ele[1]] = {};
+						}
+						window.name2uin[ele[1]][ele[2]] = ele[1];
+					}
+					window.step_count++;
+					step();
+				});
+		}
+		var script = document.createElement('script');
+		script.src = window.apiurl + "/nocache/rank_version.js?" + Math.random();
+		document.body.appendChild(script);
+		fetch(window.apiurl + "/r/chart2.php" + window.location.search)
+			.catch(error => alert("fetch失败"))
+			.then((response) => response.json())
+			.then((json) => {
+				console.log('fetch chart2.php');
+				if (json.code == 0 && json.hasOwnProperty("msg")) {//成功
+					if (json.msg === '需要参数') {
+						var userName = prompt('请输入选手昵称');
+						return window.location.search = "name=" + userName;
+					}
+					return alert(json.msg);
+				}
+				if (json.code == 1) {//成功
+					window.uins = json['uin'];
+					window.step_count++;
+					step();
+					return;
+				}
+
+				if (json.code == 2) {//多重
+					var number = prompt(json.msg, 1);
+					if (number > 0) {
+						return window.location.search += "&area=" + number;
+					} else {
+						return alert('错误的输入')
+					}
+				}
+				return alert("找不到此选手");
+			});
 		function image_loaded() {
 			var span = document.createElement('span');
 			span.id = 'image_loaded';
 			document.body.append(span);
 		}
-		function generateCharts(uin) {
-			var user = window.uin2data[uin];
-			console.log(user);
+
+		function generateCharts() {
+			window.user = null;
+			console.log(window.uins);
+			for (var i = 0; i < window.uins.length; i++) {
+				if (window.uin2data.hasOwnProperty(window.uins[i])) {
+					window.user = window.uin2data[window.uins[i]];
+					break;
+				}
+			}
+			var user = window.user;
+			console.log('user', user);
 			var total_count = user[19] + user[20] + user[21] + user[22];
 			var avg1 = user[19] == 0 ? 0 :
 				Math.round(user[13] / user[19] * 100);
@@ -184,18 +268,64 @@
 				Math.round(user[15] / user[21] * 100);
 			var avg4 = user[22] == 0 ? 0 :
 				Math.round(user[16] / user[22] * 100);
-			var nofly = (user[22] <= 5 || user[22] == 0) ? 1
-				: Math.round(1 - (user[16] / user[22]) * 10000) / 10000;
+
+			// ($user["c4"] <= 5 || $user['fly'] == 0) ? 1 : //不飞率
+			// 	round(1 - ($user['fly'] / $user["c4"]), 4),
+
+			var nofly = (user[22] <= 5 || user[9] == 0) ? 1
+				: 1 - (user[9] / user[22]);
+			// var current_avg = 0;
+			// for (let i = 0; i < user[10].length; i++) {
+			// 	current_avg += parseInt(user[10][i]);
+			// }
+			// console.log('c avg/user10',current_avg, user[10]);
+			var current_count = user[11].length;
 			var current_avg = 0;
-			for (let i = 0; i < user[11].length; i++) {
-				current_avg += parseInt(user[11]) * 100;
+			for (var i = 0; i < current_count; i++) {
+				current_avg += parseInt(user[11][i]);
 			}
-			current_avg = total_count == 0 ? 0 : current_avg / user[11].length;
+			current_avg = current_count == 0 ? 0
+				: current_avg / current_count;
 			var recent = [];
 			for (let i = 0; i < user[12].length; i++) {
 				recent[i] = user[12][i] * 100;
 			}
-			jsonData = {
+			/*$row["uid"], $row["name"], $row["cid"],
+$row["qq"], $rank_all, $rank_shop[$row["cid"]],
+$row["r"], $row["lv"], $row["kill_count"],
+$row["fly"], $row["avg10"], $row["rank_arr"],
+$row["pt_arr"],
+$row["pt_sum1"], $row["pt_sum2"],
+$row["pt_sum3"], $row["pt_sum4"],
+$row["pt_max"], $row["pt_min"],
+$row["c1"], $row["c2"], $row["c3"], $row["c4"],
+$row["lv_up"]
+*/
+			var levelConfig = [
+				['新人', 7, 2.9, 20],
+				['五级', 7, 2.8, 19],
+				['四级', 10, 2.7, 27],
+				['三级', 10, 2.7, 27],
+				['二级', 12, 2.6, 31],
+				['一级', 16, 2.6, 41],
+				['初段', 16, 2.5, 40],
+				['二段', 20, 2.5, 50],
+				['三段', 25, 2.4, 60],
+				['四段', 25, 2.4, 60],
+				['五段', 30, 2.3, 69],
+				['六段', 40, 2.1, 84],
+				['七段', 45, 2.0, 90],
+				['八段', 50, 1.9, 95],
+				['九段', 10, 0, 0],
+			];
+			window.lvup = "最近顺位";
+			for (let i = 0; i < user[23].length; i++) {
+				var date = new Date(1000 * user[23][i]);
+				window.lvup = levelConfig[12 + i][0] + '@' + date.getUTCFullYear()
+					+ '-' + (date.getUTCMonth() + 1)
+					+ '-' + date.getUTCDate();
+			}
+			var jsonData = {
 				"pt1": avg1,
 				"pt2": avg2,
 				"pt3": avg3,
@@ -205,25 +335,26 @@
 				"c2": user[20],
 				"c3": user[21],
 				"c4": user[22],
-				"rate": user[6] / 1000,
+				"rate": Math.round(user[6] / 1000),
 				"rank": user[4],
 				"areaRank": user[5],
 				"pointAvg": total_count == 0 ? 0
 					: Math.round(user[13] + user[14]
 						+ user[15] + user[16]
 						/ total_count * 100),
-				"recentScore": total_count == 0 ? 0 : (user[10] / (total_count > 10 ? 10 : total_count)),
+				"recentScore": user[10],
 				"logs": user[11],
 				//"totalScore": -34.6,
-				"currentCount": user[11].length,
+				"currentCount": current_count,
 				"currentAvg": current_avg,
 				"recent": recent,
 				"killCount": user[8],
 				"maxPoint": user[17] * 100,
-				"level": user[8],
+				"level": user[7],
 				"totalCount": total_count,
 				"area": user[2],
-				"percent": Math.round((1 - user[4] / rank_version) * 100),
+				"percent": Math.round(
+					(1 - user[4] / window.players) * 100),
 				"radar": [
 					avg1,
 					nofly,
@@ -254,30 +385,13 @@
 				],
 				"uid": user[0],
 				"qq": user[3],
-				"userName": user[2],
+				"userName": user[1],
 				"club": cid2name[user[2]],
 				"areaName": cid2area[user[2]],
 			};
+			console.log(jsonData)
 			//	cid2name[row['cid']] = row['name'];
 			//  cid2area[row['cid']] = row['area_name'];
-
-			var levelConfig = [
-				['新人', 7, 2.9, 20],
-				['五级', 7, 2.8, 19],
-				['四级', 10, 2.7, 27],
-				['三级', 10, 2.7, 27],
-				['二级', 12, 2.6, 31],
-				['一级', 16, 2.6, 41],
-				['初段', 16, 2.5, 40],
-				['二段', 20, 2.5, 50],
-				['三段', 25, 2.4, 60],
-				['四段', 25, 2.4, 60],
-				['五段', 30, 2.3, 69],
-				['六段', 40, 2.1, 84],
-				['七段', 45, 2.0, 90],
-				['八段', 50, 1.9, 95],
-				['九段', 1, 0, 0],
-			];
 			if (jsonData.radar[0] == 0) { //火力怪异现象
 				jsonData.radar[0] = null;
 			}
@@ -302,13 +416,14 @@
 			document.getElementById('lv_count').innerText = levelConfig[jsonData.level][1];
 			document.getElementById('lv_avg').innerText = levelConfig[jsonData.level][2];
 			document.getElementById('lv_sum').innerText = levelConfig[jsonData.level][3];
+			document.getElementById('lvup').innerText = window.lvup;
 			var c_sum = 0;
 			if (jsonData.currentAvg > 0) {
 				for (let i = 0; i < jsonData['logs'].length; i++) {
 					c_sum += jsonData['logs'][i];
 				}
 			}
-			console.log(jsonData['logs'], c_sum);
+
 			document.getElementById('currentSum').innerText = c_sum;
 			if (jsonData.percent == 100) {
 				jsonData.percent = 99.9;
@@ -491,79 +606,9 @@
 				};
 			}
 		}
-		fetch(window.apiurl + '/cache/rank.json?' + rank_version)
-			.catch(error => alert("抓取数据失败"))
-			.then((response) => response.json())
-			.then((json) => {
-				/*$row["uid"], $row["name"], $row["cid"],
-				$row["qq"], $rank_all, $rank_shop[$row["cid"]],
-				$row["r"], $row["lv"], $row["kill_count"],
-				$row["fly"], $row["avg10"], $row["rank_arr"],
-				$row["pt_arr"],
-				$row["pt_sum1"], $row["pt_sum2"],
-				$row["pt_sum3"], $row["pt_sum4"],
-				$row["pt_max"], $row["pt_min"],
-				$row["c1"], $row["c2"], $row["c3"], $row["c4"],
-				$row["lv_up"]
-				*/
-				window.uin2data = [];
-				window.name2uin = {};
-				for (let i = 0; i < json.length; i++) {
-					const ele = json[i];
-					window.uin2data[ele[0]] = ele;
-					if (!window.name2uin.hasOwnProperty(ele[1])) {
-						window.name2uin[ele[1]] = {};
-					}
-					window.name2uin[ele[1]][ele[2]] = ele[1];
-				}
-				// var uin = find_uin(json);
-				// generateCharts(json[uin]);
-			});
 
-
-		var today = new Date();
-		var y = today.getFullYear();
-		var m = today.getMonth() + 1;
-		var d = today.getDate();
-		var h = today.getHours();
-		var minutes = today.getMinutes();
-		m = m < 10 ? '0' + m : m;
-		d = d < 10 ? '0' + d : d;
-		h = h < 10 ? '0' + h : h;
-		minutes = minutes < 10 ? '0' + minutes : minutes;
-		document.getElementById("now").innerText = y + "-" + m + "-" + d + ' ' + h + ":" + minutes;
-
-
-		window.onload = function () {
-			console.log('onload');
-			fetch(window.apiurl + "/r/chart2.php" + window.location.search)
-				.catch(error => alert("fetch失败"))
-				.then((response) => response.json())
-				.then((json) => {
-					if (json.code == 0 && json.hasOwnProperty("msg")) {//成功
-						if (json.msg === '需要参数') {
-							var userName = prompt('请输入选手昵称');
-							return window.location.search = "name=" + userName;
-						}
-						return alert(json.msg);
-					}
-					if (json.code == 1) {//成功
-						return generateCharts(json['uin']);
-					}
-					if (json.code == 2) {//多重
-						var number = prompt(json.msg, 1);
-						if (number > 0) {
-							return window.location.search += "&area=" + number;
-						} else {
-							return alert('错误的输入')
-						}
-					}
-					return alert("找不到此选手");
-				});
-		}
 
 	</script>
-
 </body>
 
 </html>
