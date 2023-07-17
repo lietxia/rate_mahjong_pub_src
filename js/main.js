@@ -326,7 +326,7 @@ var webobj = {
 		var geturl = {
 			"area_name": [base.rule],
 			"level": "rate.php",
-			"ranking": this.lv_ranking(),
+			"ranking": "rate.php",
 			"log": "rate.php"
 		};
 		webobj.load_page("templ_" + sub_fn, geturl[sub_fn]);
