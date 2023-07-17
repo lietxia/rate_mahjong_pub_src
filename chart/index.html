@@ -166,10 +166,12 @@
 			console.log(window.step_count);
 			if (window.step_count === 2) {
 				generateCharts();
+				check_update();
 			}
 		}
 		function check_update() {
 			if (window.data_version != window.json_version) {
+				console.log('sync');
 				return fetch(fetch(window.apiurl + '/r/gen_rank.php'));
 			}
 		}
