@@ -195,372 +195,373 @@
 			for (let i = 0; i < user[12].length; i++) {
 				recent[i] = user[12][i] * 100;
 			}
-			window.onload = function () {
-				var today = new Date();
-				var y = today.getFullYear();
-				var m = today.getMonth() + 1;
-				var d = today.getDate();
-				var h = today.getHours();
-				var minutes = today.getMinutes();
-				m = m < 10 ? '0' + m : m;
-				d = d < 10 ? '0' + d : d;
-				h = h < 10 ? '0' + h : h;
-				minutes = minutes < 10 ? '0' + minutes : minutes;
-				document.getElementById("now").innerText = y + "-" + m + "-" + d + ' ' + h + ":" + minutes;
-
-
-				fetch(window.apiurl + '/cache/rank.json?' + rank_version)
-					.catch(error => alert("抓取数据失败"))
-					.then((response) => response.json())
-					.then((json) => {
-						/*$row["uid"], $row["name"], $row["cid"],
-						$row["qq"], $rank_all, $rank_shop[$row["cid"]],
-						$row["r"], $row["lv"], $row["kill_count"],
-						$row["fly"], $row["avg10"], $row["rank_arr"],
-						$row["pt_arr"],
-						$row["pt_sum1"], $row["pt_sum2"],
-						$row["pt_sum3"], $row["pt_sum4"],
-						$row["pt_max"], $row["pt_min"],
-						$row["c1"], $row["c2"], $row["c3"], $row["c4"],
-						$row["lv_up"]
-						*/
-						window.uin2data = [];
-						window.name2uin = {};
-						for (let i = 0; i < json.length; i++) {
-							const ele = json[i];
-							window.uin2data[ele[0]] = ele;
-							if (!window.name2uin.hasOwnProperty(ele[1])) {
-								window.name2uin[ele[1]] = {};
-							}
-							window.name2uin[ele[1]][ele[2]] = ele[1];
-						}
-						// var uin = find_uin(json);
-						// generateCharts(json[uin]);
-					});
-				fetch(window.apiurl + "/r/chart2.php" + window.location.search)
-					.catch(error => alert("fetch失败"))
-					.then((response) => response.json())
-					.then((json) => {
-						if (json.code == 0 && json.hasOwnProperty("msg")) {//成功
-							if (json.msg === '需要参数') {
-								var userName = prompt('请输入选手昵称');
-								return window.location.search = "name=" + userName;
-							}
-							return alert(json.msg);
-						}
-						if (json.code == 1) {//成功
-							return generateCharts(json['uin']);
-						}
-						if (json.code == 2) {//多重
-							var number = prompt(json.msg, 1);
-							if (number > 0) {
-								return window.location.search += "&area=" + number;
-							} else {
-								return alert('错误的输入')
-							}
-						}
-						return alert("找不到此选手");
-					});
-
-
-
-				jsonData = {
-					"pt1": avg1,
-					"pt2": avg2,
-					"pt3": avg3,
-					"pt4": avg4,
-					"fly": user[9],
-					"c1": user[19],
-					"c2": user[20],
-					"c3": user[21],
-					"c4": user[22],
-					"rate": user[6] / 1000,
-					"rank": user[4],
-					"areaRank": user[5],
-					"pointAvg": total_count == 0 ? 0
-						: Math.round(user[13] + user[14]
-							+ user[15] + user[16]
-							/ total_count * 100),
-					"recentScore": total_count == 0 ? 0 : (user[10] / (total_count > 10 ? 10 : total_count)),
-					"logs": user[11],
-					//"totalScore": -34.6,
-					"currentCount": user[11].length,
-					"currentAvg": current_avg,
-					"recent": recent,
-					"killCount": user[8],
-					"maxPoint": user[17] * 100,
-					"level": user[8],
-					"totalCount": total_count,
-					"area": user[2],
-					"percent": Math.round((1 - user[4] / rank_version) * 100),
-					"radar": [
-						avg1,
-						nofly,
-						total_count == 0 ? 0
-							: (user[19] + user[20]) / total_count,
-						user[10],
-						user[6] / 1000,
-						total_count == 0 ? 0
-							: user[19] / total_count,
-					],
-					"pie": [
-						{
-							"value": user[19],
-							"name": "一位\n均点\n" + avg1
-						},
-						{
-							"value": user[20],
-							"name": "二位\n均点\n" + avg2
-						},
-						{
-							"value": user[21],
-							"name": "三位\n均点\n" + avg3
-						},
-						{
-							"value": user[22],
-							"name": "四位\n均点\n" + avg4
-						}
-					],
-					"uid": user[0],
-					"qq": user[3],
-					"userName": user[2],
-					"club": cid2name[user[2]],
-					"areaName": cid2area[user[2]],
-				};
-				//	cid2name[row['cid']] = row['name'];
-				//  cid2area[row['cid']] = row['area_name'];
-
-				var levelConfig = [
-					['新人', 7, 2.9, 20],
-					['五级', 7, 2.8, 19],
-					['四级', 10, 2.7, 27],
-					['三级', 10, 2.7, 27],
-					['二级', 12, 2.6, 31],
-					['一级', 16, 2.6, 41],
-					['初段', 16, 2.5, 40],
-					['二段', 20, 2.5, 50],
-					['三段', 25, 2.4, 60],
-					['四段', 25, 2.4, 60],
-					['五段', 30, 2.3, 69],
-					['六段', 40, 2.1, 84],
-					['七段', 45, 2.0, 90],
-					['八段', 50, 1.9, 95],
-					['九段', 1, 0, 0],
-				];
-				if (jsonData.radar[0] == 0) { //火力怪异现象
-					jsonData.radar[0] = null;
-				}
-				var img = document.createElement('img');
-				img.id = 'qqHead';
-				img.setAttribute('src', "https://q1.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
-				img.setAttribute('class', "img-thumbnail rounded-circle shadow-sm");
-				img.setAttribute('onload', 'image_loaded()');
-				document.getElementById('head_input').appendChild(img);
-				document.getElementById('head_input').setAttribute('href', '../rival.html#/' + jsonData.uid + '/' + jsonData.userName);
-				var img = document.createElement('img');
-				img.id = 'qqHead2';
-				img.setAttribute('src', "https://q1.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
-				img.setAttribute('class', "img-thumbnail rounded-circle shadow-sm");
-				document.getElementById('head_input2').appendChild(img);
-				document.getElementById('head_input2').setAttribute('href', '../rival.html#/' + jsonData.uid + '/' + jsonData.userName);
-				document.getElementById('rate2').innerText = jsonData.rate;
-				document.getElementById('userName2').innerText = jsonData.userName;
-				document.getElementById('club2').innerText = jsonData.club;
-				document.getElementById('level').innerText = levelConfig[jsonData.level][0];
-				document.getElementById('level2').innerText = levelConfig[jsonData.level][0];
-				document.getElementById('lv_count').innerText = levelConfig[jsonData.level][1];
-				document.getElementById('lv_avg').innerText = levelConfig[jsonData.level][2];
-				document.getElementById('lv_sum').innerText = levelConfig[jsonData.level][3];
-				var c_sum = 0;
-				if (jsonData.currentAvg > 0) {
-					for (let i = 0; i < jsonData['logs'].length; i++) {
-						c_sum += jsonData['logs'][i];
+			jsonData = {
+				"pt1": avg1,
+				"pt2": avg2,
+				"pt3": avg3,
+				"pt4": avg4,
+				"fly": user[9],
+				"c1": user[19],
+				"c2": user[20],
+				"c3": user[21],
+				"c4": user[22],
+				"rate": user[6] / 1000,
+				"rank": user[4],
+				"areaRank": user[5],
+				"pointAvg": total_count == 0 ? 0
+					: Math.round(user[13] + user[14]
+						+ user[15] + user[16]
+						/ total_count * 100),
+				"recentScore": total_count == 0 ? 0 : (user[10] / (total_count > 10 ? 10 : total_count)),
+				"logs": user[11],
+				//"totalScore": -34.6,
+				"currentCount": user[11].length,
+				"currentAvg": current_avg,
+				"recent": recent,
+				"killCount": user[8],
+				"maxPoint": user[17] * 100,
+				"level": user[8],
+				"totalCount": total_count,
+				"area": user[2],
+				"percent": Math.round((1 - user[4] / rank_version) * 100),
+				"radar": [
+					avg1,
+					nofly,
+					total_count == 0 ? 0
+						: (user[19] + user[20]) / total_count,
+					user[10],
+					user[6] / 1000,
+					total_count == 0 ? 0
+						: user[19] / total_count,
+				],
+				"pie": [
+					{
+						"value": user[19],
+						"name": "一位\n均点\n" + avg1
+					},
+					{
+						"value": user[20],
+						"name": "二位\n均点\n" + avg2
+					},
+					{
+						"value": user[21],
+						"name": "三位\n均点\n" + avg3
+					},
+					{
+						"value": user[22],
+						"name": "四位\n均点\n" + avg4
 					}
-				}
-				console.log(jsonData['logs'], c_sum);
-				document.getElementById('currentSum').innerText = c_sum;
-				if (jsonData.percent == 100) {
-					jsonData.percent = 99.9;
-				}
-				document.getElementById('percent').innerText =
-					(jsonData.totalCount == 0 || jsonData.percent <= 10)
-						? '未来可期的雀士' : '打败' + jsonData.percent + '%雀士';
-				document.getElementById('currentAvg').className +=
-					(jsonData.currentAvg <= levelConfig[jsonData.level][2]) ?
-						' text-success' : ' text-danger';
-				document.getElementById('currentSum').className +=
-					(c_sum <= levelConfig[jsonData.level][3]) ?
-						' text-success' : ' text-danger';
+				],
+				"uid": user[0],
+				"qq": user[3],
+				"userName": user[2],
+				"club": cid2name[user[2]],
+				"areaName": cid2area[user[2]],
+			};
+			//	cid2name[row['cid']] = row['name'];
+			//  cid2area[row['cid']] = row['area_name'];
 
-				var str = '', logs = jsonData['logs'];
-				for (var i = 0; i < logs.length; i += 5) {
-					str += logs.slice(i, i + 5).join('') + ' ';
-				}
-				if (i % 5 > 0) {
-					str += logs.slice(0 - (i % 5)).join('');
-				}
-
-				document.getElementById('logs').innerText = str;
-				var totalScore = document.getElementById('totalScore');
-				if (jsonData['totalScore'] >= 0) {//text-success
-					totalScore.innerText = '+' + jsonData['totalScore'];
-					totalScore.className = 'text-success';
-				} else {
-					totalScore.innerText = jsonData['totalScore'];
-					totalScore.className = 'text-danger';
-				}
-				var myClass = document.getElementsByClassName("json_text");
-				for (let i = 0; i < myClass.length; i++) {
-					const element = myClass[i];
-					element.innerText = jsonData[element.id];
-				}
-				if (jsonData.currentCount >= levelConfig[jsonData.level][1]) {
-					document.getElementById('currentCount').className += ' text-success';
-					document.getElementById('currentCount').innerText = '完成';
-				} else {
-					document.getElementById('currentCount').className += ' text-danger';
-				}
-				var myChart = echarts.init(document.getElementById("chart_rader"));
-				var myChart2 = echarts.init(document.getElementById("chart_line"));
-				var myChart3 = echarts.init(document.getElementById("chart_pie"));
-				var app = {};
-				var option = {
-					legend: { show: false },
-					tooltip: { show: true, },
-					animation: false,
-					radar: {
-						// shape: 'circle',
-						indicator: [
-							{ name: '火力 (一位时平均点数)', max: 47000, min: 35000 },
-							{ name: '防守 (不飞率)', max: 0.9, min: 0.3 },
-							{ name: '稳定 (连对率)', max: 0.6 },
-							{ name: '运势 (近十战平均顺位)', max: 2.8 },
-							{ name: '技术 (Rate)', max: 1800, min: 1300 },
-							{ name: '进攻 (一位率)', max: 0.35 }
-						],
-						//center: ['25%', '50%'],
-						radius: "65%",
-						axisName: {
-							fontSize: 13,
-							color: "#222",
-							borderRadius: 10,
-							padding: [2, 6],
-							backgroundColor: "rgba(255,255,255,0.5)"
-						},
-					},
-					series: [
-						{
-							type: 'radar',
-							symbolSize: 6,
-							data: [
-								{
-									value: jsonData.radar,
-									areaStyle: {
-										color: '#66ccff'
-									}
-								}
-							]
-						},
-					]
-				};
-				var option3 = {
-					legend: { show: false },
-					tooltip: { show: true, },
-					animation: false,
-					series: [
-						{
-							//center: ['70%', '50%'],
-							type: 'pie',
-							radius: ['35%', '70%'],
-							itemStyle: {
-								borderRadius: 5,
-								borderColor: "rgba(255,255,255,0.5)",
-								borderWidth: 3
-							},
-							label: {
-								show: true,
-								color: "#222",
-								borderRadius: 8,
-								padding: 3,
-								fontSize: 13,
-								backgroundColor: "rgba(255,255,255,0.5)",
-								formatter: '{d}%\n{c}回{b}'
-							},
-							labelLine: {
-								length: 10,
-								length2: 15,
-								lineStyle: {
-									width: 2
-								}
-							},
-							data: jsonData.pie
-						},
-
-					]
-				};
-
-				var option2 = {
-					legend: {
-						show: false
-					},
-					tooltip: { show: true, },
-					animation: false,
-					grid: {
-						left: '7%',
-						right: '7%',
-						top: '5%',
-						bottom: 0,
-						containLabel: true
-					},
-					xAxis: {
-						type: 'category',
-						show: false,
-						boundaryGap: false
-					},
-					yAxis: {
-						type: 'value',
-						splitLine: {
-							lineStyle: {
-								color: 'rgba(128,128,128,0.3)'
-							}
-						}
-					},
-					series: [
-						{
-							data: jsonData.recent,
-							type: 'line',
-							symbol: 'circle',
-							symbolSize: 5,
-							smooth: true,
-							areaStyle: {
-								opacity: 0.7,
-								color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-									{
-										offset: 0,
-										color: 'rgb(128, 255, 165)'
-									},
-									{
-										offset: 1,
-										color: 'rgb(1, 191, 236)'
-									}
-								])
-							},
-						}
-					]
-				};
-
-				if (option && typeof option === 'object') {
-					myChart.setOption(option);
-					myChart2.setOption(option2);
-					myChart3.setOption(option3);
-					window.onresize = function () {
-						myChart.resize();
-						myChart2.resize();
-						myChart3.resize();
-					};
+			var levelConfig = [
+				['新人', 7, 2.9, 20],
+				['五级', 7, 2.8, 19],
+				['四级', 10, 2.7, 27],
+				['三级', 10, 2.7, 27],
+				['二级', 12, 2.6, 31],
+				['一级', 16, 2.6, 41],
+				['初段', 16, 2.5, 40],
+				['二段', 20, 2.5, 50],
+				['三段', 25, 2.4, 60],
+				['四段', 25, 2.4, 60],
+				['五段', 30, 2.3, 69],
+				['六段', 40, 2.1, 84],
+				['七段', 45, 2.0, 90],
+				['八段', 50, 1.9, 95],
+				['九段', 1, 0, 0],
+			];
+			if (jsonData.radar[0] == 0) { //火力怪异现象
+				jsonData.radar[0] = null;
+			}
+			var img = document.createElement('img');
+			img.id = 'qqHead';
+			img.setAttribute('src', "https://q1.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
+			img.setAttribute('class', "img-thumbnail rounded-circle shadow-sm");
+			img.setAttribute('onload', 'image_loaded()');
+			document.getElementById('head_input').appendChild(img);
+			document.getElementById('head_input').setAttribute('href', '../rival.html#/' + jsonData.uid + '/' + jsonData.userName);
+			var img = document.createElement('img');
+			img.id = 'qqHead2';
+			img.setAttribute('src', "https://q1.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
+			img.setAttribute('class', "img-thumbnail rounded-circle shadow-sm");
+			document.getElementById('head_input2').appendChild(img);
+			document.getElementById('head_input2').setAttribute('href', '../rival.html#/' + jsonData.uid + '/' + jsonData.userName);
+			document.getElementById('rate2').innerText = jsonData.rate;
+			document.getElementById('userName2').innerText = jsonData.userName;
+			document.getElementById('club2').innerText = jsonData.club;
+			document.getElementById('level').innerText = levelConfig[jsonData.level][0];
+			document.getElementById('level2').innerText = levelConfig[jsonData.level][0];
+			document.getElementById('lv_count').innerText = levelConfig[jsonData.level][1];
+			document.getElementById('lv_avg').innerText = levelConfig[jsonData.level][2];
+			document.getElementById('lv_sum').innerText = levelConfig[jsonData.level][3];
+			var c_sum = 0;
+			if (jsonData.currentAvg > 0) {
+				for (let i = 0; i < jsonData['logs'].length; i++) {
+					c_sum += jsonData['logs'][i];
 				}
 			}
+			console.log(jsonData['logs'], c_sum);
+			document.getElementById('currentSum').innerText = c_sum;
+			if (jsonData.percent == 100) {
+				jsonData.percent = 99.9;
+			}
+			document.getElementById('percent').innerText =
+				(jsonData.totalCount == 0 || jsonData.percent <= 10)
+					? '未来可期的雀士' : '打败' + jsonData.percent + '%雀士';
+			document.getElementById('currentAvg').className +=
+				(jsonData.currentAvg <= levelConfig[jsonData.level][2]) ?
+					' text-success' : ' text-danger';
+			document.getElementById('currentSum').className +=
+				(c_sum <= levelConfig[jsonData.level][3]) ?
+					' text-success' : ' text-danger';
+
+			var str = '', logs = jsonData['logs'];
+			for (var i = 0; i < logs.length; i += 5) {
+				str += logs.slice(i, i + 5).join('') + ' ';
+			}
+			if (i % 5 > 0) {
+				str += logs.slice(0 - (i % 5)).join('');
+			}
+
+			document.getElementById('logs').innerText = str;
+			var totalScore = document.getElementById('totalScore');
+			if (jsonData['totalScore'] >= 0) {//text-success
+				totalScore.innerText = '+' + jsonData['totalScore'];
+				totalScore.className = 'text-success';
+			} else {
+				totalScore.innerText = jsonData['totalScore'];
+				totalScore.className = 'text-danger';
+			}
+			var myClass = document.getElementsByClassName("json_text");
+			for (let i = 0; i < myClass.length; i++) {
+				const element = myClass[i];
+				element.innerText = jsonData[element.id];
+			}
+			if (jsonData.currentCount >= levelConfig[jsonData.level][1]) {
+				document.getElementById('currentCount').className += ' text-success';
+				document.getElementById('currentCount').innerText = '完成';
+			} else {
+				document.getElementById('currentCount').className += ' text-danger';
+			}
+			var myChart = echarts.init(document.getElementById("chart_rader"));
+			var myChart2 = echarts.init(document.getElementById("chart_line"));
+			var myChart3 = echarts.init(document.getElementById("chart_pie"));
+			var app = {};
+			var option = {
+				legend: { show: false },
+				tooltip: { show: true, },
+				animation: false,
+				radar: {
+					// shape: 'circle',
+					indicator: [
+						{ name: '火力 (一位时平均点数)', max: 47000, min: 35000 },
+						{ name: '防守 (不飞率)', max: 0.9, min: 0.3 },
+						{ name: '稳定 (连对率)', max: 0.6 },
+						{ name: '运势 (近十战平均顺位)', max: 2.8 },
+						{ name: '技术 (Rate)', max: 1800, min: 1300 },
+						{ name: '进攻 (一位率)', max: 0.35 }
+					],
+					//center: ['25%', '50%'],
+					radius: "65%",
+					axisName: {
+						fontSize: 13,
+						color: "#222",
+						borderRadius: 10,
+						padding: [2, 6],
+						backgroundColor: "rgba(255,255,255,0.5)"
+					},
+				},
+				series: [
+					{
+						type: 'radar',
+						symbolSize: 6,
+						data: [
+							{
+								value: jsonData.radar,
+								areaStyle: {
+									color: '#66ccff'
+								}
+							}
+						]
+					},
+				]
+			};
+			var option3 = {
+				legend: { show: false },
+				tooltip: { show: true, },
+				animation: false,
+				series: [
+					{
+						//center: ['70%', '50%'],
+						type: 'pie',
+						radius: ['35%', '70%'],
+						itemStyle: {
+							borderRadius: 5,
+							borderColor: "rgba(255,255,255,0.5)",
+							borderWidth: 3
+						},
+						label: {
+							show: true,
+							color: "#222",
+							borderRadius: 8,
+							padding: 3,
+							fontSize: 13,
+							backgroundColor: "rgba(255,255,255,0.5)",
+							formatter: '{d}%\n{c}回{b}'
+						},
+						labelLine: {
+							length: 10,
+							length2: 15,
+							lineStyle: {
+								width: 2
+							}
+						},
+						data: jsonData.pie
+					},
+
+				]
+			};
+
+			var option2 = {
+				legend: {
+					show: false
+				},
+				tooltip: { show: true, },
+				animation: false,
+				grid: {
+					left: '7%',
+					right: '7%',
+					top: '5%',
+					bottom: 0,
+					containLabel: true
+				},
+				xAxis: {
+					type: 'category',
+					show: false,
+					boundaryGap: false
+				},
+				yAxis: {
+					type: 'value',
+					splitLine: {
+						lineStyle: {
+							color: 'rgba(128,128,128,0.3)'
+						}
+					}
+				},
+				series: [
+					{
+						data: jsonData.recent,
+						type: 'line',
+						symbol: 'circle',
+						symbolSize: 5,
+						smooth: true,
+						areaStyle: {
+							opacity: 0.7,
+							color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+								{
+									offset: 0,
+									color: 'rgb(128, 255, 165)'
+								},
+								{
+									offset: 1,
+									color: 'rgb(1, 191, 236)'
+								}
+							])
+						},
+					}
+				]
+			};
+
+			if (option && typeof option === 'object') {
+				myChart.setOption(option);
+				myChart2.setOption(option2);
+				myChart3.setOption(option3);
+				window.onresize = function () {
+					myChart.resize();
+					myChart2.resize();
+					myChart3.resize();
+				};
+			}
 		}
+		fetch(window.apiurl + '/cache/rank.json?' + rank_version)
+			.catch(error => alert("抓取数据失败"))
+			.then((response) => response.json())
+			.then((json) => {
+				/*$row["uid"], $row["name"], $row["cid"],
+				$row["qq"], $rank_all, $rank_shop[$row["cid"]],
+				$row["r"], $row["lv"], $row["kill_count"],
+				$row["fly"], $row["avg10"], $row["rank_arr"],
+				$row["pt_arr"],
+				$row["pt_sum1"], $row["pt_sum2"],
+				$row["pt_sum3"], $row["pt_sum4"],
+				$row["pt_max"], $row["pt_min"],
+				$row["c1"], $row["c2"], $row["c3"], $row["c4"],
+				$row["lv_up"]
+				*/
+				window.uin2data = [];
+				window.name2uin = {};
+				for (let i = 0; i < json.length; i++) {
+					const ele = json[i];
+					window.uin2data[ele[0]] = ele;
+					if (!window.name2uin.hasOwnProperty(ele[1])) {
+						window.name2uin[ele[1]] = {};
+					}
+					window.name2uin[ele[1]][ele[2]] = ele[1];
+				}
+				// var uin = find_uin(json);
+				// generateCharts(json[uin]);
+			});
+
+
+		var today = new Date();
+		var y = today.getFullYear();
+		var m = today.getMonth() + 1;
+		var d = today.getDate();
+		var h = today.getHours();
+		var minutes = today.getMinutes();
+		m = m < 10 ? '0' + m : m;
+		d = d < 10 ? '0' + d : d;
+		h = h < 10 ? '0' + h : h;
+		minutes = minutes < 10 ? '0' + minutes : minutes;
+		document.getElementById("now").innerText = y + "-" + m + "-" + d + ' ' + h + ":" + minutes;
+
+
+		window.onload = function () {
+			console.log('onload');
+			fetch(window.apiurl + "/r/chart2.php" + window.location.search)
+				.catch(error => alert("fetch失败"))
+				.then((response) => response.json())
+				.then((json) => {
+					if (json.code == 0 && json.hasOwnProperty("msg")) {//成功
+						if (json.msg === '需要参数') {
+							var userName = prompt('请输入选手昵称');
+							return window.location.search = "name=" + userName;
+						}
+						return alert(json.msg);
+					}
+					if (json.code == 1) {//成功
+						return generateCharts(json['uin']);
+					}
+					if (json.code == 2) {//多重
+						var number = prompt(json.msg, 1);
+						if (number > 0) {
+							return window.location.search += "&area=" + number;
+						} else {
+							return alert('错误的输入')
+						}
+					}
+					return alert("找不到此选手");
+				});
+		}
+
 	</script>
 
 </body>
