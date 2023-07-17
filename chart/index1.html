@@ -248,8 +248,12 @@
 				Math.round(user[15] / user[21] * 100);
 			var avg4 = user[22] == 0 ? 0 :
 				Math.round(user[16] / user[22] * 100);
-			var nofly = 1;
-			var current_avg = 1;
+			var nofly = user[22] == 0 ? 0 : Math.round(1 - (user[16] / user[22]));
+			var current_avg = 0;
+			for (let i = 0; i < user[11].length; i++) {
+				current_avg += parseInt(user[11]);
+			}
+			current_avg = total_count == 0 ? 0 : current_avg / user[11].length;
 			var recent = [];
 			for (let i = 0; i < user[12].length; i++) {
 				recent[i] = user[12][i] * 100;
