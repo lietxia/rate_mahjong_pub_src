@@ -139,7 +139,7 @@
 				<div class="col-md-6" id="chart_pie"></div>
 			</div>
 			<small class="text-center text-muted">
-				<span class="badge bg-info rounded-pill" id="lvup">最近顺位</span>
+				<span class="badge bg-primary rounded-pill" id="lvup">最近顺位</span>
 				<span class="text-break text-wrap" id="logs"></span>
 			</small>
 			<div id="chart_line"></div>
@@ -287,7 +287,7 @@
 				current_avg += parseInt(user[11][i]);
 			}
 			current_avg = current_count == 0 ? 0
-				: current_avg / current_count;
+				: Math.round(current_avg / current_count * 100) / 100;
 			var recent = [];
 			for (let i = 0; i < user[12].length; i++) {
 				recent[i] = user[12][i] * 100;

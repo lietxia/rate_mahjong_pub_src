@@ -6,6 +6,9 @@ var webobj = {
 	apiurl: (window.location.origin === "http://bot0.000.mk")
 		? "http://bot0.000.mk/r/"
 		: "https://cdn.r-mj.com/r/",
+	lv_ranking: function () {
+
+	},
 	excel1: function () {
 		if (webobj.last_query[2] == 'log') { webobj.log_page(true); }
 		if (document.getElementById('xls_script')) {
@@ -323,7 +326,7 @@ var webobj = {
 		var geturl = {
 			"area_name": [base.rule],
 			"level": "rate.php",
-			"ranking": "rate.php",
+			"ranking": this.lv_ranking(),
 			"log": "rate.php"
 		};
 		webobj.load_page("templ_" + sub_fn, geturl[sub_fn]);
