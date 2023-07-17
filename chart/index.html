@@ -341,8 +341,8 @@ $row["lv_up"]
 				"rank": user[4],
 				"areaRank": user[5],
 				"pointAvg": total_count == 0 ? 0
-					: Math.round(user[13] + user[14]
-						+ user[15] + user[16]
+					: Math.round((user[13] + user[14]
+						+ user[15] + user[16])
 						/ total_count * 100),
 				"recentScore": user[10],
 				"logs": user[11],
