@@ -12,6 +12,19 @@
 	<link href="https://cdn.staticfile.org/bootswatch/5.1.3/darkly/bootstrap.min.css"
 		media="(prefers-color-scheme: dark)" rel="stylesheet" />
 	<title>个人战绩</title>
+	<script>
+		(function () {
+			if (window.location.origin === "http://bot0.000.mk") {
+				window.apiurl = "http://bot0.000.mk";
+			} else {
+				window.apiurl = "https://cdn.r-mj.com";
+			}
+			var script = document.createElement('script');
+			script.src = window.apiurl + "/nocache/rank_version.js";
+			document.head.appendChild(script);
+		})()
+
+	</script>
 	<style>
 		#chart_rader {
 			height: 195px;
@@ -150,9 +163,10 @@
 			</div>
 		</div>
 	</div>
+	<script src="../js/data_list.js"></script>
 	<script crossorigin="anonymous"
 		src="https://cdn.staticfile.org/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-	<script src="https://cdn.staticfile.org/echarts/5.3.0/echarts.min.js"></script>
+	<script crossorigin="anonymous" src="https://cdn.staticfile.org/echarts/5.3.0/echarts.min.js"></script>
 	<script>
 		var today = new Date();
 		var y = today.getFullYear();
@@ -165,19 +179,40 @@
 		h = h < 10 ? '0' + h : h;
 		minutes = minutes < 10 ? '0' + minutes : minutes;
 		document.getElementById("now").innerText = y + "-" + m + "-" + d + ' ' + h + ":" + minutes;
-		if (window.location.origin === "http://bot0.000.mk") {
-			window.apiurl = "http://bot0.000.mk/r/chart.php";
-		} else {
-			var apiurl = "https://cdn.r-mj.com/r/chart.php";
-		}
-
 		function image_loaded() {
 			var span = document.createElement('span');
 			span.id = 'image_loaded';
 			document.body.append(span);
 		}
 
-		fetch(apiurl + window.location.search)
+		fetch(window.apiurl + '/cache/rank.json?' + rank_version)
+			.catch(error => alert("抓取数据失败"))
+			.then((response) => response.json())
+			.then((json) => {
+				/*$row["uid"], $row["name"], $row["cid"],
+				$row["qq"], $rank_all, $rank_shop[$row["cid"]],
+				$row["r"], $row["lv"], $row["kill_count"],
+				$row["fly"], $row["avg10"], $row["rank_arr"],
+				$row["pt_arr"],
+				$row["pt_sum1"], $row["pt_sum2"],
+				$row["pt_sum3"], $row["pt_sum4"],
+				$row["pt_max"], $row["pt_min"],
+				$row["c1"], $row["c2"], $row["c3"], $row["c4"],
+				$row["lv_up"]
+				*/
+				window.uin2data = [];
+				window.name2uin = {};
+				json.forEach(ele => {
+					window.uin2data[ele[0]] = ele;
+					if (!window.name2uin.hasOwnProperty(ele[1])) {
+						window.name2uin[ele[1]] = {};
+					}
+					window.name2uin[ele[1]][ele[2]] = ele[1];
+				});
+				// var uin = find_uin(json);
+				// generateCharts(json[uin]);
+			});
+		fetch(window.apiurl + "/r/chart2.php" + window.location.search)
 			.catch(error => alert("fetch失败"))
 			.then((response) => response.json())
 			.then((json) => {
@@ -189,7 +224,7 @@
 					return alert(json.msg);
 				}
 				if (json.code == 1) {//成功
-					return generateCharts(json)
+					return generateCharts(json['uin']);
 				}
 				if (json.code == 2) {//多重
 					var number = prompt(json.msg, 1);
@@ -202,7 +237,89 @@
 				return alert("找不到此选手");
 			});
 
-		function generateCharts(jsonData) {
+		function generateCharts(uin) {
+			var user = window.uin2data[uin];
+			var total_count = user[19] + user[20] + user[21] + user[22];
+			var avg1 = user[19] == 0 ? 0 :
+				Math.round(user[13] / user[19] * 100);
+			var avg2 = user[20] == 0 ? 0 :
+				Math.round(user[14] / user[20] * 100);
+			var avg3 = user[21] == 0 ? 0 :
+				Math.round(user[15] / user[21] * 100);
+			var avg4 = user[22] == 0 ? 0 :
+				Math.round(user[16] / user[22] * 100);
+			var nofly = 1;
+			var current_avg = 1;
+			var recent = [];
+			for (let i = 0; i < user[12].length; i++) {
+				recent[i] = user[12][i] * 100;
+			}
+
+			jsonData = {
+				"pt1": avg1,
+				"pt2": avg2,
+				"pt3": avg3,
+				"pt4": avg4,
+				"fly": user[9],
+				"c1": user[19],
+				"c2": user[20],
+				"c3": user[21],
+				"c4": user[22],
+				"rate": user[6] / 1000,
+				"rank": user[4],
+				"areaRank": user[5],
+				"pointAvg": total_count == 0 ? 0
+					: Math.round(user[13] + user[14]
+						+ user[15] + user[16]
+						/ total_count * 100),
+				"recentScore": total_count == 0 ? 0 : (user[10] / (total_count > 10 ? 10 : total_count)),
+				"logs": user[11],
+				//"totalScore": -34.6,
+				"currentCount": user[11].length,
+				"currentAvg": current_avg,
+				"recent": recent,
+				"killCount": user[8],
+				"maxPoint": user[17] * 100,
+				"level": user[8],
+				"totalCount": total_count,
+				"area": user[2],
+				"percent": Math.round((1 - user[4] / rank_version) * 100),
+				"radar": [
+					avg1,
+					nofly,
+					total_count == 0 ? 0
+						: (user[19] + user[20]) / total_count,
+					user[10],
+					user[6] / 1000,
+					total_count == 0 ? 0
+						: user[19] / total_count,
+				],
+				"pie": [
+					{
+						"value": user[19],
+						"name": "一位\n均点\n" + avg1
+					},
+					{
+						"value": user[20],
+						"name": "二位\n均点\n" + avg2
+					},
+					{
+						"value": user[21],
+						"name": "三位\n均点\n" + avg3
+					},
+					{
+						"value": user[22],
+						"name": "四位\n均点\n" + avg4
+					}
+				],
+				"uid": user[0],
+				"qq": user[3],
+				"userName": user[2],
+				"club": cid2name[user[2]],
+				"areaName": cid2area[user[2]],
+			};
+			//	cid2name[row['cid']] = row['name'];
+			//  cid2area[row['cid']] = row['area_name'];
 
 			var levelConfig = [
 				['新人', 7, 2.9, 20],
