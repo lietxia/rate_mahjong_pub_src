@@ -3,7 +3,9 @@ var webobj = {
 	last_query: [],
 	page: 1,
 	lv_data: ["新人", "5级", "4级", "3级", "2级", "1级", "初段", "二段", "三段", "四段", "五段", "六段", "七段", "八段", "九段"],
-	apiurl: "https://cdn.r-mj.com/r/",
+	apiurl: (window.location.origin === "http://bot0.000.mk")
+		? "http://bot0.000.mk/r/"
+		: "https://cdn.r-mj.com/r/",
 	excel1: function () {
 		if (webobj.last_query[2] == 'log') { webobj.log_page(true); }
 		if (document.getElementById('xls_script')) {

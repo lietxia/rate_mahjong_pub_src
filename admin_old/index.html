@@ -103,7 +103,11 @@
 			if (arr != null) {
 				window.location.href = arr[1];
 			}
-			window.apiurl = "https://cdn.r-mj.com/r/";
+			if (window.location.origin === "http://bot0.000.mk") {
+				window.apiurl = "http://bot0.000.mk/r/";
+			} else {
+				window.apiurl = "https://cdn.r-mj.com/r/";
+			}
 			var querystr = [];
 			if (querystr = document.location.hash.match(/\?cid=(\d+)&pw=(.+)/)) {
 				document.location.hash = "";

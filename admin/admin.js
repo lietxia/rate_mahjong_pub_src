@@ -149,7 +149,12 @@ function display_post(json) {
 	if (arr != null) {
 		window.location.href = arr[1];
 	}
-	window.apiurl = "https://cdn.r-mj.com/r/";
+	if (window.location.origin === "http://bot0.000.mk") {
+		window.apiurl = "http://bot0.000.mk/r/";
+	} else {
+		window.apiurl = "https://cdn.r-mj.com/r/";
+	}
+
 	var querystr = document.location.hash.match(/\?cid=(\d+)&pw=(.+)/);
 	var l_cid = localStorage.getItem('rate_cid');
 	var l_pw = localStorage.getItem('rate_pw');

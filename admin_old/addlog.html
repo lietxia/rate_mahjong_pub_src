@@ -245,7 +245,13 @@
 		src="https://cdn.staticfile.org/twitter-bootstrap/4.6.1/js/bootstrap.bundle.min.js"></script>
 	<script>
 		window.n2phone = {};
-		window.apiurl = "https://cdn.r-mj.com/api/"
+		if (window.location.hostname === "bot0.000.mk"
+			&& window.location.protocol === "http:") {
+			window.apiurl = "http://bot0.000.mk/api/"
+		} else {
+			window.apiurl = "https://cdn.r-mj.com/api/"
+		}
+
 		window.excel_data = {};
 
 		function get_n2phone() {
