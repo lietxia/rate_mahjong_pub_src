@@ -200,10 +200,13 @@
 					console.log('fetch rank.json');
 					window.uin2data = {};
 					window.name2uin = {};
+					window.rank_lv = [[], [], [], [], [], [],
+					[], [], [], [], [], [], [], [], [], []];
 					window.players = json["data"].length;
 					for (let i = 0; i < window.players; i++) {
 						const ele = json["data"][i];
 						window.uin2data[ele[0]] = ele;
+						window.rank_lv[ele[7]].push(parseInt(ele[6]));
 						if (!window.name2uin.hasOwnProperty(ele[1])) {
 							window.name2uin[ele[1]] = {};
 						}
@@ -405,6 +408,11 @@ $row["lv_up"]
 			img.setAttribute('onload', 'image_loaded()');
 			document.getElementById('head_input').appendChild(img);
 			document.getElementById('head_input').setAttribute('href', '../rival.html#/' + jsonData.uid + '/' + jsonData.userName);
+
+			var lv_rank_index = window.rank_lv[jsonData.level].indexOf(parseInt(user[6]));
+			var lv_string = levelConfig[jsonData.level][0];
+			if (lv_rank_index >= 0) { lv_string += "#" + lv_rank_index; }
+
 			var img = document.createElement('img');
 			img.id = 'qqHead2';
 			img.setAttribute('src', "https://q1.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
@@ -414,8 +422,8 @@ $row["lv_up"]
 			document.getElementById('rate2').innerText = jsonData.rate;
 			document.getElementById('userName2').innerText = jsonData.userName;
 			document.getElementById('club2').innerText = jsonData.club;
-			document.getElementById('level').innerText = levelConfig[jsonData.level][0];
-			document.getElementById('level2').innerText = levelConfig[jsonData.level][0];
+			document.getElementById('level').innerText = lv_string;
+			document.getElementById('level2').innerText = lv_string;
 			document.getElementById('lv_count').innerText = levelConfig[jsonData.level][1];
 			document.getElementById('lv_avg').innerText = levelConfig[jsonData.level][2];
 			document.getElementById('lv_sum').innerText = levelConfig[jsonData.level][3];
