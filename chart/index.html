@@ -170,10 +170,11 @@
 			}
 		}
 		function check_update() {
-			if (window.data_version != window.json_version) {
-				console.log('sync');
-				return fetch(fetch(window.apiurl + '/r/gen_rank.php'));
-			}
+			// console.log('check_update', window.data_version, window.json_version);
+			// if (window.data_version != window.json_version) {
+			// 	console.log('sync');
+			// 	return fetch(fetch(window.apiurl + '/r/gen_rank.php'));
+			// }
 		}
 		(function () {
 			var today = new Date();
@@ -195,7 +196,7 @@
 				.catch(error => alert("抓取数据失败"))
 				.then((response) => response.json())
 				.then((json) => {
-					window.json_version = json['version'];
+					window.json_version = parseInt(json['version']);
 					console.log('fetch rank.json');
 					window.uin2data = {};
 					window.name2uin = {};
