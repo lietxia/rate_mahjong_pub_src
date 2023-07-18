@@ -71,7 +71,7 @@
 				<div class="col-auto">
 					<h3 class="card-title mb-0" id="userName2"></h3>
 					<span class="badge bg-primary" id="level2"></span>
-					<span class="badge bg-secondary">Rate<span id="rate2">1500</span></span>
+					<span class="badge bg-secondary">R<span id="rate2">1500</span></span>
 					<br>
 					<span class="badge bg-secondary rounded-pill" id="club2"></span><br>
 				</div>
@@ -104,7 +104,7 @@
 					<span class="json_text" id="userName"></span>
 					<br>
 					<span class="badge bg-primary" id="level"></span>
-					<span class="badge bg-secondary">Rate<span class="json_text" id="rate"></span></span>
+					<span class="badge bg-secondary">R<span class="json_text" id="rate"></span></span>
 				</div>
 				<div class="col-sm-4 col-6 text-end">
 					<div class="pe-4">
@@ -139,7 +139,7 @@
 				<div class="col-md-6" id="chart_pie"></div>
 			</div>
 			<small class="text-center text-muted">
-				<span class="badge bg-primary rounded-pill" id="lvup">最近顺位</span>
+				<span class="badge bg-secondary rounded-pill" id="lvup">最近顺位</span>
 				<span class="text-break text-wrap" id="logs"></span>
 			</small>
 			<div id="chart_line"></div>
@@ -338,7 +338,7 @@ $row["lv_up"]
 				"c2": user[20],
 				"c3": user[21],
 				"c4": user[22],
-				"rate": Math.round(user[6] / 1000),
+				"rate": user[6] / 1000,
 				"rank": user[4],
 				"areaRank": user[5],
 				"pointAvg": total_count == 0 ? 0
