@@ -191,7 +191,8 @@
 			console.log('in fetch_version')
 			window.data_version = data_version;
 			var fetchurl = window.apiurl + '/cache/rank.json?' + data_version;
-			if (Math.random() > 0.3) {
+			if (window.apiurl === "https://cdn.r-mj.com"
+				&& Math.random() > 0.3) {
 				fetchurl = 'https://cf.000.mk/cache/rank.json?' + data_version;
 			}
 			fetch(fetchurl)
