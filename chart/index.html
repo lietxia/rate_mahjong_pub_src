@@ -190,12 +190,12 @@
 		function fetch_version(data_version) {
 			console.log('in fetch_version')
 			window.data_version = data_version;
-			var fetchurl = window.apiurl + '/cache/rank.json?' + data_version;
-			if (window.apiurl === "https://cdn.r-mj.com"
-				&& Math.random() > 0.3) {
-				fetchurl = 'https://cf.000.mk/cache/rank.json?' + data_version;
-			}
-			fetch(fetchurl)
+			// var fetchurl = window.apiurl + '/cache/rank.json?' + data_version;
+			// if (window.apiurl === "https://cdn.r-mj.com"
+			// 	&& Math.random() > 0.3) {
+			// 	fetchurl = 'https://cf.000.mk/cache/rank.json?' + data_version;
+			// }
+			fetch('https://cf.000.mk/cache/rank.json?' + data_version)
 				.catch(error => alert("抓取数据失败"))
 				.then((response) => response.json())
 				.then((json) => {
