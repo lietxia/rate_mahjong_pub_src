@@ -187,35 +187,41 @@
 			minutes = minutes < 10 ? '0' + minutes : minutes;
 			document.getElementById("now").innerText = y + "-" + m + "-" + d + ' ' + h + ":" + minutes;
 		})()
+		function apply_json(json) {
+			window.json_version = parseInt(json['version']);
+			console.log('fetch rank.json');
+			window.uin2data = {};
+			window.name2uin = {};
+			window.rank_lv = [[], [], [], [], [], [],
+			[], [], [], [], [], [], [], [], [], []];
+			window.players = json["data"].length;
+			for (let i = 0; i < window.players; i++) {
+				const ele = json["data"][i];
+				window.uin2data[ele[0]] = ele;
+				window.rank_lv[ele[7]].push(parseInt(ele[6]));
+				if (!window.name2uin.hasOwnProperty(ele[1])) {
+					window.name2uin[ele[1]] = {};
+				}
+				window.name2uin[ele[1]][ele[2]] = ele[1];
+			}
+			window.step_count++;
+			step();
+		}
 		function fetch_version(data_version) {
 			console.log('in fetch_version')
 			window.data_version = data_version;
-			var fetchurl = window.apiurl + '/cache/rank.json?' + data_version;
-			if (window.apiurl === "https://cdn.r-mj.com") {
-				fetchurl = 'https://cf.lietxia.bid/cache/rank.json?' + data_version;
-			}
-			fetch(fetchurl)
-				.catch(error => alert("抓取数据失败"))
+			fetch('https://direct.r-mj.com/cache/rank.json?' + data_version)
+				.catch(error => {
+					fetch('https://cf.lietxia.bid/cache/rank.json?'
+						+ data_version)
+						.then((response) => response.json())
+						.then((json) => {
+							apply_json(json);
+						});
+				})
 				.then((response) => response.json())
 				.then((json) => {
-					window.json_version = parseInt(json['version']);
-					console.log('fetch rank.json');
-					window.uin2data = {};
-					window.name2uin = {};
-					window.rank_lv = [[], [], [], [], [], [],
-					[], [], [], [], [], [], [], [], [], []];
-					window.players = json["data"].length;
-					for (let i = 0; i < window.players; i++) {
-						const ele = json["data"][i];
-						window.uin2data[ele[0]] = ele;
-						window.rank_lv[ele[7]].push(parseInt(ele[6]));
-						if (!window.name2uin.hasOwnProperty(ele[1])) {
-							window.name2uin[ele[1]] = {};
-						}
-						window.name2uin[ele[1]][ele[2]] = ele[1];
-					}
-					window.step_count++;
-					step();
+					apply_json(json);
 				});
 		}
 		var script = document.createElement('script');
@@ -298,17 +304,18 @@
 			for (let i = 0; i < user[12].length; i++) {
 				recent[i] = user[12][i] * 100;
 			}
-			/*$row["uid"], $row["name"], $row["cid"],
-$row["qq"], $rank_all, $rank_shop[$row["cid"]],
-$row["r"], $row["lv"], $row["kill_count"],
-$row["fly"], $row["avg10"], $row["rank_arr"],
-$row["pt_arr"],
-$row["pt_sum1"], $row["pt_sum2"],
-$row["pt_sum3"], $row["pt_sum4"],
-$row["pt_max"], $row["pt_min"],
-$row["c1"], $row["c2"], $row["c3"], $row["c4"],
-$row["lv_up"]
-*/
+			/*
+			$row["uid"], $row["name"], $row["cid"],
+			$row["qq"], $rank_all, $rank_shop[$row["cid"]],
+			$row["r"], $row["lv"], $row["kill_count"],
+			$row["fly"], $row["avg10"], $row["rank_arr"],
+			$row["pt_arr"],
+			$row["pt_sum1"], $row["pt_sum2"],
+			$row["pt_sum3"], $row["pt_sum4"],
+			$row["pt_max"], $row["pt_min"],
+			$row["c1"], $row["c2"], $row["c3"], $row["c4"],
+			$row["lv_up"]
+			*/
 			var levelConfig = [
 				['新人', 7, 2.9, 20],
 				['五级', 7, 2.8, 19],
