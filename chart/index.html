@@ -208,7 +208,7 @@
 		function fetch_version(data_version) {
 			console.log('select api url')
 			window.data_version = data_version;
-			fetch('https://direct.r-mj.com/test.json')
+			fetch('https://direct.r-mj.com/cache/test.json')
 				.catch(error => {
 					fetch_json('https://cf.lietxia.bid/cache/rank.json?' + data_version);
 				})
