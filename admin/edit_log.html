@@ -155,7 +155,8 @@
 						+ '\t' + (tbody.children[i].children[7].innerText - 250 - 100)
 						+ '\t' + (tbody.children[i].children[9].innerText - 250 - 300)
 				}
-			} else {
+			}
+			if (type === 2) {
 				logs = document.getElementById('logs_text').value;
 			}
 			let formdata = new FormData();
