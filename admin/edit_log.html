@@ -124,8 +124,9 @@
 			var tbody = document.getElementById('data_tbody');
 			var cid = document.getElementById('login_cid').value;
 			var pw = document.getElementById('login_passwd').value;
+			var page = document.getElementById('data_page').value;
 			fetch(window.apiurl + '/r/edit_log.php?type=read&cid='
-				+ cid + '&pw=' + pw)
+				+ cid + '&pw=' + pw + '&page=' + page)
 				.catch(e => alert('错误' + e))
 				.then((response) => response.json())
 				.then((json) => {
