@@ -58,11 +58,16 @@
 		</div>
 		<div class="card">
 			<div class="card-header text-center">
-				<button type="button" class="btn btn-primary" onclick="post_log()">提交修改</button>
+				<button type="button" class="btn btn-primary" onclick="post_log(1)">提交表格的修改</button>
+				<button type="button" class="btn btn-primary" onclick="post_log(2)">提交文本的修改</button>
 				<br />日期改成0，则<kbd>删除这条记录</kbd>
 				<br />数据的先后是看编号从小到大，<kbd>不看时间</kbd>
 				<br />按住shift+滚轮 左右滑动表格，手机直接左右滑动</kbd>
 				<br />这里的数据不会校验错误，请谨慎操作
+				<div class="input-group">
+					<span class="input-group-text">文本形式</span>
+					<textarea class="form-control" id="logs_text"></textarea>
+				</div>
 			</div>
 			<div class="card-body table-responsive">
 				<table class="table table-sm table-bordered table-striped table-hover">
@@ -95,29 +100,30 @@
 		} else {
 			window.apiurl = "https://cdn.r-mj.com";
 		}
-		windows.json_data = [];
+		window.json_data = [];
 		function gen_table() {
 			var tbody = document.getElementById('data_tbody');
 			tbody.innerText = '';
-			var json = windows.json_data;
+			var json = window.json_data;
+			var text = '';
 			for (let i = 0; i < json.length; i++) {
 				var tr = document.createElement('tr');
 				var td = document.createElement('td');
 				td.innerText = json[i][0];
 				tr.appendChild(td);
+				text += '\n' + json[i][0];
 				for (let j = 1; j < json[i].length; j++) {
 					var td = document.createElement('td');
 					td.innerText = json[i][j];
 					td.setAttribute('contentEditable', 'true');
-					td.setAttribute('onchange', "edited(this)");
 					tr.appendChild(td);
+					text += '\t' + json[i][j];
 				}
 				tbody.appendChild(tr);
 			}
+			document.getElementById('logs_text').value = text.trim();
 		}
-		function edited(that) {
-			that.className = "table-success";
-		}
+
 		function read_log() {
 			var cid = document.getElementById('login_cid').value;
 			var pw = document.getElementById('login_passwd').value;
@@ -129,25 +135,28 @@
 				.then((json) => {
 					if (json.hasOwnProperty("status")) {
 						if (json['status'] === 200) {
-							window.json_data = json;
+							window.json_data = json['data'];
 							gen_table();
-
 						} else {
 							alert(json['msg']);
 						}
 					} else { alert('错误'); }
 				});
 		}
-		function post_log() {
+		function post_log(type) {
 			var tbody = document.getElementById('data_tbody');
 			var count = tbody.childElementCount;
 			var logs = '';
-			for (let i = 0; i < count; i++) {
-				logs += '\n' + tbody.children[i].innerText
-					+ '\t' + (tbody.children[i].children[3].innerText - 250 + 300)
-					+ '\t' + (tbody.children[i].children[5].innerText - 250 + 100)
-					+ '\t' + (tbody.children[i].children[7].innerText - 250 - 100)
-					+ '\t' + (tbody.children[i].children[9].innerText - 250 - 300)
+			if (type === 1) {
+				for (let i = 0; i < count; i++) {
+					logs += '\n' + tbody.children[i].innerText
+						+ '\t' + (tbody.children[i].children[3].innerText - 250 + 300)
+						+ '\t' + (tbody.children[i].children[5].innerText - 250 + 100)
+						+ '\t' + (tbody.children[i].children[7].innerText - 250 - 100)
+						+ '\t' + (tbody.children[i].children[9].innerText - 250 - 300)
+				}
+			} else {
+				logs = document.getElementById('logs_text').value;
 			}
 			let formdata = new FormData();
 			formdata.append("cid", document.getElementById('login_cid').value);
