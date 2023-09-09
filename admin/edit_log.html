@@ -146,9 +146,6 @@
 			formdata.append("logs", logs.trim());
 			fetch(window.apiurl + '/r/edit_log.php', {
 				"method": "POST",
-				"headers": {
-					"Content-Type": 'application/x-www-form-urlencoded'
-				},
 				"body": formdata
 			})
 				.catch(e => alert('错误' + e))
