@@ -100,7 +100,30 @@
 		} else {
 			window.apiurl = "https://cdn.r-mj.com";
 		}
+
 		window.json_data = [];
+		function display_post(text) {
+			var now = now_time();
+			var div = document.createElement("div");
+			div.setAttribute("class", "alert alert-success alert-dismissible fade show shadow-sm");
+			div.setAttribute("role", "alert");
+			var pre = document.createElement('pre');
+			pre.appendChild(document.createTextNode(now + " " + text));
+			div.appendChild(pre);
+			var btn = document.createElement("button");
+			btn.setAttribute("class", "btn-close");
+			btn.setAttribute("data-bs-dismiss", "alert");
+			btn.setAttribute("aria-label", "Close");
+			div.appendChild(btn);
+			var tgt = document.getElementById("return_msg");
+			if (tgt.childNodes.length === 0) {
+				tgt.appendChild(div);
+			} else {
+				tgt.insertBefore(div, tgt.childNodes[0]);
+				document.documentElement.scrollTop = 0;
+			}
+			document.documentElement.scrollTop = 0;
+		}
 		function gen_table() {
 			var tbody = document.getElementById('data_tbody');
 			tbody.innerText = '';
@@ -172,7 +195,7 @@
 				.then((response) => response.json())
 				.then((json) => {
 					if (json.hasOwnProperty("msg")) {
-						alert(json['msg']);
+						display_post(json['msg']);
 					} else { alert('错误'); }
 				});
 		}
