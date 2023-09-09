@@ -95,8 +95,30 @@
 		} else {
 			window.apiurl = "https://cdn.r-mj.com";
 		}
-		function read_log() {
+		windows.json_data = [];
+		function gen_table() {
 			var tbody = document.getElementById('data_tbody');
+			tbody.innerText = '';
+			var json = windows.json_data;
+			for (let i = 0; i < json.length; i++) {
+				var tr = document.createElement('tr');
+				var td = document.createElement('td');
+				td.innerText = json[i][0];
+				tr.appendChild(td);
+				for (let j = 1; j < json[i].length; j++) {
+					var td = document.createElement('td');
+					td.innerText = json[i][j];
+					td.setAttribute('contentEditable', 'true');
+					td.setAttribute('onchange', "edited(this)");
+					tr.appendChild(td);
+				}
+				tbody.appendChild(tr);
+			}
+		}
+		function edited(that) {
+			that.className = "table-success";
+		}
+		function read_log() {
 			var cid = document.getElementById('login_cid').value;
 			var pw = document.getElementById('login_passwd').value;
 			var page = document.getElementById('data_page').value;
@@ -107,21 +129,9 @@
 				.then((json) => {
 					if (json.hasOwnProperty("status")) {
 						if (json['status'] === 200) {
-							json = json['data'];
-							tbody.innerText = '';
-							for (let i = 0; i < json.length; i++) {
-								var tr = document.createElement('tr');
-								var td = document.createElement('td');
-								td.innerText = json[i][0];
-								tr.appendChild(td);
-								for (let j = 1; j < json[i].length; j++) {
-									var td = document.createElement('td');
-									td.innerText = json[i][j];
-									td.setAttribute('contentEditable', 'true');
-									tr.appendChild(td);
-								}
-								tbody.appendChild(tr);
-							}
+							window.json_data = json;
+							gen_table();
+
 						} else {
 							alert(json['msg']);
 						}
