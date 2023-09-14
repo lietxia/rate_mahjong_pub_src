@@ -408,6 +408,7 @@
 			if (jsonData.radar[0] == 0) { //火力怪异现象
 				jsonData.radar[0] = null;
 			}
+			var lv_rank_index = window.rank_lv[jsonData.level].indexOf(parseInt(user[6]));
 			var lv_string = levelConfig[jsonData.level][0];
 			if (lv_rank_index >= 0) { lv_string += "#" + (lv_rank_index - -1); }
 			var img = document.createElement('img');
@@ -430,9 +431,6 @@
 			img.setAttribute('onload', 'image_loaded()');
 			document.getElementById('head_input').appendChild(img);
 			document.getElementById('head_input').setAttribute('href', '../rival.html#/' + jsonData.uid + '/' + jsonData.userName);
-
-			var lv_rank_index = window.rank_lv[jsonData.level].indexOf(parseInt(user[6]));
-
 
 			var img = document.createElement('img');
 			img.id = 'qqHead2';
