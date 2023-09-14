@@ -410,8 +410,21 @@
 			}
 			var img = document.createElement('img');
 			img.id = 'qqHead';
-			img.setAttribute('src', "https://q1.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
-			img.setAttribute('class', "img-thumbnail rounded-circle shadow-sm");
+			if (jsonData.level == 15) {
+				document.getElementById('head_input').className = "py-0 my-0 d-block";
+				document.querySelector("body > div > div > div:nth-child(2) > div.col-4.text-center.d-none.d-sm-block > br").remove();
+				document.getElementById('userName').remove();
+				img.setAttribute('src', "http://sb6.link/view.php/b2e020165fbe7c69c6de09b223b7220c.png");
+				img.setAttribute('style', "width:95%;height:auto;");
+
+				document.getElementById('level').innerText = "马达 十段";
+			} else {
+				img.setAttribute('src', "https://q1.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
+				img.setAttribute('class', "img-thumbnail rounded-circle shadow-sm");
+
+				document.getElementById('level').innerText = lv_string;
+			}
+
 			img.setAttribute('onload', 'image_loaded()');
 			document.getElementById('head_input').appendChild(img);
 			document.getElementById('head_input').setAttribute('href', '../rival.html#/' + jsonData.uid + '/' + jsonData.userName);
@@ -429,7 +442,6 @@
 			document.getElementById('rate2').innerText = jsonData.rate;
 			document.getElementById('userName2').innerText = jsonData.userName;
 			document.getElementById('club2').innerText = jsonData.club;
-			document.getElementById('level').innerText = lv_string;
 			document.getElementById('level2').innerText = lv_string;
 			document.getElementById('lv_count').innerText = levelConfig[jsonData.level][1];
 			document.getElementById('lv_avg').innerText = levelConfig[jsonData.level][2];
