@@ -150,9 +150,11 @@ function display_post(json) {
 		window.location.href = arr[1];
 	}
 	if (window.location.origin === "http://bot0.000.mk") {
-		window.apiurl = "http://bot0.000.mk/r/";
+		window.apiurl = "http://bot0.000.mk";
 	} else {
-		window.apiurl = "https://cdn.r-mj.com/r/";
+		if (!window.hasOwnProperty("apiurl")) {
+			window.apiurl = "https://cdn.r-mj.com";
+		}
 	}
 
 	var querystr = document.location.hash.match(/\?cid=(\d+)&pw=(.+)/);
@@ -283,7 +285,7 @@ function addmember() {
 		"q": "addmember",
 		"order": $("#new_member_textarea").val()
 	};
-	return $.post(window.apiurl + "addmember.php", postdata,
+	return $.post(window.apiurl + "/r/addmember.php", postdata,
 		function (data) {
 			login();
 			if (!data.hasOwnProperty("status") || !data.hasOwnProperty("text")) {
@@ -302,7 +304,7 @@ function addlog() {
 		"is_national": 1,
 		"order": $("#logtext").val()
 	};
-	return $.post(window.apiurl + "addlog.php", postdata,
+	return $.post(window.apiurl + "/r/addlog.php", postdata,
 		function (data) {
 			login();
 			if (!data.hasOwnProperty("status") || !data.hasOwnProperty("text")) {
@@ -327,7 +329,7 @@ function before_post() {
 	newdata.push({ "name": "setting", "value": parseInt(settings, 2) });
 
 	//console.log(newdata);
-	return $.post(window.apiurl + "rate.php", newdata,
+	return $.post(window.apiurl + "/r/rate.php", newdata,
 		function (data) {
 			if (!data.hasOwnProperty("status") || !data.hasOwnProperty("text")) {
 				return display_post({ status: 1, text: "返回空" });
@@ -351,7 +353,7 @@ function del_log_or_member() {
 		"q": type[t],
 		"order": $("#deltext").val()
 	};
-	return $.post(window.apiurl + "del_log.php", postdata,
+	return $.post(window.apiurl + "/r/del_log.php", postdata,
 		function (data) {
 			login();
 			if (!data.hasOwnProperty("status") || !data.hasOwnProperty("text")) {
@@ -388,7 +390,7 @@ function login(cid, pw) {
 		document.getElementById("login_passwd").value = pw;
 	}
 	btn_ctrl(true);
-	$.post(window.apiurl + "rate.php", {
+	$.post(window.apiurl + "/r/rate.php", {
 		"q": "login",
 		"cid": cid,
 		"pw": pw

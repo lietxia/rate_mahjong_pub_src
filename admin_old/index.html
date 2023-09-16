@@ -28,6 +28,7 @@
 </head>
 
 <body>
+	<script src="https://direct.r-mj.com/cache/apitest.js"></script>
 	<script crossorigin="anonymous" src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
 	<script crossorigin="anonymous"
 		src="https://cdn.staticfile.org/twitter-bootstrap/4.6.1/js/bootstrap.bundle.min.js"></script>
@@ -104,9 +105,11 @@
 				window.location.href = arr[1];
 			}
 			if (window.location.origin === "http://bot0.000.mk") {
-				window.apiurl = "http://bot0.000.mk/r/";
+				window.apiurl = "http://bot0.000.mk";
 			} else {
-				window.apiurl = "https://cdn.r-mj.com/r/";
+				if (!window.hasOwnProperty("apiurl")) {
+					window.apiurl = "https://cdn.r-mj.com";
+				}
 			}
 			var querystr = [];
 			if (querystr = document.location.hash.match(/\?cid=(\d+)&pw=(.+)/)) {
@@ -215,7 +218,7 @@
 				"q": "addmember",
 				"order": $("#new_member_textarea").val()
 			};
-			return $.post(window.apiurl + "addmember.php", postdata,
+			return $.post(window.apiurl + "/r/addmember.php", postdata,
 				function (data) {
 					login();
 					if (!data.hasOwnProperty("status") || !data.hasOwnProperty("text")) {
@@ -233,7 +236,7 @@
 				"is_national": document.getElementById("is_national").value,
 				"order": $("#logtext").val()
 			};
-			return $.post(window.apiurl + "addlog.php", postdata,
+			return $.post(window.apiurl + "/r/addlog.php", postdata,
 				function (data) {
 					login();
 					if (!data.hasOwnProperty("status") || !data.hasOwnProperty("text")) {
@@ -258,7 +261,7 @@
 			newdata.push({ "name": "setting", "value": parseInt(settings, 2) });
 
 			//console.log(newdata);
-			return $.post(window.apiurl + "rate.php", newdata,
+			return $.post(window.apiurl + "/r/rate.php", newdata,
 				function (data) {
 					if (!data.hasOwnProperty("status") || !data.hasOwnProperty("text")) {
 						return display_post({ status: 1, text: "返回空" });
@@ -282,7 +285,7 @@
 				"q": type[t],
 				"order": $("#deltext").val()
 			};
-			return $.post(window.apiurl + "del_log.php", postdata,
+			return $.post(window.apiurl + "/r/del_log.php", postdata,
 				function (data) {
 					login();
 					if (!data.hasOwnProperty("status") || !data.hasOwnProperty("text")) {
@@ -295,7 +298,7 @@
 		function login() {
 			var cid = webobj.cid = document.getElementById("login_cid").value;
 			var pw = webobj.pw = document.getElementById("login_passwd").value;
-			$.post(window.apiurl + "rate.php", {
+			$.post(window.apiurl + "/r/rate.php", {
 				"q": "login",
 				"cid": cid,
 				"pw": pw

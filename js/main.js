@@ -4,8 +4,10 @@ var webobj = {
 	page: 1,
 	lv_data: ["新人", "5级", "4级", "3级", "2级", "1级", "初段", "二段", "三段", "四段", "五段", "六段", "七段", "八段", "九段", "十段"],
 	apiurl: (window.location.origin === "http://bot0.000.mk")
-		? "http://bot0.000.mk/r/"
-		: "https://cdn.r-mj.com/r/",
+		? "http://bot0.000.mk"
+		: (window.hasOwnProperty("apiurl")
+			? window.apiurl
+			: "https://cdn.r-mj.com"),
 	lv_ranking: function () {
 
 	},
@@ -248,7 +250,7 @@ var webobj = {
 				if (temp_id == 'templ_log') { webobj.log_page(false); }
 				return
 			} else {
-				return $.getJSON(webobj.apiurl + obj_or_url + "?q=" + query_string,
+				return $.getJSON(webobj.apiurl + "/r/" + obj_or_url + "?q=" + query_string,
 					function (json) {
 						if (Object.keys(json).length === 0) {
 							return e.innerText = "暂无数据";
@@ -277,7 +279,7 @@ var webobj = {
 			if (webobj.cache.base.hasOwnProperty(this_cid)) {
 				webobj.subpage(webobj.cache.base[this_cid], this_cid);
 			} else {
-				$.getJSON(webobj.apiurl + "rate.php?q=base/" + this_cid, function (json) {
+				$.getJSON(webobj.apiurl + "/r/rate.php?q=base/" + this_cid, function (json) {
 					webobj.cache.base[this_cid] = json;
 					webobj.subpage(json, this_cid);
 				});

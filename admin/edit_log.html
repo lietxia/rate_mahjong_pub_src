@@ -90,7 +90,7 @@
 			</div>
 		</div>
 	</div>
-
+	<script src="https://direct.r-mj.com/cache/apitest.js"></script>
 	<script crossorigin="anonymous" src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
 	<script crossorigin="anonymous"
 		src="https://cdn.staticfile.org/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
@@ -98,7 +98,9 @@
 		if (window.location.origin === "http://bot0.000.mk") {
 			window.apiurl = "http://bot0.000.mk";
 		} else {
-			window.apiurl = "https://cdn.r-mj.com";
+			if (!window.hasOwnProperty("apiurl")) {
+				window.apiurl = "https://cdn.r-mj.com";
+			}
 		}
 
 		window.json_data = [];
