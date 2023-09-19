@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+
+	<meta charset="utf-8" />
+	<meta content="IE=edge" http-equiv="X-UA-Compatible" />
+	<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport" />
+	<title>逆轉計算</title>
+	<link href="https://cdn.staticfile.org/twitter-bootstrap/4.6.1/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="https://cdn.staticfile.org/bootswatch/4.6.1/darkly/bootstrap.min.css"
+		media="(prefers-color-scheme: dark)" rel="stylesheet" />
+	<link href="css/main.css" rel="stylesheet" />
+	<style>
+		.table-sm td,
+		.table-sm th {
+			padding: 2px;
+		}
+	</style>
+</head>
+
+<body class="bg-secondary mb-5">
+	<!--content-->
+	<div class="container mt-3" id="content_div">
+		<div class="card shadow">
+			<div class="card-header">
+				本場和供託不填=0，
+				南西北家順序顛倒沒問題
+			</div>
+			<div class="card-body">
+				<div class="input-group">
+					<input type="text" aria-label="ben3chang3" class="form-control" placeholder="東家分數">
+					<input type="text" aria-label="gong4tuo1" class="form-control" placeholder="南家分數">
+					<input type="text" aria-label="ben3chang3" class="form-control" placeholder="西家分數">
+					<input type="text" aria-label="gong4tuo1" class="form-control" placeholder="北家分數">
+				</div>
+				<div class="input-group mt-3">
+					<input type="text" aria-label="ben3chang3" class="form-control" placeholder="本場(連莊)">
+					<input type="text" aria-label="gong4tuo1" class="form-control" placeholder="供託(立直棒)">
+					<div class="input-group-append" id="button-addon4">
+						<button class="btn btn-primary" type="button">計算</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div class="container mt-3">
+		<div class="card shadow">
+			<table class="table table-sm table-bordered text-center mb-0">
+				<thead>
+					<tr>
+						<th scope="col" colspan="2">
+							逆轉計算結果
+						</th>
+						<th scope="col">東#1<br />250</th>
+						<th scope="col">南#2<br />250</th>
+						<th scope="col">西#3<br />250</th>
+						<th scope="col">北#4<br />250</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="table-success">
+						<th scope="row" class="table-success" rowspan="6">爭<br />第<br />一</th>
+						<th scope="row">20符自摸</th>
+						<td><span id="td111">1</span>翻</td>
+						<td><span id="td112">1</span>翻</td>
+						<td><span id="td113">1</span>翻</td>
+						<td><span id="td114">1</span>翻</td>
+					</tr>
+					<tr class="table-success">
+						<th scope="row">30符自摸</th>
+						<td><span id="td121">1</span>翻</td>
+						<td><span id="td122">1</span>翻</td>
+						<td><span id="td123">1</span>翻</td>
+						<td><span id="td124">1</span>翻</td>
+					</tr>
+					<tr class="table-success">
+						<th scope="row">30符榮和</th>
+						<td><span id="td131">1</span>翻</td>
+						<td><span id="td132">1</span>翻</td>
+						<td><span id="td133">1</span>翻</td>
+						<td><span id="td134">1</span>翻</td>
+					</tr>
+					<tr class="table-success">
+						<th scope="row">40符榮和</th>
+						<td><span id="td141">1</span>翻</td>
+						<td><span id="td142">1</span>翻</td>
+						<td><span id="td143">1</span>翻</td>
+						<td><span id="td144">1</span>翻</td>
+					</tr>
+					<tr class="table-success">
+						<th scope="row">30符直擊1位</th>
+						<td><span id="td151">1</span>翻</td>
+						<td><span id="td152">1</span>翻</td>
+						<td><span id="td153">1</span>翻</td>
+						<td><span id="td154">1</span>翻</td>
+					</tr>
+					<tr class="table-success">
+						<th scope="row">40符直擊1位</th>
+						<td><span id="td161">1</span>翻</td>
+						<td><span id="td162">1</span>翻</td>
+						<td><span id="td163">1</span>翻</td>
+						<td><span id="td164">1</span>翻</td>
+					</tr>
+					<tr class="table-info">
+						<th scope="row" rowspan="6">爭<br />第<br />二</th>
+						<th scope="row">20符自摸</th>
+						<td><span id="td211">1</span>翻</td>
+						<td><span id="td212">1</span>翻</td>
+						<td><span id="td213">1</span>翻</td>
+						<td><span id="td214">1</span>翻</td>
+					</tr>
+					<tr class="table-info">
+						<th scope="row">30符自摸</th>
+						<td><span id="td221">1</span>翻</td>
+						<td><span id="td222">1</span>翻</td>
+						<td><span id="td223">1</span>翻</td>
+						<td><span id="td224">1</span>翻</td>
+					</tr>
+					<tr class="table-info">
+						<th scope="row">30符榮和</th>
+						<td><span id="td231">1</span>翻</td>
+						<td><span id="td232">1</span>翻</td>
+						<td><span id="td233">1</span>翻</td>
+						<td><span id="td234">1</span>翻</td>
+					</tr>
+					<tr class="table-info">
+						<th scope="row">40符榮和</th>
+						<td><span id="td241">1</span>翻</td>
+						<td><span id="td242">1</span>翻</td>
+						<td><span id="td243">1</span>翻</td>
+						<td><span id="td244">1</span>翻</td>
+					</tr>
+					<tr class="table-info">
+						<th scope="row">30符直擊2位</th>
+						<td><span id="td251">1</span>翻</td>
+						<td><span id="td252">1</span>翻</td>
+						<td><span id="td253">1</span>翻</td>
+						<td><span id="td254">1</span>翻</td>
+					</tr>
+					<tr class="table-info">
+						<th scope="row">40符直擊2位</th>
+						<td><span id="td261">1</span>翻</td>
+						<td><span id="td262">1</span>翻</td>
+						<td><span id="td263">1</span>翻</td>
+						<td><span id="td264">1</span>翻</td>
+					</tr>
+					<tr class="table-secondary">
+						<th scope="row" rowspan="6">爭<br />第<br />三</th>
+						<th scope="row">20符自摸</th>
+						<td><span id="td311">1</span>翻</td>
+						<td><span id="td312">1</span>翻</td>
+						<td><span id="td313">1</span>翻</td>
+						<td><span id="td314">1</span>翻</td>
+					</tr>
+					<tr class="table-secondary">
+						<th scope="row">30符自摸</th>
+						<td><span id="td321">1</span>翻</td>
+						<td><span id="td322">1</span>翻</td>
+						<td><span id="td323">1</span>翻</td>
+						<td><span id="td324">1</span>翻</td>
+					</tr>
+					<tr class="table-secondary">
+						<th scope="row">30符榮和</th>
+						<td><span id="td331">1</span>翻</td>
+						<td><span id="td332">1</span>翻</td>
+						<td><span id="td333">1</span>翻</td>
+						<td><span id="td334">1</span>翻</td>
+					</tr>
+					<tr class="table-secondary">
+						<th scope="row">40符榮和</th>
+						<td><span id="td341">1</span>翻</td>
+						<td><span id="td342">1</span>翻</td>
+						<td><span id="td343">1</span>翻</td>
+						<td><span id="td344">1</span>翻</td>
+					</tr>
+					<tr class="table-secondary">
+						<th scope="row">30符直擊3位</th>
+						<td><span id="td351">1</span>翻</td>
+						<td><span id="td352">1</span>翻</td>
+						<td><span id="td353">1</span>翻</td>
+						<td><span id="td354">1</span>翻</td>
+					</tr>
+					<tr class="table-secondary">
+						<th scope="row">40符直擊3位</th>
+						<td><span id="td361">1</span>翻</td>
+						<td><span id="td362">1</span>翻</td>
+						<td><span id="td363">1</span>翻</td>
+						<td><span id="td364">1</span>翻</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<script>
+
+	</script>
+</body>
+
+</html>
