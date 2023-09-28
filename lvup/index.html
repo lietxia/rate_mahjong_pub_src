@@ -53,7 +53,7 @@
 					json.shift();
 					var i = 0;
 					for (let i = 0; i < json.length; i++) {
-						json[i][1] = cid2name[json[i][1]];
+						json[i][1] = cid2fullname[json[i][1]];
 						json[i][2] = lv_data[json[i][2]];
 						json[i].unshift((i + 1));
 					}
