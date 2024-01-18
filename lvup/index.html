@@ -24,12 +24,11 @@
 				<tr>
 					<th data-field="0" data-sortable="true" data-halign="center" data-align="center">#</th>
 					<th data-field="1" data-sortable="true" data-halign="center" data-align="center">选手</th>
-					<th data-field="2" data-sortable="true" data-halign="center" data-align="center">归属</th>
-					<th data-field="3" data-sortable="true" data-halign="center" data-align="center">15连</th>
-					<th data-field="4" data-sortable="true" data-halign="center" data-align="center">总成绩</th>
-					<th data-field="5" data-sortable="true" data-halign="center" data-align="center">均顺</th>
-					<th data-field="6" data-sortable="true" data-halign="center" data-align="center">均点</th>
-					<th data-field="7" data-sortable="true" data-halign="center" data-align="center">均点</th>
+					<th data-field="2" data-sortable="true" data-halign="center" data-align="center">段位</th>
+					<th data-field="3" data-sortable="true" data-halign="center" data-align="center">所属</th>
+					<th data-field="4" data-sortable="true" data-halign="center" data-align="center">升7段时间</th>
+					<th data-field="5" data-sortable="true" data-halign="center" data-align="center">升8段时间</th>
+					<th data-field="6" data-sortable="true" data-halign="center" data-align="center">升9段时间</th>
 				</tr>
 			</thead>
 			<tbody id="table_body"></tbody>
@@ -42,22 +41,49 @@
 	<script src="../js/data_list.js"></script>
 	<script>
 		var lv_data = ["新人", "5级", "4级", "3级", "2级", "1级", "初段", "二段", "三段", "四段", "五段", "六段", "七段", "八段", "九段", "十段"];
+		function time_fmt(timestamp) {
+			const date = new Date(timestamp * 1000);
+			const year = date.getFullYear();
+			const month = ("0" + (date.getMonth() + 1)).slice(-2);
+			const day = ("0" + date.getDate()).slice(-2);
+			return year + "-" + month + "-" + day;
+		}
 		$(function () {
-			fetch('https://cdn.r-mj.com/r/up.php')
+			fetch('https://direct.r-mj.com/cache/rank.json?' + Math.random())
 				.then((res) => res.json()).then((json) => {
-					var columns = [];
-					for (let i = 0; i < json[0].length; i++) {
-						columns[i] = { field: i + 1, title: json[0][i] };
+					var data = json.data;
+					var result = [];
+					for (let i = 0, rank = 1; i < data.length; i++) {
+						const user = data[i];
+						if (user[23].length >= 1) {
+							result[i] = [rank, user[1], lv_data[user[7]],
+								cid2fullname[user[2]], time_fmt(user[23][0]), "", ""];
+							if (user[23].length >= 2) {
+								result[i][5] = time_fmt(user[23][1]);
+							}
+							if (user[23].length >= 3) {
+								result[i][6] = time_fmt(user[23][2]);
+							}
+							rank++;
+						}
 					}
-					columns.unshift({ field: 0, title: '#' });
-					json.shift();
-					var i = 0;
-					for (let i = 0; i < json.length; i++) {
-						json[i][1] = cid2fullname[json[i][1]];
-						json[i][2] = lv_data[json[i][2]];
-						json[i].unshift((i + 1));
-					}
-					$('#my_table').bootstrapTable({ data: json, columns: columns })
+					var columns = [
+						{ field: 0, title: '#' },
+						{ field: 1, title: '选手' },
+						{ field: 2, title: '段位' },
+						{ field: 3, title: '所属' },
+						{ field: 4, title: '升7段时间' },
+						{ field: 5, title: '升8段时间' },
+						{ field: 6, title: '升9段时间' },
+					];
+					// json.shift();
+					// var i = 0;
+					// for (let i = 0; i < json.length; i++) {
+					// 	json[i][1] = cid2fullname[json[i][1]];
+					// 	json[i][2] = lv_data[json[i][2]];
+					// 	json[i].unshift((i + 1));
+					// }
+					$('#my_table').bootstrapTable({ data: result, columns: columns })
 				})
 		})
 	</script>
