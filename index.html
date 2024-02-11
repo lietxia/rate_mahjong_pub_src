@@ -109,7 +109,7 @@
 			{{ if(!cid1&&value[1]!=base.cid){continue;} }}
 			<tr>
 				<td>{{=idx}}</td>
-				<td class="text-wrap"><a href="./chart/?area={{=value[1]}}&name={{=value[0]}}" target="_blank">{{=value[0]}}</a>
+				<td class="text-wrap"><a href="./chart/?area={{=value[1]}}&name={{=encodeURIComponent(value[0])}}" target="_blank">{{=value[0]}}</a>
 				</td>
 				<td>{{=base.cid2name[value[1]]||value[1]}}</td>
 				<td>{{=webobj.lv_data[value[2]]||value[2]}}</td>
