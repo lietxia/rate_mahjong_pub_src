@@ -49,7 +49,7 @@
 			return year + "-" + month + "-" + day;
 		}
 		$(function () {
-			fetch('https://direct.r-mj.com/cache/rank.json?' + Math.random())
+			fetch('https://cdn.r-mj.com/cache/rank.json?' + Math.random())
 				.then((res) => res.json()).then((json) => {
 					var data = json.data;
 					var result = [];
