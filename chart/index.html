@@ -208,18 +208,18 @@
 		function fetch_version(data_version) {
 			console.log('select api url')
 			window.data_version = data_version;
-			fetch('https://direct.r-mj.com/cache/test.json')
-				.catch(error => {
-					fetch_json('https://cf.lietxia.bid/cache/rank.json?' + data_version);
-				})
-				.then((response) => response.json())
-				.then((json) => {
-					if (json.hasOwnProperty("test")) {
-						fetch_json('https://direct.r-mj.com/cache/rank.json?' + data_version);
-					} else {
-						fetch_json('https://cf.lietxia.bid/cache/rank.json?' + data_version);
-					}
-				});
+			fetch('https://cdn.r-mj.com/cache/test.json')
+				// .catch(error => {
+				// 	fetch_json('https://cf.lietxia.bid/cache/rank.json?' + data_version);
+				// })
+				// .then((response) => response.json())
+				// .then((json) => {
+				// 	if (json.hasOwnProperty("test")) {
+				// 		fetch_json('https://direct.r-mj.com/cache/rank.json?' + data_version);
+				// 	} else {
+				// 		fetch_json('https://cf.lietxia.bid/cache/rank.json?' + data_version);
+				// 	}
+				// });
 		}
 		var script = document.createElement('script');
 		script.src = window.apiurl + "/nocache/rank_version.js?" + Math.random();
