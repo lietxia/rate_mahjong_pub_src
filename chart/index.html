@@ -211,14 +211,14 @@
 
 			//fetch_json('https://cdn.r-mj.com/cache/rank.json?' + data_version);
 
-			fetch('https://cf.lietxia.bid/cache/test.json')
+			fetch('https://direct.r-mj.com/cache/test.json')
 			.catch(error => {
 				fetch_json('https://cdn.r-mj.com/cache/rank.json?' + data_version);
 			})
 			.then((response) => response.json())
 			.then((json) => {
 				if (json.hasOwnProperty("test")) {
-					fetch_json('https://cf.lietxia.bid/cache/rank.json?' + data_version);
+					fetch_json('https://direct.r-mj.com/cache/rank.json?' + data_version);
 				} else {
 					fetch_json('https://cdn.r-mj.com/cache/rank.json?' + data_version);
 				}
