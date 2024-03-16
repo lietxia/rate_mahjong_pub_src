@@ -7,28 +7,40 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>月榜等榜单(Beta)</title>
 	<meta name="darkreader-lock">
-	<link href="https://cdn.staticfile.net/twitter-bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
-	<link href="https://cdn.staticfile.net/bootswatch/5.1.3/darkly/bootstrap.min.css" media="(prefers-color-scheme: dark)"
-		rel="stylesheet">
-	<link href="https://cdn.staticfile.net/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css" rel="stylesheet">
-	<link href="https://cdn.staticfile.net/bootstrap-table/1.21.3/bootstrap-table.min.css" rel="stylesheet">
+	<script>
+		if (window.matchMedia('(prefers-color-scheme: dark)').matches)
+			document.documentElement.setAttribute('data-bs-theme', 'dark');
+
+		window.matchMedia('(prefers-color-scheme: dark)')
+			.addEventListener('change', function () {
+				document.documentElement.setAttribute("data-bs-theme",
+					window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+			});
+	</script>
+	<link href="https://cdn.staticfile.net/twitter-bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="https://cdn.staticfile.net/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+	<link href="https://cdn.staticfile.net/bootstrap-table/1.22.2/bootstrap-table.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="../css/main.css">
 </head>
 
 <body>
 	<div class="container-fluid">
 		<div>
-			<label for="time_start">开始:</label>
-			<input id="time_start" type="datetime-local" name="time_start">
-			<label for="time_end">结束:</label>
-			<input id="time_end" type="datetime-local" name="time_end">
-			<button type="button" class="btn btn-primary" onclick="search(true)">搜索</button>
-			<br />
-			<kbd class="d-inline-block">说明在底部</kbd>
-			<label for="log_count">只显示</label>
-			<input id="log_count" type="number" name="log_count" value="1" onchange="search()">
-			场以上的选手
+			<div class="input-group mt-3">
+				<span class="input-group-text">开始⏱️</span>
+				<input id="time_start" type="datetime-local" class="form-control" name="time_start">
+				<span class="input-group-text">结束⏱</span>
+				<input id="time_end" type="datetime-local" class="form-control" name="time_end">
+			</div>
+
+			<div class="input-group mt-3">
+				<span class="input-group-text">👇说明在底部</span>
+				<span class="input-group-text">👤对局数≥</span>
+				<input id="log_count" type="number" class="form-control" name="log_count" value="1" onchange="search()">
+				<button type="button" class="btn btn-primary" onclick="search(true)">🔍搜索</button>
+			</div>
 		</div>
-		<div class="toolbar input-group mb-3">
+		<div class="toolbar input-group">
 			<select class="form-select" id="time_type" onchange="search()">
 				<option value="1">年榜</option>
 				<option value="2">半年榜</option>
@@ -52,22 +64,22 @@
 			</select>
 		</div>
 		<table id="my_table" class="table-sm table-striped" data-search="true" data-show-columns="true"
-			data-pagination="true" data-show-columns-toggle-all="true" data-page-size="25" data-show-pagination-switch="true"
-			data-toolbar=".toolbar" data-buttons="buttons">
+			data-pagination="true" data-page-size="15" data-show-export="true" data-toolbar=".toolbar"
+			data-buttons="buttons" data-page-list="[15, 25, 50, 100, 150, All]">
 			<thead>
 				<tr>
-					<th data-field="0" data-sortable="true" data-halign="center" data-align="center">#</th>
-					<th data-field="1" data-sortable="true" data-halign="center" data-align="center">选手</th>
-					<th data-field="2" data-sortable="true" data-halign="center" data-align="center">归属</th>
-					<th data-field="3" data-sortable="true" data-halign="center" data-align="center">15连</th>
-					<th data-field="4" data-sortable="true" data-halign="center" data-align="center">总成绩</th>
-					<th data-field="5" data-sortable="true" data-halign="center" data-align="center">均顺</th>
-					<th data-field="6" data-sortable="true" data-halign="center" data-align="center">均点</th>
-					<th data-field="7" data-sortable="true" data-halign="center" data-align="center">局数</th>
-					<th data-field="8" data-sortable="true" data-halign="center" data-align="center">1</th>
-					<th data-field="9" data-sortable="true" data-halign="center" data-align="center">2</th>
-					<th data-field="10" data-sortable="true" data-halign="center" data-align="center">3</th>
-					<th data-field="11" data-sortable="true" data-halign="center" data-align="center">4</th>
+					<th data-field="0" data-sortable="true">#</th>
+					<th data-field="1" data-sortable="true">选手</th>
+					<th data-field="2" data-sortable="true">归属</th>
+					<th data-field="3" data-sortable="true">15连</th>
+					<th data-field="4" data-sortable="true">总成绩</th>
+					<th data-field="5" data-sortable="true">均顺</th>
+					<th data-field="6" data-sortable="true">均点</th>
+					<th data-field="7" data-sortable="true">局数</th>
+					<th data-field="8" data-sortable="true">1</th>
+					<th data-field="9" data-sortable="true">2</th>
+					<th data-field="10" data-sortable="true">3</th>
+					<th data-field="11" data-sortable="true">4</th>
 				</tr>
 			</thead>
 			<tbody id="table_body"></tbody>
@@ -83,10 +95,14 @@
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
 	</div>
-	<script src="https://cdn.staticfile.net/jquery/3.6.4/jquery.min.js"></script>
-	<script src="https://cdn.staticfile.net/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-	<script src="https://cdn.staticfile.net/bootstrap-table/1.21.3/bootstrap-table.min.js"></script>
+	<script src="https://cdn.staticfile.net/jquery/3.7.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.net/twitter-bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.staticfile.net/bootstrap-table/1.22.2/bootstrap-table.min.js"></script>
+	<script crossorigin="anonymous"
+		src="https://cdn.staticfile.net/bootstrap-table/1.22.2/bootstrap-table-locale-all.min.js"></script>
 	<script src="../js/data_list.js"></script>
+	<script
+		src="https://cdn.staticfile.net/bootstrap-table/1.22.2/extensions/export/bootstrap-table-export.min.js"></script>
 	<script>
 		var select = document.getElementById('cid_type');
 		var cid;
@@ -246,7 +262,7 @@
 				[3, "\u6728\u6728", "2", 5144, 11517, 215, 115, 100, 37, 24, 26, 13],
 				[4, "DDMM", "47", 4817, 14295, 212, 123, 116, 41, 35, 25, 15],
 			];
-			$('#my_table').bootstrapTable({ data: data })
+			$('#my_table').bootstrapTable({ data: data, locale: 'zh-CN' })
 			if (window.location.hash.length >= 3) {
 				var cid = window.location.hash.replace(/[^\d]/g, '');
 				if (cid >= 2) {

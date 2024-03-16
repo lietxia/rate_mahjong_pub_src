@@ -27,3 +27,18 @@ table th {
 .mw1100 {
 	min-width: 1100px;
 }
+
+.bootstrap-table .fixed-table-container .table thead th .both {
+	background-size: 15px 19px;
+	background-image: url("data:image/svg+xml,%3Csvg version='1.0' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 15 19' enable-background='new 0 0 15 19' xml:space='preserve'%3E%3Cpolygon fill='%23DCDDDD' points='2.69,10.26 7.47,17.43 12.26,10.26 '/%3E%3Cpolygon fill='%23DCDDDD' points='12.31,8.74 7.53,1.57 2.74,8.74 '/%3E%3C/svg%3E");
+}
+
+.bootstrap-table .fixed-table-container .table thead th .asc {
+	background-size: 15px 19px;
+	background-image: url("data:image/svg+xml,%3Csvg version='1.0' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 15 19' enable-background='new 0 0 15 19' xml:space='preserve'%3E%3Cpolygon fill='%232EA7E0' points='12.31,8.74 7.53,1.57 2.74,8.74 '/%3E%3C/svg%3E");
+}
+
+.bootstrap-table .fixed-table-container .table thead th .desc {
+	background-size: 15px 19px;
+	background-image: url("data:image/svg+xml,%3Csvg version='1.0' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 15 19' enable-background='new 0 0 15 19' xml:space='preserve'%3E%3Cpolygon fill='%232EA7E0' points='2.69,10.26 7.47,17.43 12.26,10.26 '/%3E%3C/svg%3E");
+}
