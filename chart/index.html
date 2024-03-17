@@ -233,7 +233,7 @@
 					}
 				});
 		}
-		
+
 		// fetch('https://direct.r-mj.com/nocache/rank_version.json',
 		// 	{ signal: AbortSignal.timeout(3000) })
 		// 	.catch(e => {
@@ -255,7 +255,7 @@
 		// 	});
 
 		var script = document.createElement('script');
-		script.src = window.apiurl + "/nocache/rank_version.js?" + Math.random();
+		script.src = window.apiurl + "/nocache/rank_version.js?" + Math.floor(new Date().getTime() / 300000);
 		document.body.appendChild(script);
 		fetch(window.apiurl + "/r/chart2.php" + window.location.search)
 			.catch(error => alert("读取数据失败#1"))
