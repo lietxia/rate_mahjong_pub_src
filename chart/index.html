@@ -255,7 +255,7 @@
 		// 	});
 
 		var script = document.createElement('script');
-		script.src = window.apiurl + "/nocache/rank_version.js?" + Math.floor(new Date().getTime() / 300000);
+		script.src = window.apiurl + "/nocache/rank_version.js?" + Math.floor(new Date().getTime() / 180000);
 		document.body.appendChild(script);
 		fetch(window.apiurl + "/r/chart2.php" + window.location.search)
 			.catch(error => alert("读取数据失败#1"))
