@@ -286,8 +286,11 @@
 				}
 				return alert("找不到此选手");
 			});
-		function image_loaded() {
-			var span = document.createElement('span');
+		function image_loaded(that) {
+			if (that.naturalWidth === 40) {
+				that.src = that.src.replace("b=qq&s=0", 'b=qq&s=100');
+			}
+			const span = document.createElement('span');
 			span.id = 'image_loaded';
 			document.body.append(span);
 		}
@@ -461,7 +464,7 @@
 				document.getElementById('level').innerText = lv_string;
 			}
 
-			img.setAttribute('onload', 'image_loaded()');
+			img.setAttribute('onload', 'image_loaded(this)');
 			document.getElementById('head_input').appendChild(img);
 			document.getElementById('head_input').setAttribute('href', '../rival.html#/' + jsonData.uid + '/' + jsonData.userName);
 
