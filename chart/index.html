@@ -287,13 +287,14 @@
 				return alert("找不到此选手");
 			});
 		function image_loaded(that) {
-			if (that.naturalWidth === 40) {
+			if (that.naturalWidth === 40 && that.src.includes("b=qq&s=0")) {
 				that.src = that.src.replace("b=qq&s=0", 'b=qq&s=4');
 				document.getElementById('qqHead2').src = that.src;
+			} else {
+				const span = document.createElement('span');
+				span.id = 'image_loaded';
+				document.body.append(span);
 			}
-			const span = document.createElement('span');
-			span.id = 'image_loaded';
-			document.body.append(span);
 		}
 
 		function generateCharts() {
