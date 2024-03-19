@@ -455,7 +455,7 @@
 
 				document.getElementById('level').innerText = "马达 十段";
 			} else {
-				img.setAttribute('src', "https://thirdqq.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
+				img.setAttribute('src', "https://thirdqq.qlogo.cn/g?b=qq&s=0&nk=" + jsonData.qq);
 				img.setAttribute('class', "img-thumbnail rounded-circle shadow-sm");
 
 				document.getElementById('level').innerText = lv_string;
@@ -467,7 +467,7 @@
 
 			var img = document.createElement('img');
 			img.id = 'qqHead2';
-			img.setAttribute('src', "https://thirdqq.qlogo.cn/g?b=qq&s=640&nk=" + jsonData.qq);
+			img.setAttribute('src', "https://thirdqq.qlogo.cn/g?b=qq&s=0&nk=" + jsonData.qq);
 			img.setAttribute('class', "img-thumbnail rounded-circle shadow-sm");
 			document.getElementById('head_input2').appendChild(img);
 			document.getElementById('head_input2').setAttribute('href', '../rival.html#/' + jsonData.uid + '/' + jsonData.userName);
