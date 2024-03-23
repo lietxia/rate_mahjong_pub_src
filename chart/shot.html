@@ -6,11 +6,18 @@
 	<meta charset="utf-8">
 	<meta content="width=device-width, initial-scale=1" name="viewport">
 	<meta name="darkreader-lock">
+	<script>
+		if (window.matchMedia('(prefers-color-scheme: dark)').matches)
+			document.documentElement.setAttribute('data-bs-theme', 'dark');
+
+		window.matchMedia('(prefers-color-scheme: dark)')
+			.addEventListener('change', function () {
+				document.documentElement.setAttribute("data-bs-theme",
+					window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+			});
+	</script>
 	<!-- Bootstrap CSS -->
-	<link crossorigin="anonymous" href="https://cdn.staticfile.net/twitter-bootstrap/5.3.2/css/bootstrap.min.css"
-		rel="stylesheet">
-	<link href="https://cdn.staticfile.net/bootswatch/5.1.3/darkly/bootstrap.min.css"
-		media="(prefers-color-scheme: dark)" rel="stylesheet" />
+	<link crossorigin="anonymous" href="bootstrap.min.css" rel="stylesheet">
 	<title>个人战绩</title>
 	<style>
 		#chart_rader {
@@ -50,7 +57,7 @@
 		}
 
 		body {
-			background-color: rgb(108, 117, 125);
+			background-color: #6C757D;
 		}
 
 		@media (prefers-color-scheme: dark) {
@@ -63,7 +70,7 @@
 
 <body class="my-3">
 	<div class="container">
-		<div class="card shadow-lg">
+		<div id="mycard" class="card shadow-lg">
 			<div class="row d-sm-none justify-content-center align-items-center text-center">
 				<div class="col-auto">
 					<a class="py-1" href="#" id="head_input2"></a>
@@ -143,23 +150,21 @@
 			<div id="chart_line"></div>
 
 			<div class="card-footer text-muted text-center">
-				https://rate.000.mk
+				https://rate.r-mj.com
 				<span class="d-none d-sm-inline-block">雀庄公式战</span>
 				<small id="now">2021-12-28 12:12</small>
 			</div>
 		</div>
 	</div>
 	<script src="../js/data_list.js"></script>
-	<script crossorigin="anonymous"
-		src="https://cdn.staticfile.net/twitter-bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-	<script crossorigin="anonymous" src="https://cdn.staticfile.net/echarts/5.4.3/echarts.min.js"></script>
+	<script crossorigin="anonymous" src="bootstrap.bundle.min.js"></script>
+	<script crossorigin="anonymous" src="echarts.min.js"></script>
 	<script>
 		if (window.location.origin === "http://bot0.000.mk") {
 			window.apiurl = "http://bot0.000.mk";
 		} else {
 			window.apiurl = "https://cdn.r-mj.com";
 		}
-
 		(function () {
 			var today = new Date();
 			var y = today.getFullYear();
@@ -173,81 +178,48 @@
 			minutes = minutes < 10 ? '0' + minutes : minutes;
 			document.getElementById("now").innerText = y + "-" + m + "-" + d + ' ' + h + ":" + minutes;
 		})()
-		// function fetch_version(data_version) {
-		// 	console.log('in fetch_version')
-		// 	window.data_version = data_version;
-		// 	var fetchurl = window.apiurl + '/cache/rank.json?' + data_version;
-		// 	if (window.apiurl === "https://cdn.r-mj.com") {
-		// 		fetchurl = 'https://direct.r-mj.com/cache/rank.json?' + data_version;
-		// 	}
-		// 	fetch(fetchurl)
-		// 		.catch(error => alert("抓取数据失败"))
-		// 		.then((response) => response.json())
-		// 		.then((json) => {
-		// 			window.json_version = parseInt(json['version']);
-		// 			console.log('fetch rank.json');
-		// 			window.uin2data = {};
-		// 			window.name2uin = {};
-		// 			window.rank_lv = [[], [], [], [], [], [],
-		// 			[], [], [], [], [], [], [], [], [], []];
-		// 			window.players = json["data"].length;
-		// 			for (let i = 0; i < window.players; i++) {
-		// 				const ele = json["data"][i];
-		// 				window.uin2data[ele[0]] = ele;
-		// 				window.rank_lv[ele[7]].push(parseInt(ele[6]));
-		// 				if (!window.name2uin.hasOwnProperty(ele[1])) {
-		// 					window.name2uin[ele[1]] = {};
-		// 				}
-		// 				window.name2uin[ele[1]][ele[2]] = ele[1];
-		// 			}
-		// 			window.step_count++;
-		// 			step();
-		// 		});
-		// }
-
-		fetch(window.apiurl + "/r/chart3.php" + window.location.search)
-			.catch(error => alert("fetch失败"))
-			.then((response) => response.json())
-			.then((json) => {
-				console.log('fetch chart3.php');
-				if (json.code == 0 && json.hasOwnProperty("msg")) {//成功
-					if (json.msg === '需要参数') {
-						var userName = prompt('请输入选手昵称');
-						return window.location.search = "name=" + userName;
-					}
-					return alert(json.msg);
+		function post_username() {
+			const user_name = document.getElementById("user_name").value;
+			if (user_name != '') {
+				window.location.href += "?name=" + user_name;
+			}
+		}
+		function require_username() {
+			const target = document.getElementById('mycard');
+			target.innerHTML = '<div class="card-header text-muted text-center">请输入选手昵称</div><div class="card-body"><div class="form-floating mb-3"><input type="text" class="form-control" id="user_name" placeholder=""><label for="floatingInput">昵称</label></div></div><div class="card-footer"><input type="button" class="btn btn-secondary" value="提交" onclick="post_username()" /></div>';
+		}
+		function select_area(json) {
+			const target = document.getElementById('mycard');
+			target.innerHTML = '<div class="card-header text-muted text-center">请选择所在雀庄</div>';
+			let div = document.createElement('div');
+			div.className = "card-body";
+			div.id = "card_body";
+			for (const cid in json.msg) {
+				if (Object.hasOwnProperty.call(json.msg, cid)) {
+					let a = document.createElement('a');
+					a.setAttribute('href', window.location.href + "&area=" + cid);
+					a.className = 'btn btn-outline-primary my-2';
+					a.innerText = json.msg[cid].join(' ');
+					div.appendChild(a);
 				}
-				if (json.code == 1) {//成功
-					window.user = json['user'];
-					generateCharts();
-					return;
-				}
-
-				if (json.code == 2) {//多重
-					var number = prompt(json.msg, 1);
-					if (number > 0) {
-						return window.location.search += "&area=" + number;
-					} else {
-						return alert('错误的输入')
-					}
-				}
-				return alert("找不到此选手");
-			});
-		function image_loaded() {
-			var span = document.createElement('span');
-			span.id = 'image_loaded';
-			document.body.append(span);
+			}
+			target.appendChild(div);
+		}
+		function image_loaded(that) {
+			if (that.naturalWidth === 40 && that.src.includes("b=qq&s=0")) {
+				that.src = that.src.replace("b=qq&s=0", 'b=qq&s=4');
+				document.getElementById('qqHead2').src = that.src;
+			} else {
+				let span = document.createElement('span');
+				span.id = 'image_loaded';
+				document.body.append(span);
+			}
 		}
 
-		function generateCharts() {
-			// window.user = null;
-			// console.log(window.uins);
-			// for (var i = 0; i < window.uins.length; i++) {
-			// 	if (window.uin2data.hasOwnProperty(window.uins[i])) {
-			// 		window.user = window.uin2data[window.uins[i]];
-			// 		break;
-			// 	}
-			// }
+		function generateCharts(json) {
+			window.user = json['data'];
+			window.players = json['player_count'];
+			var rank_lv = json['data'][24];
 			var user = window.user;
 			console.log('user', user);
 			var total_count = user[19] + user[20] + user[21] + user[22];
@@ -388,17 +360,28 @@
 			if (jsonData.radar[0] == 0) { //火力怪异现象
 				jsonData.radar[0] = null;
 			}
+			var lv_string = levelConfig[jsonData.level][0];
+			if (rank_lv >= 0) { lv_string += "#" + rank_lv; }
 			var img = document.createElement('img');
 			img.id = 'qqHead';
-			img.setAttribute('src', "https://thirdqq.qlogo.cn/g?b=qq&s=0&nk=" + jsonData.qq);
-			img.setAttribute('class', "img-thumbnail rounded-circle shadow-sm");
-			img.setAttribute('onload', 'image_loaded()');
+			if (jsonData.level == 15) {
+				document.getElementById('head_input').className = "py-0 my-0 d-block";
+				document.querySelector("body > div > div > div:nth-child(2) > div.col-4.text-center.d-none.d-sm-block > br").remove();
+				document.getElementById('userName').remove();
+				img.setAttribute('src', "10.png");
+				img.setAttribute('style', "width:95%;height:auto;");
+
+				document.getElementById('level').innerText = "马达 十段";
+			} else {
+				img.setAttribute('src', "https://thirdqq.qlogo.cn/g?b=qq&s=0&nk=" + jsonData.qq);
+				img.setAttribute('class', "img-thumbnail rounded-circle shadow-sm");
+
+				document.getElementById('level').innerText = lv_string;
+			}
+
+			img.setAttribute('onload', 'image_loaded(this)');
 			document.getElementById('head_input').appendChild(img);
 			document.getElementById('head_input').setAttribute('href', '../rival.html#/' + jsonData.uid + '/' + jsonData.userName);
-
-			var lv_rank_index = window.rank_lv[jsonData.level].indexOf(parseInt(user[6]));
-			var lv_string = levelConfig[jsonData.level][0];
-			if (lv_rank_index >= 0) { lv_string += "#" + (lv_rank_index - -1); }
 
 			var img = document.createElement('img');
 			img.id = 'qqHead2';
@@ -409,7 +392,6 @@
 			document.getElementById('rate2').innerText = jsonData.rate;
 			document.getElementById('userName2').innerText = jsonData.userName;
 			document.getElementById('club2').innerText = jsonData.club;
-			document.getElementById('level').innerText = lv_string;
 			document.getElementById('level2').innerText = lv_string;
 			document.getElementById('lv_count').innerText = levelConfig[jsonData.level][1];
 			document.getElementById('lv_avg').innerText = levelConfig[jsonData.level][2];
@@ -605,6 +587,31 @@
 			}
 		}
 
+		if (window.location.search != '') {
+			fetch(window.apiurl + "/r/chart3.php" + window.location.search)
+				.catch(error => alert("读取数据失败#1"))
+				.then((response) => response.json())
+				.then((json) => {
+					console.log('fetch json', json);
+					if (json.code === 0 && json.hasOwnProperty("msg")) {//成功
+						if (json.msg === '需要参数') {
+							return require_username(json);
+						}
+						return alert(json.msg);
+					}
+
+					if (json.code === 1) {//成功
+						return generateCharts(json);
+					}
+
+					if (json.code === 2) {//多重
+						return select_area(json)
+					}
+					return alert("找不到此选手");
+				});
+		} else {
+			require_username();
+		}
 
 	</script>
 </body>

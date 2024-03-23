@@ -71,7 +71,7 @@
 
 <body class="my-3">
 	<div class="container">
-		<div class="card shadow-lg">
+		<div id="mycard" class="card shadow-lg">
 			<div class="row d-sm-none justify-content-center align-items-center text-center">
 				<div class="col-auto">
 					<a class="py-1" href="#" id="head_input2"></a>
@@ -167,14 +167,6 @@
 		} else {
 			window.apiurl = "https://cdn.r-mj.com";
 		}
-		window.step_count = 0;
-		function step() {
-			console.log(window.step_count);
-			if (window.step_count === 2) {
-				generateCharts();
-			}
-		}
-
 		(function () {
 			var today = new Date();
 			var y = today.getFullYear();
@@ -188,124 +180,48 @@
 			minutes = minutes < 10 ? '0' + minutes : minutes;
 			document.getElementById("now").innerText = y + "-" + m + "-" + d + ' ' + h + ":" + minutes;
 		})()
-		function fetch_json(url) {
-			fetch(url)
-				.catch(error => alert('抓取失败，请刷新'))
-				.then((response) => response.json())
-				.then((json) => {
-					window.json_version = parseInt(json['version']);
-					console.log('fetch rank.json');
-					window.uin2data = {};
-					window.name2uin = {};
-					window.rank_lv = [[], [], [], [], [], [],
-					[], [], [], [], [], [], [], [], [], []];
-					window.players = json["data"].length;
-					for (let i = 0; i < window.players; i++) {
-						const ele = json["data"][i];
-						window.uin2data[ele[0]] = ele;
-						window.rank_lv[ele[7]].push(parseInt(ele[6]));
-						if (!window.name2uin.hasOwnProperty(ele[1])) {
-							window.name2uin[ele[1]] = {};
-						}
-						window.name2uin[ele[1]][ele[2]] = ele[1];
-					}
-					window.step_count++;
-					step();
-				});
+		function post_username() {
+			const user_name = document.getElementById("user_name").value;
+			if (user_name != '') {
+				window.location.href += "?name=" + user_name;
+			}
 		}
-
-		function fetch_version(data_version) {
-			console.log('select api url')
-			window.data_version = data_version;
-
-			//fetch_json('https://cdn.r-mj.com/cache/rank.json?' + data_version);
-
-			fetch('https://direct.r-mj.com/cache/test.json')
-				.catch(error => {
-					fetch_json('https://cdn.r-mj.com/cache/rank.json?' + data_version);
-				})
-				.then((response) => response.json())
-				.then((json) => {
-					if (json.hasOwnProperty("test")) {
-						fetch_json('https://direct.r-mj.com/cache/rank.json?' + data_version);
-					} else {
-						fetch_json('https://cdn.r-mj.com/cache/rank.json?' + data_version);
-					}
-				});
+		function require_username() {
+			const target = document.getElementById('mycard');
+			target.innerHTML = '<div class="card-header text-muted text-center">请输入选手昵称</div><div class="card-body"><div class="form-floating mb-3"><input type="text" class="form-control" id="user_name" placeholder=""><label for="floatingInput">昵称</label></div></div><div class="card-footer"><input type="button" class="btn btn-secondary" value="提交" onclick="post_username()" /></div>';
 		}
-
-		// fetch('https://direct.r-mj.com/nocache/rank_version.json',
-		// 	{ signal: AbortSignal.timeout(3000) })
-		// 	.catch(e => {
-		// 		if (e.name === "TimeoutError") {
-		// 			console.log('5000 ms timeout');
-		// 		} else {
-		// 			console.log('error', e);
-		// 		}
-		// 	})
-		// 	.finally(res => res.json())
-		// 	.then((json) => {
-		// 		const ver = json[0];
-		// 		console.log(ver);
-		// 		// if (json.hasOwnProperty("test")) {
-		// 		// 	fetch_json('https://direct.r-mj.com/cache/rank.json?' + data_version);
-		// 		// } else {
-		// 		// 	fetch_json('https://cdn.r-mj.com/cache/rank.json?' + data_version);
-		// 		// }
-		// 	});
-
-		var script = document.createElement('script');
-		script.src = window.apiurl + "/nocache/rank_version.js?" + Math.floor(new Date().getTime() / 180000);
-		document.body.appendChild(script);
-		fetch(window.apiurl + "/r/chart2.php" + window.location.search)
-			.catch(error => alert("读取数据失败#1"))
-			.then((response) => response.json())
-			.then((json) => {
-				console.log('fetch chart2.php');
-				if (json.code == 0 && json.hasOwnProperty("msg")) {//成功
-					if (json.msg === '需要参数') {
-						var userName = prompt('请输入选手昵称');
-						return window.location.search = "name=" + userName;
-					}
-					return alert(json.msg);
+		function select_area(json) {
+			const target = document.getElementById('mycard');
+			target.innerHTML = '<div class="card-header text-muted text-center">请选择所在雀庄</div>';
+			let div = document.createElement('div');
+			div.className = "card-body";
+			div.id = "card_body";
+			for (const cid in json.msg) {
+				if (Object.hasOwnProperty.call(json.msg, cid)) {
+					let a = document.createElement('a');
+					a.setAttribute('href', window.location.href + "&area=" + cid);
+					a.className = 'btn btn-outline-primary my-2';
+					a.innerText = json.msg[cid].join(' ');
+					div.appendChild(a);
 				}
-				if (json.code == 1) {//成功
-					window.uins = json['uin'];
-					window.step_count++;
-					step();
-					return;
-				}
-
-				if (json.code == 2) {//多重
-					var number = prompt(json.msg, 1);
-					if (number > 0) {
-						return window.location.search += "&area=" + number;
-					} else {
-						return alert('错误的输入')
-					}
-				}
-				return alert("找不到此选手");
-			});
+			}
+			target.appendChild(div);
+		}
 		function image_loaded(that) {
 			if (that.naturalWidth === 40 && that.src.includes("b=qq&s=0")) {
 				that.src = that.src.replace("b=qq&s=0", 'b=qq&s=4');
 				document.getElementById('qqHead2').src = that.src;
 			} else {
-				const span = document.createElement('span');
+				let span = document.createElement('span');
 				span.id = 'image_loaded';
 				document.body.append(span);
 			}
 		}
 
-		function generateCharts() {
-			window.user = null;
-			console.log(window.uins);
-			for (var i = 0; i < window.uins.length; i++) {
-				if (window.uin2data.hasOwnProperty(window.uins[i])) {
-					window.user = window.uin2data[window.uins[i]];
-					break;
-				}
-			}
+		function generateCharts(json) {
+			window.user = json['data'];
+			window.players = json['player_count'];
+			var rank_lv = json['data'][24];
 			var user = window.user;
 			console.log('user', user);
 			var total_count = user[19] + user[20] + user[21] + user[22];
@@ -446,9 +362,8 @@
 			if (jsonData.radar[0] == 0) { //火力怪异现象
 				jsonData.radar[0] = null;
 			}
-			var lv_rank_index = window.rank_lv[jsonData.level].indexOf(parseInt(user[6]));
 			var lv_string = levelConfig[jsonData.level][0];
-			if (lv_rank_index >= 0) { lv_string += "#" + (lv_rank_index - -1); }
+			if (rank_lv >= 0) { lv_string += "#" + rank_lv; }
 			var img = document.createElement('img');
 			img.id = 'qqHead';
 			if (jsonData.level == 15) {
@@ -674,6 +589,31 @@
 			}
 		}
 
+		if (window.location.search != '') {
+			fetch(window.apiurl + "/r/chart3.php" + window.location.search)
+				.catch(error => alert("读取数据失败#1"))
+				.then((response) => response.json())
+				.then((json) => {
+					console.log('fetch json', json);
+					if (json.code === 0 && json.hasOwnProperty("msg")) {//成功
+						if (json.msg === '需要参数') {
+							return require_username(json);
+						}
+						return alert(json.msg);
+					}
+
+					if (json.code === 1) {//成功
+						return generateCharts(json);
+					}
+
+					if (json.code === 2) {//多重
+						return select_area(json)
+					}
+					return alert("找不到此选手");
+				});
+		} else {
+			require_username();
+		}
 
 	</script>
 </body>
