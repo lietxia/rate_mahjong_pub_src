@@ -183,12 +183,12 @@
 		function post_username() {
 			const user_name = document.getElementById("user_name").value;
 			if (user_name != '') {
-				window.location.href += "?name=" + user_name;
+				window.location.href = window.location.pathname + "?name=" + user_name;
 			}
 		}
-		function require_username() {
+		function require_username(text = '请输入选手昵称') {
 			const target = document.getElementById('mycard');
-			target.innerHTML = '<div class="card-header text-muted text-center">请输入选手昵称</div><div class="card-body"><div class="form-floating mb-3"><input type="text" class="form-control" id="user_name" placeholder=""><label for="floatingInput">昵称</label></div></div><div class="card-footer"><input type="button" class="btn btn-secondary" value="提交" onclick="post_username()" /></div>';
+			target.innerHTML = '<div class="card-header text-muted text-center">' + text + '</div><div class="card-body"><div class="form-floating mb-3"><input type="text" class="form-control" id="user_name" placeholder=""><label for="floatingInput">昵称</label></div></div><div class="card-footer"><input type="button" class="btn btn-secondary" value="提交" onclick="post_username()" /></div>';
 		}
 		function select_area(json) {
 			const target = document.getElementById('mycard');
@@ -597,7 +597,10 @@
 					console.log('fetch json', json);
 					if (json.code === 0 && json.hasOwnProperty("msg")) {//成功
 						if (json.msg === '需要参数') {
-							return require_username(json);
+							return require_username();
+						}
+						if (json.msg === '此名字未登入') {
+							return require_username('此名字未登入');
 						}
 						return alert(json.msg);
 					}

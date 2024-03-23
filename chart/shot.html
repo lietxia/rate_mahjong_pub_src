@@ -181,7 +181,7 @@
 		function post_username() {
 			const user_name = document.getElementById("user_name").value;
 			if (user_name != '') {
-				window.location.href += "?name=" + user_name;
+				window.location.href = window.location.pathname + "?name=" + user_name;
 			}
 		}
 		function require_username() {
@@ -595,7 +595,10 @@
 					console.log('fetch json', json);
 					if (json.code === 0 && json.hasOwnProperty("msg")) {//成功
 						if (json.msg === '需要参数') {
-							return require_username(json);
+							return require_username();
+						}
+						if (json.msg === '此名字未登入') {
+							return require_username('此名字未登入');
 						}
 						return alert(json.msg);
 					}
