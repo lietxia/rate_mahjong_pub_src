@@ -33,8 +33,7 @@
 				<input id="time_end" type="datetime-local" class="form-control" name="time_end">
 			</div>
 			<div class="input-group mt-3">
-				<span class="input-group-text" id="basic-addon1">筛选</span>
-				<input type="text" class="form-control" id="input_filter" placeholder="雀庄名" oninput="select_filter()" />
+				<input type="text" class="form-control" id="input_filter" placeholder="输入雀庄名筛选" oninput="select_filter()" />
 				<span class="input-group-text">选择➡️</span>
 				<select class="form-select" title="cid_type" size="3" id="cid_type">
 					<option value="1" selected>统计全国</option>
@@ -59,7 +58,7 @@
 					<option value="1" selected>跨雀庄统计</option>
 					<option value="2">排除其他雀庄</option>
 				</select>
-				<span class="input-group-text">👤对局数≥</span>
+				<span class="input-group-text">对局数≥</span>
 				<input id="log_count" type="number" class="form-control" name="log_count" value="1" onchange="search()">
 				<button type="button" class="btn btn-primary" onclick="search(true)">🔍搜索</button>
 			</div>
