@@ -32,36 +32,42 @@
 				<span class="input-group-text">结束⏱</span>
 				<input id="time_end" type="datetime-local" class="form-control" name="time_end">
 			</div>
-
 			<div class="input-group mt-3">
-				<span class="input-group-text">👇说明在底部</span>
+				<span class="input-group-text" id="basic-addon1">筛选</span>
+				<input type="text" class="form-control" id="input_filter" placeholder="雀庄名" oninput="select_filter()" />
+				<span class="input-group-text">选择➡️</span>
+				<select class="form-select" title="cid_type" size="3" id="cid_type">
+					<option value="1" selected>统计全国</option>
+					<option value="-1">[浪速南京合计]</option>
+					<option value="-2">[浪速合计]</option>
+					<option value="-3">[多来雀庄合计]</option>
+				</select>
+			</div>
+			<div class="input-group mt-3">
+				<select class="form-select" id="time_type" onchange="search()">
+					<option value="1">年榜</option>
+					<option value="2">半年榜</option>
+					<option value="3">季榜</option>
+					<option value="4">双月榜</option>
+					<option value="5" selected>月榜</option>
+					<option value="6">半月榜</option>
+					<option value="7">周榜</option>
+					<option value="8">三日榜</option>
+					<option value="9">一日榜</option>
+				</select>
+				<select class="form-select" id="filter_type" onchange="search()">
+					<option value="1" selected>跨雀庄统计</option>
+					<option value="2">排除其他雀庄</option>
+				</select>
 				<span class="input-group-text">👤对局数≥</span>
 				<input id="log_count" type="number" class="form-control" name="log_count" value="1" onchange="search()">
 				<button type="button" class="btn btn-primary" onclick="search(true)">🔍搜索</button>
 			</div>
 		</div>
-		<div class="toolbar input-group">
-			<select class="form-select" id="time_type" onchange="search()">
-				<option value="1">年榜</option>
-				<option value="2">半年榜</option>
-				<option value="3">季榜</option>
-				<option value="4">双月榜</option>
-				<option value="5" selected>月榜</option>
-				<option value="6">半月榜</option>
-				<option value="7">周榜</option>
-				<option value="8">三日榜</option>
-				<option value="9">一日榜</option>
-			</select>
-			<select class="form-select" id="cid_type" onchange="search()">
-				<option value="1" selected>统计全国</option>
-				<option value="-1">[浪速南京合计]</option>
-				<option value="-2">[浪速合计]</option>
-				<option value="-3">[多来雀庄合计]</option>
-			</select>
-			<select class="form-select" id="filter_type" onchange="search()">
-				<option value="1" selected>跨雀庄统计</option>
-				<option value="2">排除其他雀庄</option>
-			</select>
+
+
+		<div class="toolbar">
+			<kbd>说明在底部</kbd>
 		</div>
 		<table id="my_table" class="table-sm table-striped" data-search="true" data-show-columns="true"
 			data-pagination="true" data-page-size="15" data-show-export="true" data-toolbar=".toolbar"
@@ -106,6 +112,17 @@
 		src="https://cdn.staticfile.net/bootstrap-table/1.22.2/extensions/export/bootstrap-table-export.min.js"></script>
 	<script src="https://unpkg.com/tableexport.jquery.plugin@1.28.0/tableExport.min.js"></script>
 	<script>
+		function select_filter() {
+			var keyword = document.getElementById("input_filter").value;
+			var cid_type = document.getElementById("cid_type");
+			for (var i = 0; i < cid_type.length; i++) {
+				if (cid_type.options[i].text.match(keyword)) {
+					cid_type.options[i].removeAttribute('hidden');
+				} else {
+					cid_type.options[i].setAttribute("hidden", "hidden");
+				}
+			}
+		}
 		var select = document.getElementById('cid_type');
 		var cid;
 		for (cid in cid2name) {
