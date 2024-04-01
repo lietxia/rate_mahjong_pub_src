@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="zh">
+
+<head>
+	<title>Title</title>
+	<!-- Required meta tags -->
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="darkreader-lock">
+	<script>
+		if (window.matchMedia('(prefers-color-scheme: dark)').matches)
+			document.documentElement.setAttribute('data-bs-theme', 'dark');
+
+		window.matchMedia('(prefers-color-scheme: dark)')
+			.addEventListener('change', function () {
+				document.documentElement.setAttribute("data-bs-theme",
+					window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+			});
+	</script>
+
+	<!-- Bootstrap CSS v5.2.1 -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+	<style>
+		.qqimg {
+			height: 3em;
+			width: 3em;
+			border-radius: 2em;
+			border: 1px solid #FFF;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container-fluid mt-3">
+		<table class="table table-sm table-striped align-middle">
+			<thead>
+				<tr>
+					<th scope="col"><button type="button" class="btn btn-sm btn-primary">新增</button></th>
+					<th scope="col">选手</th>
+					<th scope="col">选手</th>
+					<th scope="col">选手</th>
+					<th scope="col">选手</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th scope="row"><button type="button" class="btn btn-sm btn-outline-danger">删除</button></th>
+					<td>
+						<img src="https://thirdqq.qlogo.cn/g?b=qq&s=0&nk=564388718" class="qqimg float-start me-2"
+							alt="张三">
+						<span>张三</span><br>
+
+						<small>12000</small>
+					</td>
+					<td>
+						<img src="https://thirdqq.qlogo.cn/g?b=qq&s=0&nk=564388718" class="qqimg float-start me-2"
+							alt="张三">
+						<span>张三</span><br>
+						<small>12000</small>
+					</td>
+					<td>
+						<img src="https://thirdqq.qlogo.cn/g?b=qq&s=0&nk=564388718" class="qqimg float-start me-2"
+							alt="张三">
+						<span>张三</span><br>
+						<small>12000</small>
+					</td>
+					<td>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">2</th>
+					<td>Jacob</td>
+					<td>Thornton</td>
+					<td>@fat</td>
+				</tr>
+				<tr>
+					<th scope="row">3</th>
+					<td>Thornton</td>
+					<td>Thornton</td>
+					<td>@twitter</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="container my-2">
+		<div class="input-group">
+			<span class="input-group-text" id="basic-addon3">搜索选手</span>
+			<input type="text" class="form-control" id="basic-url" placeholder="昵称或手机号">
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<span id="fav">
+			<div class="card m-2 d-inline-block p-0" style="width: 8em;">
+				<img src="https://thirdqq.qlogo.cn/g?b=qq&s=0&nk=564388718" class="card-img-top" alt="...">
+				<div class="card-img-overlay m-0">
+					<span class="badge text-bg-secondary m-0">11133334444</span>
+					<div class="input-group shadow-sm p-1">
+						<button class="btn btn-sm btn-danger" type="button">♥</button>
+						<input type="text" class="form-control form-control-sm" placeholder="张三" aria-label="Username"
+							aria-describedby="basic-addon1">
+						<button class="btn btn-sm btn-outline-secondary" type="button">↑</button>
+					</div>
+				</div>
+				<div class="input-group shadow-sm p-1">
+					<button class="btn btn-sm btn-danger" type="button">♥</button>
+					<input type="text" class="form-control form-control-sm" placeholder="张三" aria-label="Username"
+						aria-describedby="basic-addon1">
+					<button class="btn btn-sm btn-outline-secondary" type="button">↑</button>
+				</div>
+			</div>
+		</span>
+
+		<div class="card m-1 d-inline-block" style="width: 8em;">
+			<img src="https://thirdqq.qlogo.cn/g?b=qq&s=0&nk=564388718" class="card-img-top" alt="...">
+			<div class="input-group shadow-sm p-1">
+				<button class="btn btn-sm btn-outline-danger" type="button">♥</button>
+				<input type="text" class="form-control form-control-sm" placeholder="张三" aria-label="Username"
+					aria-describedby="basic-addon1">
+				<button class="btn btn-sm btn-outline-secondary" type="button">↑</button>
+			</div>
+		</div>
+	</div>
+	<!-- Bootstrap JavaScript Libraries -->
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+		integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+		crossorigin="anonymous"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+		integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+		crossorigin="anonymous"></script>
+	<script>
+		const mydata = [[]];
+		// <img src="https://thirdqq.qlogo.cn/g?b=qq&s=0&nk=564388718" class="qqimg float-start me-2"
+		// 					alt="张三">
+		// 				<span>张三</span>
+		// 				<br>
+		// 				<span>12000</span>
+		const user_item = [
+			"/img/ id=img_$index$ src=$qq$ class=qqimg\ffloat-start\fme-2 alt=$name$", "",
+			"/span/ id=name_$index$", "$name$",
+			"/br/", "",
+			"/span/ id=point_$index", "$point$"
+		]
+	</script>
+</body>
+
+</html>
