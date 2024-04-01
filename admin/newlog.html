@@ -9,11 +9,11 @@
 	<meta name="darkreader-lock">
 	<script>
 		if (window.matchMedia('(prefers-color-scheme: dark)').matches)
-			document.documentElement.setAttribute('data-bs-theme', 'dark');
+			document.documentele.setAttribute('data-bs-theme', 'dark');
 
 		window.matchMedia('(prefers-color-scheme: dark)')
 			.addEventListener('change', function () {
-				document.documentElement.setAttribute("data-bs-theme",
+				document.documentele.setAttribute("data-bs-theme",
 					window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
 			});
 	</script>
@@ -23,10 +23,14 @@
 		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
 	<style>
 		.qqimg {
-			height: 3em;
-			width: 3em;
+			height: 3.3em;
+			width: 3.3em;
 			border-radius: 2em;
 			border: 1px solid #FFF;
+		}
+
+		.result_card {
+			width: 8em;
 		}
 	</style>
 </head>
@@ -182,25 +186,9 @@
 		</div>
 	</div>
 
-	<div class="container-fluid">
-		<span id="fav">
-			<div class="card m-1 d-inline-block shadow-sm" style="width: 8em;">
-				<img src="https://thirdqq.qlogo.cn/g?b=qq&s=0&nk=564388718" class="card-img-top" alt="...">
-				<div class="input-group p-1">
-					<button class="btn btn-sm btn-outline-danger" type="button">♥</button>
-					<input type="text" class="form-control form-control-sm" placeholder="张三">
-				</div>
-			</div>
-		</span>
-
-		<div class="card m-1 d-inline-block shadow-sm" style="width: 8em;">
-			<img src="https://thirdqq.qlogo.cn/g?b=qq&s=0&nk=564388718" class="card-img-top" alt="...">
-			<div class="input-group p-1">
-				<button class="btn btn-sm btn-outline-danger" type="button">♥</button>
-				<input type="text" class="form-control form-control-sm" placeholder="张三">
-
-			</div>
-		</div>
+	<div class="container-fluid text-center">
+		<span id="search_result_f"></span>
+		<span id="search_result"></span>
 	</div>
 	<!-- Bootstrap JavaScript Libraries -->
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -211,18 +199,73 @@
 		integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
 		crossorigin="anonymous"></script>
 	<script>
-		const mydata = [[]];
-		// <img src="https://thirdqq.qlogo.cn/g?b=qq&s=0&nk=564388718" class="qqimg float-start me-2"
-		// 					alt="张三">
-		// 				<span>张三</span>
-		// 				<br>
-		// 				<span>12000</span>
-		const user_item = [
-			"/img/ id=img_$index$ src=$qq$ class=qqimg\ffloat-start\fme-2 alt=$name$", "",
-			"/span/ id=name_$index$", "$name$",
-			"/br/", "",
-			"/span/ id=point_$index", "$point$"
-		]
+		const all_data = {
+			"15606830014": [425341, "小魔", 2, 252373009, 13086, 422, 1512090, 2, 0, 2, 1.5, [], [142, 359, 412, 2, 351, 403, 237, 316, -113, 102], 1438, 1419, 237, 60, 412, -113, 4, 4, 1, 5, [], 1128],
+			"19941563395": [4288735, "不立不放", 2, 457726418, 31202, 1206, 1435041, 0, 0, 1, 0.333, [4, 3, 4], [147, 233, -62], 0, 0, 233, 85, 0, -62, 0, 0, 1, 2, [], 11358],
+			"19908902087": [4249876, "打起精神干饭", 2, 295910126, 28677, 1090, 1466742, 0, 0, 0, 0.5, [4, 3], [94, 225], 0, 0, 225, 94, 0, 0, 0, 0, 1, 1, [], 8833]
+		};
+		const lv_data = ["新人", "五级", "四级", "三级", "二级", "一级", "初段", "二段", "三段", "四段", "五段", "六段", "七段", "八段", "九段", "十段"];
+		const fav_user = [];
+		const table_data = [];
+		function gen_table() {
+			
+		}
+		function fav_add(index) {
+			fav_user.push(index);
+			fav_gen();
+		}
+		function fav_del(index) {
+			for (let i = 0; i < fav_user.length; i++) {
+				if (fav_user[i] == index) {
+					fav_user.splice(i, 1)
+					return fav_gen();
+				}
+			}
+		}
+		function fav_gen() {
+			const target = document.getElementById('search_result_f');
+			target.innerText = '';
+
+			for (let i = 0; i < fav_user.length; i++) {
+				const key = fav_user[i];
+				const ele = all_data[key];
+				target.innerHTML += `<div class="result_card border-danger card m-2 d-inline-block shadow-sm">
+				<img src="https://thirdqq.qlogo.cn/g?b=qq&s=0&nk=${ele[3]}" class="card-img-top" alt="${ele[1]}">
+				<div class="card-img-overlay py-0" onclick="add_user(${key})">
+					<span class="badge rounded-pill text-bg-secondary">${lv_data[ele[7]]} R${Math.round(ele[6] / 1000)}</span>
+				</div>
+				<div class="input-group p-1">
+					<button class="btn btn-sm btn-danger" type="button" onclick="fav_del(${key})">♥</button>
+					<input type="text" class="form-control form-control-sm" placeholder="${ele[1]}">
+				</div>
+			</div>`;
+			}
+		}
+		function add_user(index) {
+			console.log(all_data[index]);
+		}
+		function gen_card(all_data) {
+			const target = document.getElementById('search_result');
+			target.innerText = '';
+
+			for (const key in all_data) {
+				if (Object.hasOwnProperty.call(all_data, key)) {
+					const ele = all_data[key];
+					target.innerHTML += `<div class="result_card card m-2 d-inline-block shadow-sm">
+				<img src="https://thirdqq.qlogo.cn/g?b=qq&s=0&nk=${ele[3]}" class="card-img-top" alt="${ele[1]}">
+				<div class="card-img-overlay py-0" onclick="add_user(${key})">
+					<span class="badge rounded-pill text-bg-secondary">${lv_data[ele[7]]} R${Math.round(ele[6] / 1000)}</span>
+				</div>
+				<div class="input-group p-1">
+					<button class="btn btn-sm btn-outline-danger" type="button" onclick="fav_add(${key})">♥</button>
+					<input type="text" class="form-control form-control-sm" placeholder="${ele[1]}">
+				</div>
+			</div>`;
+				}
+			}
+		}
+		gen_card(all_data);
+
 	</script>
 </body>
 
