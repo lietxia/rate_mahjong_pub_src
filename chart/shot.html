@@ -206,14 +206,17 @@
 			target.appendChild(div);
 		}
 		function image_loaded(that) {
-			if (that.naturalWidth === 40 && that.src.includes("b=qq&s=0")) {
-				that.src = that.src.replace("b=qq&s=0", 'b=qq&s=4');
-				document.getElementById('qqHead2').src = that.src;
-			} else {
-				let span = document.createElement('span');
-				span.id = 'image_loaded';
-				document.body.append(span);
-			}
+			// if (that.naturalWidth === 40 && that.src.includes("b=qq&s=0")) {
+			// 	that.src = that.src.replace("b=qq&s=0", 'b=qq&s=4');
+			// 	document.getElementById('qqHead2').src = that.src;
+			// } else {
+			// 	let span = document.createElement('span');
+			// 	span.id = 'image_loaded';
+			// 	document.body.append(span);
+			// }
+			let span = document.createElement('span');
+			span.id = 'image_loaded';
+			document.body.append(span);
 		}
 
 		function generateCharts(json) {
@@ -373,7 +376,7 @@
 
 				document.getElementById('level').innerText = "马达 十段";
 			} else {
-				img.setAttribute('src', "https://thirdqq.qlogo.cn/g?b=qq&s=0&nk=" + jsonData.qq);
+				img.setAttribute('src', "https://thirdqq.qlogo.cn/g?b=qq&s=100&nk=" + jsonData.qq);
 				img.setAttribute('class', "img-thumbnail rounded-circle shadow-sm");
 
 				document.getElementById('level').innerText = lv_string;
