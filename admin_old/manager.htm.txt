@@ -215,7 +215,7 @@
 		</div>
 	</div>
 </div>
-<script crossorigin="anonymous" src="https://cdn.staticfile.net/jquery/3.7.1/jquery.min.js"></script>
+<script crossorigin="anonymous" src="https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script crossorigin="anonymous"
         src="https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/twitter-bootstrap/4.6.2/js/bootstrap.bundle.min.js"></script>
 <script>
