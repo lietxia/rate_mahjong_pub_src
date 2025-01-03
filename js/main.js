@@ -20,11 +20,11 @@ var webobj = {
 		if (!!window.ActiveXObject || "ActiveXObject" in window) {
 			//如果是IE
 			var js = document.createElement('script');
-			js.setAttribute('src', 'https://s4.zstatic.net/ajax/libs/xlsx/0.18.0/shim.min.js');
+			js.setAttribute('src', 'https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/xlsx/0.18.0/shim.min.js');
 			document.body.appendChild(js);
 		}
 		var js2 = document.createElement('script');
-		js2.setAttribute('src', 'https://s4.zstatic.net/ajax/libs/xlsx/0.18.0/xlsx.full.min.js');
+		js2.setAttribute('src', 'https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/xlsx/0.18.0/xlsx.full.min.js');
 		js2.setAttribute('id', 'xls_script');
 		js2.setAttribute('onload', 'window.webobj.excel2()');
 		document.body.appendChild(js2);
